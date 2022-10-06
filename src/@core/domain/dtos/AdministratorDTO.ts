@@ -11,3 +11,10 @@ export type IAdministratorInput = {
   password: string;
   confirmPassword: string;
 };
+
+export type IAdministratorUpdate = {
+  name?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+};
