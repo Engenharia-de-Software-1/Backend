@@ -62,4 +62,11 @@ describe('Admin In Memory Repository tests', () => {
       adminInMemoryRepository.findById('id_inexistente'),
     ).rejects.toThrow('Admin not found');
   });
+
+  it('should delete a Admin', async () => {
+    const adminInMemoryRepository = new FakeAdminRepository();
+    adminInMemoryRepository.insert(adminProps);
+    await adminInMemoryRepository.delete(id);
+    expect(adminInMemoryRepository.admins).toStrictEqual([]);
+  });
 });

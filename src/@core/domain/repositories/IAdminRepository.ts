@@ -11,4 +11,5 @@ export interface IAdminRepository {
     returnNull?: boolean,
   ): Promise<IAdministratorOutput | null>;
   update(adminId: string, input: IAdministratorOutput): Promise<void>;
+  delete(adminId: string): Promise<void>;
 }

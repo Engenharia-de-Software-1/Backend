@@ -43,4 +43,9 @@ export class FakeAdminRepository implements IAdminRepository {
     admin.email = input.email || admin.email;
     admin.password = input.password || admin.password;
   }
+
+  public async delete(adminId: string): Promise<void> {
+    const admin = await this.findById(adminId);
+    this.admins.splice(this.admins.indexOf(admin), 1);
+  }
 }
