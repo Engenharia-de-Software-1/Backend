@@ -1,3 +1,4 @@
+import { IClientOutput } from '../dtos/ClientDTO';
 import { createUUID } from '../utils/createUUID';
 
 export type IClientProps = {
@@ -16,8 +17,8 @@ export class Client {
   public cnpj: IClientProps['cnpj'];
   public userId: Required<IClientProps['userId']>;
   public profession: Required<IClientProps['profession']>;
-  public readonly createdAt: IClientProps['createdAt'];
-  public readonly updatedAt: IClientProps['updatedAt'];
+  public createdAt: IClientProps['createdAt'];
+  public updatedAt: IClientProps['updatedAt'];
 
   private constructor(props: IClientProps, id?: string) {
     this.id = id || createUUID();
@@ -42,5 +43,29 @@ export class Client {
 
   static create(props: IClientProps, id?: string): Client {
     return new Client(props, id);
+  }
+
+  public updateCompanyName(companyName: string): void {
+    this.companyName = companyName;
+  }
+
+  public updateCnpj(cnpj: string): void {
+    this.cnpj = cnpj;
+  }
+
+  public updateProfession(profession: string): void {
+    this.profession = profession;
+  }
+
+  public toJson(): IClientOutput {
+    return {
+      id: this.id,
+      companyName: this.companyName,
+      cnpj: this.cnpj,
+      profession: this.profession,
+      userId: this.userId,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
   }
 }

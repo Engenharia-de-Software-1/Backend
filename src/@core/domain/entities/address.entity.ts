@@ -1,3 +1,4 @@
+import { IAddressOutput } from '../dtos/AddressDTO';
 import { createUUID } from '../utils/createUUID';
 
 export type IAddressProps = {
@@ -14,8 +15,8 @@ export class Address {
   public city: Required<IAddressProps['city']>;
   public state: Required<IAddressProps['state']>;
   public userId: Required<IAddressProps['userId']>;
-  public readonly createdAt: IAddressProps['createdAt'];
-  public readonly updatedAt: IAddressProps['updatedAt'];
+  public createdAt: IAddressProps['createdAt'];
+  public updatedAt: IAddressProps['updatedAt'];
 
   private constructor(props: IAddressProps, id?: string) {
     this.id = id || createUUID();
@@ -46,5 +47,16 @@ export class Address {
 
   public updateState(state: string): void {
     this.state = state;
+  }
+
+  public toJson(): IAddressOutput {
+    return {
+      id: this.id,
+      city: this.city,
+      state: this.state,
+      userId: this.userId,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
   }
 }

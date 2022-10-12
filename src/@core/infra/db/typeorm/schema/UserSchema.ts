@@ -1,5 +1,4 @@
 import { EntitySchema } from 'typeorm';
-import { Client } from '../../../../domain/entities/client.entity';
 import { User } from '../../../../domain/entities/user.entity';
 
 export const UserSchema = new EntitySchema({
@@ -35,10 +34,4 @@ export const UserSchema = new EntitySchema({
       nullable: false,
     },
   },
-  relations: {
-    client: {
-      type: 'one-to-one',
-      target: Client,
-    },
-  } as any,
 });

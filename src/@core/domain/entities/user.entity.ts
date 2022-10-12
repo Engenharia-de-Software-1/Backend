@@ -45,6 +45,18 @@ export class User {
     return new User(props, id);
   }
 
+  public updateName(name: string): void {
+    this.name = name;
+  }
+
+  public updateEmail(email: string): void {
+    this.email = email;
+  }
+
+  public updatePhone(phone: string): void {
+    this.phone = phone;
+  }
+
   public updatePassword(password: string): void {
     this.password = password;
   }

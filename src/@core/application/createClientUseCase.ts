@@ -1,8 +1,10 @@
 import { ICreateClient } from '../domain/dtos/ClientDTO';
+import { IUserOutputRelations } from '../domain/dtos/UserDTO';
 import { Address } from '../domain/entities/address.entity';
 import { Client } from '../domain/entities/client.entity';
 import { User } from '../domain/entities/user.entity';
 import { IAddressRepository } from '../domain/repositories/IAddressRepository';
+import { IAdminRepository } from '../domain/repositories/IAdminRepository';
 import { IClientRepository } from '../domain/repositories/IClientRepository';
 import { IHashRepository } from '../domain/repositories/IHashRepository';
 import { IUserRepository } from '../domain/repositories/IUserRepository';
@@ -13,9 +15,19 @@ export class CreateClientUseCase {
     private userRepository: IUserRepository,
     private addressRepository: IAddressRepository,
     private hashRepository: IHashRepository,
+    private adminRepository: IAdminRepository,
   ) {}
 
-  async execute(input: ICreateClient): Promise<void> {
+  async execute(input: ICreateClient): Promise<IUserOutputRelations> {
+    // ETAPA 0: VERIFICAR SE USUÁRIO JA EXISTE
+    const findEmail = await this.adminRepository.findByEmail(input.email, true);
+    if (findEmail) throw new Error('Email already exists');
+    const findEmailII = await this.userRepository.findByEmail(
+      input.email,
+      true,
+    );
+    if (findEmailII) throw new Error('Email already exists');
+
     // ETAPA 1: CRIAR O USUÁRIO
     const user = User.create(input);
     user.validateEmail();
@@ -44,5 +56,9 @@ export class CreateClientUseCase {
 
     // save address
     await this.addressRepository.insert(address);
+
+    const output = await this.userRepository.findByIdWithRelations(user.id);
+    delete output.password;
+    return output;
   }
 }

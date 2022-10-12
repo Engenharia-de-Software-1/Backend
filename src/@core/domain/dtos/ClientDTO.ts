@@ -27,3 +27,16 @@ export interface ICreateClient {
   city: string;
   state: string;
 }
+
+export interface IClientUpdate {
+  name?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+  phone?: string;
+  companyName?: string;
+  cnpj?: string;
+  profession?: string;
+  city?: string;
+  state?: string;
+}

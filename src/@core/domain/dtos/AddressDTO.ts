@@ -12,3 +12,10 @@ export interface IAddressOutput {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IAddressUpdate {
+  id?: string;
+  city?: string;
+  state?: string;
+  userId?: string;
+}

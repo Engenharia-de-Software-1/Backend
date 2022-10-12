@@ -5,6 +5,7 @@ import { AdministratorSchema } from '../@core/infra/db/typeorm/schema/Administra
 import { ClientSchema } from '../@core/infra/db/typeorm/schema/ClientSchema';
 import { UserSchema } from '../@core/infra/db/typeorm/schema/UserSchema';
 import { AdminModule } from './admin/admin.module';
+import { ClientModule } from './client/client.module';
 require('dotenv').config({ path: '.env.local' });
 
 @Module({
@@ -22,6 +23,7 @@ require('dotenv').config({ path: '.env.local' });
       autoLoadEntities: true,
     }),
     AdminModule,
+    ClientModule,
   ],
 })
 export class AppModule {}

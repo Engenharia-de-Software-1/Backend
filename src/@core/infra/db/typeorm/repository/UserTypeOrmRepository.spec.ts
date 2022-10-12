@@ -1,11 +1,17 @@
 import { DataSource, Repository } from 'typeorm';
 import { IUserInput } from '../../../../domain/dtos/UserDTO';
+import { Address } from '../../../../domain/entities/address.entity';
+import { Client } from '../../../../domain/entities/client.entity';
 import { User } from '../../../../domain/entities/user.entity';
+import { AddressSchema } from '../schema/AddressSchema';
+import { ClientSchema } from '../schema/ClientSchema';
 import { UserSchema } from '../schema/UserSchema';
 import { UserTypeOrmRepository } from './UserTypeOrmRepository';
 
 describe('UserTypeOrmRepository test', () => {
   let ormRepo: Repository<User>;
+  let clientOrmRepo: Repository<Client>;
+  let addressOrmRepo: Repository<Address>;
   let repository: UserTypeOrmRepository;
 
   beforeAll(async () => {
@@ -13,11 +19,17 @@ describe('UserTypeOrmRepository test', () => {
       type: 'sqlite',
       database: ':memory:',
       synchronize: true,
-      entities: [UserSchema],
+      entities: [UserSchema, ClientSchema, AddressSchema],
     });
     await dataSource.initialize();
     ormRepo = dataSource.getRepository(User);
-    repository = new UserTypeOrmRepository(ormRepo);
+    clientOrmRepo = dataSource.getRepository(Client);
+    addressOrmRepo = dataSource.getRepository(Address);
+    repository = new UserTypeOrmRepository(
+      ormRepo,
+      clientOrmRepo,
+      addressOrmRepo,
+    );
   });
 
   const userProps: IUserInput = {
@@ -31,30 +43,13 @@ describe('UserTypeOrmRepository test', () => {
 
   it('should insert a new user', async () => {
     await repository.insert(user);
-    const userFromDb = await repository.findById(user.id);
-    expect(userFromDb).toEqual(user);
+    const userFromDb = await repository.findByIdWithRelations(user.id);
+    expect(userFromDb).toEqual({
+      ...user,
+      client: null,
+      address: null,
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
+    });
   });
-
-  // it('should find an admin by email', async () => {
-  //   const adminFromDb = await repository.findByEmail(admin.email);
-  //   expect(adminFromDb).toEqual(admin);
-  // });
-
-  // it('should find an admin by id', async () => {
-  //   const adminFromDb = await repository.findById(admin.id);
-  //   expect(adminFromDb).toEqual(admin);
-  // });
-
-  // it('should update an admin', async () => {
-  //   admin.name = 'Yuri Baza 2';
-  //   await repository.update(admin.id, admin);
-  //   const adminFromDb = await repository.findById(admin.id);
-  //   expect(adminFromDb).toEqual(admin);
-  // });
-
-  // it('should delete an admin', async () => {
-  //   await repository.delete(admin.id);
-  //   const adminFromDb = await repository.findById(admin.id, true);
-  //   expect(adminFromDb).toBeNull();
-  // });
 });
