@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import { IClientOutput } from '../../../../domain/dtos/ClientDTO';
-import { Client } from '../../../../domain/entities/Client.entity';
+import { Client } from '../../../../domain/entities/client.entity';
 import { IClientRepository } from '../../../../domain/repositories/IClientRepository';
 
 export class ClientTypeOrmRepository implements IClientRepository {

@@ -34,10 +34,4 @@ export const ClientSchema = new EntitySchema({
       nullable: false,
     },
   },
-  relations: {
-    user: {
-      type: 'one-to-one',
-      target: 'User',
-    },
-  } as any,
 });

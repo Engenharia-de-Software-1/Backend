@@ -6,7 +6,7 @@ export interface IClientInput {
 }
 
 export interface IClientOutput {
-  id: string;
+  id?: string;
   companyName?: string;
   cnpj?: string;
   profession: string;

@@ -17,7 +17,7 @@ export class Client {
   public cnpj: IClientProps['cnpj'];
   public userId: Required<IClientProps['userId']>;
   public profession: Required<IClientProps['profession']>;
-  public createdAt: IClientProps['createdAt'];
+  public readonly createdAt: IClientProps['createdAt'];
   public updatedAt: IClientProps['updatedAt'];
 
   private constructor(props: IClientProps, id?: string) {
