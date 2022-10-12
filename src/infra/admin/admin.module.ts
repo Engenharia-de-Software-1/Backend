@@ -20,7 +20,9 @@ import { AdminController } from './admin.controller';
     {
       provide: AdminTypeOrmRepository,
       useFactory: (dataSource: DataSource) => {
-        new AdminTypeOrmRepository(dataSource.getRepository(Administrator));
+        return new AdminTypeOrmRepository(
+          dataSource.getRepository(Administrator),
+        );
       },
       inject: [getDataSourceToken()],
     },
@@ -30,7 +32,7 @@ import { AdminController } from './admin.controller';
     },
     {
       provide: CreateAdministratorUseCase,
-      useFactory: (adminRepo: IAdminRepository, hashRepo: IHashRepository) => {
+      useFactory: (hashRepo: IHashRepository, adminRepo: IAdminRepository) => {
         return new CreateAdministratorUseCase(hashRepo, adminRepo);
       },
       inject: [HashRepository, AdminTypeOrmRepository],
