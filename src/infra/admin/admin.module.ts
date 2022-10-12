@@ -35,7 +35,7 @@ import { AdminController } from './admin.controller';
       useFactory: (hashRepo: IHashRepository, adminRepo: IAdminRepository) => {
         return new CreateAdministratorUseCase(hashRepo, adminRepo);
       },
-      inject: [HashRepository, AdminTypeOrmRepository],
+      inject: [AdminTypeOrmRepository, HashRepository],
     },
     {
       provide: GetAdministratorUseCase,
