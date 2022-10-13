@@ -27,6 +27,7 @@
     "@nestjs/typeorm": "^9.0.1",
     "crypto": "^1.0.1",
     "dotenv": "^16.0.2",
+    "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
