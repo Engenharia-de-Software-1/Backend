@@ -1,5 +1,5 @@
+import { LoginModule } from './login/login.module';
 import { StartupModule } from './startup/startup.module';
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { StartupSchema } from './../@core/infra/db/typeorm/schema/StartupSchema';
 import { InvestorSchema } from './../@core/infra/db/typeorm/schema/InvestorSchema';
 import { Module } from '@nestjs/common';
@@ -11,6 +11,8 @@ import { UserSchema } from '../@core/infra/db/typeorm/schema/UserSchema';
 import { AdminModule } from './admin/admin.module';
 import { ClientModule } from './client/client.module';
 import { InvestorModule } from './investor/investor.module';
+
+/* eslint-disable-next-line @typescript-eslint/no-var-requires */
 require('dotenv').config({ path: '.env.local' });
 
 @Module({
@@ -38,6 +40,7 @@ require('dotenv').config({ path: '.env.local' });
     ClientModule,
     InvestorModule,
     StartupModule,
+    LoginModule,
   ],
 })
 export class AppModule {}
