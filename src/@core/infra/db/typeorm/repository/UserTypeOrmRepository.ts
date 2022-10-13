@@ -6,6 +6,7 @@ import {
 import { Address } from '../../../../domain/entities/address.entity';
 import { Client } from '../../../../domain/entities/client.entity';
 import { Investor } from '../../../../domain/entities/investor.entity';
+import { Startup } from '../../../../domain/entities/startup.entity';
 import { User } from '../../../../domain/entities/user.entity';
 import { IUserRepository } from '../../../../domain/repositories/IUserRepository';
 
@@ -15,6 +16,7 @@ export class UserTypeOrmRepository implements IUserRepository {
     private clientOrmRepo: Repository<Client>,
     private addressOrmRepo: Repository<Address>,
     private investorOrmRepo: Repository<Investor>,
+    private startupOrmRepo: Repository<Startup>,
   ) {}
 
   async insert(user: IUserOutput): Promise<void> {
@@ -32,7 +34,10 @@ export class UserTypeOrmRepository implements IUserRepository {
     const investor = await this.investorOrmRepo.findOne({
       where: { userId: id },
     });
-    const output = { ...user, client, address, investor };
+    const startup = await this.startupOrmRepo.findOne({
+      where: { userId: id },
+    });
+    const output = { ...user, client, address, investor, startup };
     return output;
   }
 

@@ -1,4 +1,7 @@
+import { StartupModule } from './startup/startup.module';
 /* eslint-disable @typescript-eslint/no-var-requires */
+import { StartupSchema } from './../@core/infra/db/typeorm/schema/StartupSchema';
+import { InvestorSchema } from './../@core/infra/db/typeorm/schema/InvestorSchema';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AddressSchema } from '../@core/infra/db/typeorm/schema/AddressSchema';
@@ -21,12 +24,20 @@ require('dotenv').config({ path: '.env.local' });
       port: parseInt(process.env.DB_PORT),
       synchronize: true,
       logging: true,
-      entities: [AdministratorSchema, UserSchema, ClientSchema, AddressSchema],
+      entities: [
+        AdministratorSchema,
+        UserSchema,
+        ClientSchema,
+        AddressSchema,
+        InvestorSchema,
+        StartupSchema,
+      ],
       autoLoadEntities: true,
     }),
     AdminModule,
     ClientModule,
     InvestorModule,
+    StartupModule,
   ],
 })
 export class AppModule {}
