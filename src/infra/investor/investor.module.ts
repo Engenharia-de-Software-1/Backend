@@ -1,47 +1,47 @@
 import { Module } from '@nestjs/common';
 import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { CreateClientUseCase } from '../../@core/application/createClientUseCase';
-import { DeleteClientUseCase } from '../../@core/application/deleteClientUseCase';
+import { CreateInvestorUseCase } from '../../@core/application/createInvestorUseCase';
+import { DeleteInvestorUseCase } from '../../@core/application/deleteInvestorUseCase';
 import { GetUserUseCase } from '../../@core/application/getUserUseCase';
-import { UpdateClientUseCase } from '../../@core/application/updateClientUseCase';
+import { UpdateInvestorUseCase } from '../../@core/application/updateInvestorUseCase';
 import { Address } from '../../@core/domain/entities/address.entity';
 import { Administrator } from '../../@core/domain/entities/administrator.entity';
-import { Client } from '../../@core/domain/entities/client.entity';
 import { Investor } from '../../@core/domain/entities/investor.entity';
 import { User } from '../../@core/domain/entities/user.entity';
 import { IAddressRepository } from '../../@core/domain/repositories/IAddressRepository';
 import { IAdminRepository } from '../../@core/domain/repositories/IAdminRepository';
-import { IClientRepository } from '../../@core/domain/repositories/IClientRepository';
+import { IInvestorRepository } from '../../@core/domain/repositories/IInvestorRepository';
 import { IHashRepository } from '../../@core/domain/repositories/IHashRepository';
 import { IUserRepository } from '../../@core/domain/repositories/IUserRepository';
 import { AddressTypeOrmRepository } from '../../@core/infra/db/typeorm/repository/AddressTypeOrmRepository';
 import { AdminTypeOrmRepository } from '../../@core/infra/db/typeorm/repository/AdminTypeOrmRepository';
-import { ClientTypeOrmRepository } from '../../@core/infra/db/typeorm/repository/ClientTypeOrmRepository';
 import { InvestorTypeOrmRepository } from '../../@core/infra/db/typeorm/repository/InvestorTypeOrmRepository';
 import { UserTypeOrmRepository } from '../../@core/infra/db/typeorm/repository/UserTypeOrmRepository';
 import { AdministratorSchema } from '../../@core/infra/db/typeorm/schema/AdministratorSchema';
-import { ClientSchema } from '../../@core/infra/db/typeorm/schema/ClientSchema';
 import { InvestorSchema } from '../../@core/infra/db/typeorm/schema/InvestorSchema';
 import { UserSchema } from '../../@core/infra/db/typeorm/schema/UserSchema';
 import { HashRepository } from '../../@core/infra/HashRepository';
-import { ClientController } from './client.controller';
+import { InvestorController } from './Investor.controller';
+import { Client } from '../../@core/domain/entities/client.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      ClientSchema,
+      InvestorSchema,
       AdministratorSchema,
       UserSchema,
       InvestorSchema,
     ]),
   ],
-  controllers: [ClientController],
+  controllers: [InvestorController],
   providers: [
     {
-      provide: ClientTypeOrmRepository,
+      provide: InvestorTypeOrmRepository,
       useFactory: (dataSource: DataSource) => {
-        return new ClientTypeOrmRepository(dataSource.getRepository(Client));
+        return new InvestorTypeOrmRepository(
+          dataSource.getRepository(Investor),
+        );
       },
       inject: [getDataSourceToken()],
     },
@@ -92,16 +92,16 @@ import { ClientController } from './client.controller';
       useClass: HashRepository,
     },
     {
-      provide: CreateClientUseCase,
+      provide: CreateInvestorUseCase,
       useFactory: (
-        clientRepo: IClientRepository,
+        investorRepo: IInvestorRepository,
         userRepo: IUserRepository,
         addressRepo: IAddressRepository,
         hashRepo: IHashRepository,
         admRepo: IAdminRepository,
       ) => {
-        return new CreateClientUseCase(
-          clientRepo,
+        return new CreateInvestorUseCase(
+          investorRepo,
           userRepo,
           addressRepo,
           hashRepo,
@@ -109,7 +109,7 @@ import { ClientController } from './client.controller';
         );
       },
       inject: [
-        ClientTypeOrmRepository,
+        InvestorTypeOrmRepository,
         UserTypeOrmRepository,
         AddressTypeOrmRepository,
         HashRepository,
@@ -124,42 +124,42 @@ import { ClientController } from './client.controller';
       inject: [UserTypeOrmRepository],
     },
     {
-      provide: UpdateClientUseCase,
+      provide: UpdateInvestorUseCase,
       useFactory: (
         userRepo: IUserRepository,
-        clientRepo: IClientRepository,
+        investorRepo: IInvestorRepository,
         addressRepo: IAddressRepository,
         hashRepo: IHashRepository,
       ) => {
-        return new UpdateClientUseCase(
+        return new UpdateInvestorUseCase(
           userRepo,
-          clientRepo,
+          investorRepo,
           addressRepo,
           hashRepo,
         );
       },
       inject: [
         UserTypeOrmRepository,
-        ClientTypeOrmRepository,
+        InvestorTypeOrmRepository,
         AddressTypeOrmRepository,
         HashRepository,
       ],
     },
     {
-      provide: DeleteClientUseCase,
+      provide: DeleteInvestorUseCase,
       useFactory: (
         userRepo: IUserRepository,
-        clientRepo: IClientRepository,
+        investorRepo: IInvestorRepository,
         addressRepo: IAddressRepository,
       ) => {
-        return new DeleteClientUseCase(userRepo, clientRepo, addressRepo);
+        return new DeleteInvestorUseCase(userRepo, investorRepo, addressRepo);
       },
       inject: [
         UserTypeOrmRepository,
-        ClientTypeOrmRepository,
+        InvestorTypeOrmRepository,
         AddressTypeOrmRepository,
       ],
     },
   ],
 })
-export class ClientModule {}
+export class InvestorModule {}
