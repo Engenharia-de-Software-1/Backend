@@ -1,5 +1,5 @@
 import { ILoginInput } from './../../@core/domain/dtos/LoginDTO';
-import { LoginUseCase } from './../../@core/application/loginUserUseCase';
+import { LoginUseCase } from './../../@core/application/loginUseCase';
 import { Body, Controller, Post } from '@nestjs/common';
 
 @Controller('login')

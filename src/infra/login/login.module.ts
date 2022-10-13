@@ -1,6 +1,6 @@
 import { IJwtRepository } from './../../@core/domain/repositories/Auth/IJwtRepository';
 import { JwtRepository } from './../../@core/infra/JwtRepository';
-import { LoginUseCase } from './../../@core/application/loginUserUseCase';
+import { LoginUseCase } from './../../@core/application/loginUseCase';
 import { LoginController } from './login.controller';
 import { Module } from '@nestjs/common';
 import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
@@ -19,6 +19,7 @@ import { AdministratorSchema } from '../../@core/infra/db/typeorm/schema/Adminis
 import { StartupSchema } from '../../@core/infra/db/typeorm/schema/StartupSchema';
 import { UserSchema } from '../../@core/infra/db/typeorm/schema/UserSchema';
 import { HashRepository } from '../../@core/infra/HashRepository';
+import { IAdminRepository } from 'src/@core/domain/repositories/IAdminRepository';
 
 @Module({
   imports: [
@@ -67,11 +68,12 @@ import { HashRepository } from '../../@core/infra/HashRepository';
       useFactory: (
         jwtService: IJwtRepository,
         userRepo: IUserRepository,
+        adminRepo: IAdminRepository,
         hashRepo: IHashRepository,
       ) => {
-        return new LoginUseCase(jwtService, userRepo, hashRepo);
+        return new LoginUseCase(jwtService, userRepo, hashRepo, adminRepo);
       },
-      inject: [JwtRepository, UserTypeOrmRepository, HashRepository],
+      inject: [JwtRepository, UserTypeOrmRepository, AdminTypeOrmRepository, HashRepository],
     },
   ],
 })
