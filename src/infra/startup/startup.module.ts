@@ -1,57 +1,43 @@
 import { Module } from '@nestjs/common';
 import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
+import { CreateStartupUseCase } from 'src/@core/application/createStartupUseCase';
 import { DataSource } from 'typeorm';
-import { CreateClientUseCase } from '../../@core/application/createClientUseCase';
 import { DeleteClientUseCase } from '../../@core/application/deleteClientUseCase';
 import { GetUserUseCase } from '../../@core/application/getUserUseCase';
 import { UpdateClientUseCase } from '../../@core/application/updateClientUseCase';
 import { Address } from '../../@core/domain/entities/address.entity';
 import { Administrator } from '../../@core/domain/entities/administrator.entity';
-import { Client } from '../../@core/domain/entities/client.entity';
-import { Investor } from '../../@core/domain/entities/investor.entity';
 import { Startup } from '../../@core/domain/entities/startup.entity';
 import { User } from '../../@core/domain/entities/user.entity';
+import { Client } from '../../@core/domain/entities/client.entity';
+import { Investor } from '../../@core/domain/entities/investor.entity';
 import { IAddressRepository } from '../../@core/domain/repositories/IAddressRepository';
 import { IAdminRepository } from '../../@core/domain/repositories/IAdminRepository';
-import { IClientRepository } from '../../@core/domain/repositories/IClientRepository';
+import { IStartupRepository } from '../../@core/domain/repositories/IStartupRepository';
 import { IHashRepository } from '../../@core/domain/repositories/IHashRepository';
 import { IUserRepository } from '../../@core/domain/repositories/IUserRepository';
 import { AddressTypeOrmRepository } from '../../@core/infra/db/typeorm/repository/AddressTypeOrmRepository';
 import { AdminTypeOrmRepository } from '../../@core/infra/db/typeorm/repository/AdminTypeOrmRepository';
-import { ClientTypeOrmRepository } from '../../@core/infra/db/typeorm/repository/ClientTypeOrmRepository';
-import { InvestorTypeOrmRepository } from '../../@core/infra/db/typeorm/repository/InvestorTypeOrmRepository';
+import { StartupTypeOrmRepository } from '../../@core/infra/db/typeorm/repository/StartupTypeOrmRepository';
 import { UserTypeOrmRepository } from '../../@core/infra/db/typeorm/repository/UserTypeOrmRepository';
 import { AdministratorSchema } from '../../@core/infra/db/typeorm/schema/AdministratorSchema';
-import { ClientSchema } from '../../@core/infra/db/typeorm/schema/ClientSchema';
-import { InvestorSchema } from '../../@core/infra/db/typeorm/schema/InvestorSchema';
+import { StartupSchema } from '../../@core/infra/db/typeorm/schema/StartupSchema';
 import { UserSchema } from '../../@core/infra/db/typeorm/schema/UserSchema';
 import { HashRepository } from '../../@core/infra/HashRepository';
-import { ClientController } from './client.controller';
+import { StartupController } from './startup.controller';
+import { UpdateStartupUseCase } from 'src/@core/application/updateStartupUseCase';
+import { DeleteStartupUseCase } from 'src/@core/application/deleteStartupUseCase';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      ClientSchema,
-      AdministratorSchema,
-      UserSchema,
-      InvestorSchema,
-    ]),
+    TypeOrmModule.forFeature([StartupSchema, AdministratorSchema, UserSchema]),
   ],
-  controllers: [ClientController],
+  controllers: [StartupController],
   providers: [
     {
-      provide: ClientTypeOrmRepository,
+      provide: StartupTypeOrmRepository,
       useFactory: (dataSource: DataSource) => {
-        return new ClientTypeOrmRepository(dataSource.getRepository(Client));
-      },
-      inject: [getDataSourceToken()],
-    },
-    {
-      provide: InvestorTypeOrmRepository,
-      useFactory: (dataSource: DataSource) => {
-        return new InvestorTypeOrmRepository(
-          dataSource.getRepository(Investor),
-        );
+        return new StartupTypeOrmRepository(dataSource.getRepository(Startup));
       },
       inject: [getDataSourceToken()],
     },
@@ -95,16 +81,16 @@ import { ClientController } from './client.controller';
       useClass: HashRepository,
     },
     {
-      provide: CreateClientUseCase,
+      provide: CreateStartupUseCase,
       useFactory: (
-        clientRepo: IClientRepository,
+        startupRepo: IStartupRepository,
         userRepo: IUserRepository,
         addressRepo: IAddressRepository,
         hashRepo: IHashRepository,
         admRepo: IAdminRepository,
       ) => {
-        return new CreateClientUseCase(
-          clientRepo,
+        return new CreateStartupUseCase(
+          startupRepo,
           userRepo,
           addressRepo,
           hashRepo,
@@ -112,7 +98,7 @@ import { ClientController } from './client.controller';
         );
       },
       inject: [
-        ClientTypeOrmRepository,
+        StartupTypeOrmRepository,
         UserTypeOrmRepository,
         AddressTypeOrmRepository,
         HashRepository,
@@ -127,42 +113,42 @@ import { ClientController } from './client.controller';
       inject: [UserTypeOrmRepository],
     },
     {
-      provide: UpdateClientUseCase,
+      provide: UpdateStartupUseCase,
       useFactory: (
         userRepo: IUserRepository,
-        clientRepo: IClientRepository,
+        startupRepo: IStartupRepository,
         addressRepo: IAddressRepository,
         hashRepo: IHashRepository,
       ) => {
-        return new UpdateClientUseCase(
+        return new UpdateStartupUseCase(
           userRepo,
-          clientRepo,
+          startupRepo,
           addressRepo,
           hashRepo,
         );
       },
       inject: [
         UserTypeOrmRepository,
-        ClientTypeOrmRepository,
+        StartupTypeOrmRepository,
         AddressTypeOrmRepository,
         HashRepository,
       ],
     },
     {
-      provide: DeleteClientUseCase,
+      provide: DeleteStartupUseCase,
       useFactory: (
         userRepo: IUserRepository,
-        clientRepo: IClientRepository,
+        startupRepo: IStartupRepository,
         addressRepo: IAddressRepository,
       ) => {
-        return new DeleteClientUseCase(userRepo, clientRepo, addressRepo);
+        return new DeleteStartupUseCase(userRepo, startupRepo, addressRepo);
       },
       inject: [
         UserTypeOrmRepository,
-        ClientTypeOrmRepository,
+        StartupTypeOrmRepository,
         AddressTypeOrmRepository,
       ],
     },
   ],
 })
-export class ClientModule {}
+export class StartupModule {}

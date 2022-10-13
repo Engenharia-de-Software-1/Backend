@@ -24,6 +24,7 @@ import { UserSchema } from '../../@core/infra/db/typeorm/schema/UserSchema';
 import { HashRepository } from '../../@core/infra/HashRepository';
 import { InvestorController } from './Investor.controller';
 import { Client } from '../../@core/domain/entities/client.entity';
+import { Startup } from '../../@core/domain/entities/startup.entity';
 
 @Module({
   imports: [
@@ -62,9 +63,11 @@ import { Client } from '../../@core/domain/entities/client.entity';
           dataSource.getRepository(Client),
           dataSource.getRepository(Address),
           dataSource.getRepository(Investor),
+          dataSource.getRepository(Startup),
         );
       },
       inject: [
+        getDataSourceToken(),
         getDataSourceToken(),
         getDataSourceToken(),
         getDataSourceToken(),
