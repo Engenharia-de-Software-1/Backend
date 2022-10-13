@@ -1,4 +1,4 @@
-import { IJwtRepository } from './../../../dist/@core/domain/repositories/Auth/IJwt.d';
+import { IJwtRepository } from './../../@core/domain/repositories/Auth/IJwtRepository';
 import { JwtRepository } from './../../@core/infra/JwtRepository';
 import { LoginUseCase } from './../../@core/application/loginUserUseCase';
 import { LoginController } from './login.controller';
