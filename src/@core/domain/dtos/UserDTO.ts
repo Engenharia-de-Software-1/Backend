@@ -1,5 +1,6 @@
 import { IAddressOutput } from './AddressDTO';
 import { IClientOutput } from './ClientDTO';
+import { IInvestorOutput } from './InvestorDTO';
 
 export interface IUserInput {
   name: string;
@@ -28,5 +29,6 @@ export interface IUserOutputRelations {
   createdAt: Date;
   updatedAt: Date;
   client: IClientOutput;
+  investor: IInvestorOutput;
   address: IAddressOutput;
 }
