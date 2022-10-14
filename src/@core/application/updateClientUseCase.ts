@@ -51,7 +51,8 @@ export class UpdateClientUseCase {
     if (input.cnpj) clientForUpdate.updateCnpj(input.cnpj);
     if (input.profession) clientForUpdate.updateProfession(input.profession);
 
-    await this.clientRepository.update(client.id, clientForUpdate.toJson());
+    // TODO: change to use entity id not user id
+    await this.clientRepository.update(user.id, clientForUpdate.toJson());
 
     // UPDATE ADDRESS
     const address = await this.addressRepository.findByUserId(userId);
@@ -60,7 +61,8 @@ export class UpdateClientUseCase {
     if (input.city) addressForUpdate.updateCity(input.city);
     if (input.state) addressForUpdate.updateState(input.state);
 
-    await this.addressRepository.update(address.id, addressForUpdate.toJson());
+    // TODO: change to use entity id not user id
+    await this.addressRepository.update(user.id, addressForUpdate.toJson());
 
     // Return
     const output = await this.userRepository.findByIdWithRelations(userId);
