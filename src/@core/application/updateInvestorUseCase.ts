@@ -52,10 +52,7 @@ export class UpdateInvestorUseCase {
     if (input.cnpj) investorForUpdate.updateCnpj(input.cnpj);
     if (input.profession) investorForUpdate.updateProfession(input.profession);
 
-    await this.investorRepository.update(
-      investor.id,
-      investorForUpdate.toJson(),
-    );
+    await this.investorRepository.update(user.id, investorForUpdate.toJson());
 
     // UPDATE ADDRESS
     const address = await this.addressRepository.findByUserId(userId);
@@ -64,7 +61,7 @@ export class UpdateInvestorUseCase {
     if (input.city) addressForUpdate.updateCity(input.city);
     if (input.state) addressForUpdate.updateState(input.state);
 
-    await this.addressRepository.update(address.id, addressForUpdate.toJson());
+    await this.addressRepository.update(user.id, addressForUpdate.toJson());
 
     // Return
     const output = await this.userRepository.findByIdWithRelations(userId);
