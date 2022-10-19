@@ -28,6 +28,7 @@ export class InvestorTypeOrmRepository implements IInvestorRepository {
     investor.companyName = input.companyName || investor.companyName;
     investor.cnpj = input.cnpj || investor.cnpj;
     investor.profession = input.profession || investor.profession;
+    investor.qtdMembers = input.qtdMembers || investor.qtdMembers;
     if (input.companyName || input.cnpj || input.profession)
       investor.updatedAt = new Date();
 
