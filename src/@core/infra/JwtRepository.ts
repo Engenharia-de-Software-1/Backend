@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import {
   IJwtRepository,
   IJwtPayload,
@@ -7,7 +7,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class JwtRepository implements IJwtRepository {
-  checkToken(token: string): Promise<any> {
+  checkToken(token: string): string | JwtPayload {
     return jwt.decode(token);
   }
 

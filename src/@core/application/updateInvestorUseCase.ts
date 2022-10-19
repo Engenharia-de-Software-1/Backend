@@ -51,6 +51,7 @@ export class UpdateInvestorUseCase {
       investorForUpdate.updateCompanyName(input.companyName);
     if (input.cnpj) investorForUpdate.updateCnpj(input.cnpj);
     if (input.profession) investorForUpdate.updateProfession(input.profession);
+    if (input.qtdMembers) investorForUpdate.updateQtdMembers(input.qtdMembers);
 
     await this.investorRepository.update(user.id, investorForUpdate.toJson());
 
