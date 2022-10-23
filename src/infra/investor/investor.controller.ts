@@ -7,6 +7,8 @@ import {
   Put,
   Delete,
 } from '@nestjs/common';
+import { User } from 'src/@core/domain/decorators/user.decorator';
+import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
 import { CreateInvestorUseCase } from '../../@core/application/createInvestorUseCase';
 import { DeleteInvestorUseCase } from '../../@core/application/deleteInvestorUseCase';
 import { GetUserUseCase } from '../../@core/application/getUserUseCase';
@@ -27,21 +29,24 @@ export class InvestorController {
     return await this.createInvestorUseCase.execute(createInvestorDto);
   }
 
-  @Get(':id')
-  async getOne(@Param('id') id: string) {
-    return await this.getUserUseCase.execute(id);
+  @Get()
+  async getOne(@User() user: IUserOutputRelations) {
+    if (!user.investor) return;
+    return await this.getUserUseCase.execute(user.id);
   }
 
-  @Put(':id')
+  @Put()
   async update(
-    @Param('id') id: string,
+    @User() user: IUserOutputRelations,
     @Body() updateInvestorDto: ICreateInvestor,
   ) {
-    return await this.updateInvestorUseCase.execute(id, updateInvestorDto);
+    if (!user.investor) return;
+    return await this.updateInvestorUseCase.execute(user.id, updateInvestorDto);
   }
 
-  @Delete(':id')
-  async delete(@Param('id') id: string) {
-    return await this.deleteInvestorUseCase.execute(id);
+  @Delete()
+  async delete(@User() user: IUserOutputRelations) {
+    if (!user.investor) return;
+    return await this.deleteInvestorUseCase.execute(user.id);
   }
 }

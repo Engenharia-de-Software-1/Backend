@@ -6,13 +6,15 @@ import {
   Param,
   Put,
   Delete,
+  Req,
 } from '@nestjs/common';
+import { User } from 'src/@core/domain/decorators/user.decorator';
 import { CreateAdministratorUseCase } from '../../@core/application/createAdministratorUseCase';
 import { DeleteAdministratorUseCase } from '../../@core/application/deleteAdministratorUseCase';
 import { GetAdministratorUseCase } from '../../@core/application/getAdministratorUseCase';
 import { UpdateAdministratorUseCase } from '../../@core/application/updateAdministratorUseCase';
 import { IAdministratorInput } from '../../@core/domain/dtos/AdministratorDTO';
-
+import { Request } from 'express';
 @Controller('admin')
 export class AdminController {
   constructor(
@@ -28,7 +30,7 @@ export class AdminController {
   }
 
   @Get(':id')
-  async getOne(@Param('id') id: string) {
+  async getOne(@User() user: any, @Param('id') id: string) {
     return await this.getAdminUseCase.execute(id);
   }
 

@@ -10,8 +10,10 @@ import {
 import { CreateStartupUseCase } from 'src/@core/application/createStartupUseCase';
 import { UpdateStartupUseCase } from 'src/@core/application/updateStartupUseCase';
 import { GetUserUseCase } from '../../@core/application/getUserUseCase';
-import { ICreateStartup } from 'src/@core/domain/dtos/StartupDTO';
+import { ICreateStartup, IStartupUpdate } from 'src/@core/domain/dtos/StartupDTO';
 import { DeleteStartupUseCase } from 'src/@core/application/deleteStartupUseCase';
+import { User } from 'src/@core/domain/decorators/user.decorator';
+import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
 
 @Controller('startup')
 export class StartupController {
@@ -27,21 +29,24 @@ export class StartupController {
     return await this.createStartupUseCase.execute(createClientDto);
   }
 
-  @Get(':id')
-  async getOne(@Param('id') id: string) {
-    return await this.getUserUseCase.execute(id);
+  @Get()
+  async getOne(@User() user: IUserOutputRelations) {
+    if(!user.startup) return;
+    return await this.getUserUseCase.execute(user.id);
   }
 
-  @Put(':id')
+  @Put()
   async update(
-    @Param('id') id: string,
-    @Body() updateStartupDto: ICreateStartup,
+    @User() user: IUserOutputRelations,
+    @Body() updateStartupDto: IStartupUpdate,
   ) {
-    return await this.updateStartupUseCase.execute(id, updateStartupDto);
+    if(!user.startup) return;
+    return await this.updateStartupUseCase.execute(user.id, updateStartupDto);
   }
 
-  @Delete(':id')
-  async delete(@Param('id') id: string) {
-    return await this.deleteStartupUseCase.execute(id);
+  @Delete()
+  async delete(@User() user: IUserOutputRelations) {
+    if(!user.startup) return;
+    return await this.deleteStartupUseCase.execute(user.id);
   }
 }
