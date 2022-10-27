@@ -4,16 +4,17 @@ import {
   IJwtPayload,
 } from './../domain/repositories/Auth/IJwtRepository';
 import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class JwtRepository implements IJwtRepository {
-  checkToken(token: string): string | JwtPayload {
-    return jwt.decode(token);
+  async checkToken(token: string, secret: string): Promise<string | JwtPayload> {
+    return jwt.verify(token, secret);
   }
 
-  createToken(payload: IJwtPayload, secret: string, expiresIn: string): string {
+  async createToken(payload: IJwtPayload, secret: string, expiresIn: string): Promise<string> {
     return jwt.sign(payload, secret, {
       expiresIn,
-    });
+    });;
   }
 }
