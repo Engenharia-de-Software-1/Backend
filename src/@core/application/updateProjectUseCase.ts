@@ -22,6 +22,7 @@ export class UpdateProjectUseCase {
 
     const projectForUpdate = Project.create(project);
     projectForUpdate.update(input);
+    console.log(projectForUpdate);
     await this.projectRepository.update(projectId, projectForUpdate.toJson());
 
     // Return
