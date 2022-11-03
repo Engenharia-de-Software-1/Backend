@@ -11,6 +11,8 @@ import { UserSchema } from '../@core/infra/db/typeorm/schema/UserSchema';
 import { AdminModule } from './admin/admin.module';
 import { ClientModule } from './client/client.module';
 import { InvestorModule } from './investor/investor.module';
+import { ProjectSchema } from '../@core/infra/db/typeorm/schema/ProjectSchema';
+import { ProjectModule } from './project/project.module';
 
 /* eslint-disable-next-line @typescript-eslint/no-var-requires */
 require('dotenv').config({ path: '.env.local' });
@@ -33,6 +35,7 @@ require('dotenv').config({ path: '.env.local' });
         AddressSchema,
         InvestorSchema,
         StartupSchema,
+        ProjectSchema,
       ],
       autoLoadEntities: true,
     }),
@@ -41,6 +44,7 @@ require('dotenv').config({ path: '.env.local' });
     InvestorModule,
     StartupModule,
     LoginModule,
+    ProjectModule,
   ],
 })
 export class AppModule {}
