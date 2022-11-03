@@ -48,16 +48,12 @@ export class IdeaController {
         @Param('id') ideaID: string,
     ) {
         if (!user.client) return;
-        const { client } = user;
-        const { id: clientId } = client;
-        return await this.updateIdeaUseCase.execute(clientId, ideaID, updateIdeaDto);
+        return await this.updateIdeaUseCase.execute(user.id, ideaID, updateIdeaDto);
     }
 
     @Delete(':id')
     async delete(@Param('id') id: string, @User() user: IUserOutputRelations) {
         if (!user.client) return;
-        const { client } = user;
-        const { id: clientId } = client;
-        return await this.deleteIdeaUseCase.execute(clientId, id);
+        return await this.deleteIdeaUseCase.execute(user.id, id);
     }
 }
