@@ -8,13 +8,17 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class JwtRepository implements IJwtRepository {
-  async checkToken(token: string, secret: string): Promise<string | JwtPayload> {
-    return jwt.verify(token, secret);
+  checkToken(token: string, secret: string): IJwtPayload {
+    return jwt.verify(token, secret) as IJwtPayload;
   }
 
-  async createToken(payload: IJwtPayload, secret: string, expiresIn: string): Promise<string> {
+  async createToken(
+    payload: IJwtPayload,
+    secret: string,
+    expiresIn: string,
+  ): Promise<string> {
     return jwt.sign(payload, secret, {
       expiresIn,
-    });;
+    });
   }
 }

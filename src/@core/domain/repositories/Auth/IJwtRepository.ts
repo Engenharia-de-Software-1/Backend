@@ -5,6 +5,10 @@ export interface IJwtPayload {
 }
 
 export interface IJwtRepository {
-  checkToken(token: string, secret: string): Promise<string | JwtPayload>;
-  createToken(payload: IJwtPayload, secret: string, expiresIn: string): Promise<string>;
+  checkToken(token: string, secret: string): IJwtPayload;
+  createToken(
+    payload: IJwtPayload,
+    secret: string,
+    expiresIn: string,
+  ): Promise<string>;
 }

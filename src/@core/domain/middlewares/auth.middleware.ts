@@ -1,9 +1,9 @@
-import { ForbiddenException, Injectable, NestMiddleware } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { NextFunction, Request, Response } from "express";
-import { UserSchema } from "src/@core/infra/db/typeorm/schema/UserSchema";
-import { JwtRepository } from "src/@core/infra/JwtRepository";
-import { Repository } from "typeorm";
+import { ForbiddenException, Injectable, NestMiddleware } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { NextFunction, Request, Response } from 'express';
+import { UserSchema } from 'src/@core/infra/db/typeorm/schema/UserSchema';
+import { JwtRepository } from 'src/@core/infra/JwtRepository';
+import { Repository } from 'typeorm';
 import {
   IJwtRepository,
   IJwtPayload,
@@ -18,7 +18,7 @@ require('dotenv').config({ path: '.env.local' });
 export class AuthMiddleware implements NestMiddleware {
   constructor(
     private userRepository: UserTypeOrmRepository,
-    private jwtService: JwtRepository
+    private jwtService: JwtRepository,
   ) {}
 
   async use(req: Request | any, res: Response, next: NextFunction) {
@@ -27,14 +27,17 @@ export class AuthMiddleware implements NestMiddleware {
     let user;
 
     if (!bearerHeader || !accessToken) {
-      return res.status(400).json({'error': 'Unauthorized'});
+      return res.status(400).json({ error: 'Unauthorized' });
     }
 
     try {
-      const { userId }: IJwtPayload = await this.jwtService.checkToken(accessToken, process.env.JWT_SECRET);
+      const { userId }: IJwtPayload = await this.jwtService.checkToken(
+        accessToken,
+        process.env.JWT_SECRET,
+      );
       user = await this.userRepository.findByIdWithRelations(userId);
     } catch (error) {
-      return res.status(400).json({'error': 'Unauthorized'});
+      return res.status(400).json({ error: 'Unauthorized' });
     }
 
     req.user = user;
