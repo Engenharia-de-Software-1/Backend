@@ -12,7 +12,7 @@ export class LoginUseCase {
     private jwtTokenService: IJwtRepository,
     private userRepository: IUserRepository,
     private hashRepository: IHashRepository,
-    private adminRepository: IAdminRepository
+    private adminRepository: IAdminRepository,
   ) {}
 
   async execute(input: ILoginInput): Promise<ILoginOutput> {
