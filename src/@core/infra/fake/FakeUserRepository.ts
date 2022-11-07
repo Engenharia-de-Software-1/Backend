@@ -1,7 +1,27 @@
 import { IUserOutput, IUserOutputRelations } from '../../domain/dtos/UserDTO';
+import { IAddressRepository } from '../../domain/repositories/IAddressRepository';
+import { IClientRepository } from '../../domain/repositories/IClientRepository';
+import { IInvestorRepository } from '../../domain/repositories/IInvestorRepository';
+import { IStartupRepository } from '../../domain/repositories/IStartupRepository';
 import { IUserRepository } from '../../domain/repositories/IUserRepository';
 
 export class FakeUserRepository implements IUserRepository {
+  constructor(
+    startupRepository: IStartupRepository,
+    clientRepository: IClientRepository,
+    addressRepository: IAddressRepository,
+    investorRepository: IInvestorRepository,
+  ) {
+    this.startupRepository = startupRepository;
+    this.clientRepository = clientRepository;
+    this.addressRepository = addressRepository;
+    this.investorRepository = investorRepository;
+  }
+
+  private clientRepository: IClientRepository;
+  private investorRepository: IInvestorRepository;
+  private addressRepository: IAddressRepository;
+  private startupRepository: IStartupRepository;
   public users: IUserOutput[] = [];
 
   async insert(user: IUserOutput): Promise<void> {
@@ -18,7 +38,18 @@ export class FakeUserRepository implements IUserRepository {
 
   async findByIdWithRelations(id: string): Promise<IUserOutputRelations> {
     const user = this.users.find((user) => user.id === id);
-    return user as IUserOutputRelations;
+    const startup = await this.startupRepository.findByUserId(id, true);
+    const client = await this.clientRepository.findByUserId(id, true);
+    const address = await this.addressRepository.findByUserId(id, true);
+    const investor = await this.investorRepository.findByUserId(id, true);
+    const output: IUserOutputRelations = {
+      ...user,
+      startup,
+      client,
+      address,
+      investor,
+    };
+    return output;
   }
 
   async findByEmail(
