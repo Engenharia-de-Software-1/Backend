@@ -24,4 +24,7 @@ export interface IIdeaUpdate{
     description?: string;
 }
 
-    
+export interface IIdeaFavoriteInput{
+    userId?: string;
+    ideaId: string;
+}
