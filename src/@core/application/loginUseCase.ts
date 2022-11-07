@@ -37,7 +37,7 @@ export class LoginUseCase {
     const payload = { userId: userFinded.id };
     const secret = process.env.JWT_SECRET;
     const expiresIn = process.env.JWT_EXPIRARTION_TIME + 's';
-    const token = this.jwtTokenService.createToken(payload, secret, expiresIn);
+    const token = await this.jwtTokenService.createToken(payload, secret, expiresIn);
     return { token };
   }
 }

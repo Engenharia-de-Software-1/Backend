@@ -7,6 +7,8 @@ import {
   Put,
   Delete,
 } from '@nestjs/common';
+import { User } from 'src/@core/domain/decorators/user.decorator';
+import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
 import { CreateClientUseCase } from '../../@core/application/createClientUseCase';
 import { DeleteClientUseCase } from '../../@core/application/deleteClientUseCase';
 import { GetUserUseCase } from '../../@core/application/getUserUseCase';
@@ -27,21 +29,24 @@ export class ClientController {
     return await this.createClientUseCase.execute(createClientDto);
   }
 
-  @Get(':id')
-  async getOne(@Param('id') id: string) {
-    return await this.getUserUseCase.execute(id);
+  @Get()
+  async getOne(@User() user: IUserOutputRelations) {
+    if (!user.client) return;
+    return await this.getUserUseCase.execute(user.id);
   }
 
-  @Put(':id')
+  @Put()
   async update(
-    @Param('id') id: string,
+    @User() user: IUserOutputRelations,
     @Body() updateClientDto: ICreateClient,
   ) {
-    return await this.updateClientUseCase.execute(id, updateClientDto);
+    if (!user.client) return;
+    return await this.updateClientUseCase.execute(user.id, updateClientDto);
   }
 
-  @Delete(':id')
-  async delete(@Param('id') id: string) {
-    return await this.deleteClientUseCase.execute(id);
+  @Delete()
+  async delete(@User() user: IUserOutputRelations) {
+    if (!user.client) return;
+    return await this.deleteClientUseCase.execute(user.id);
   }
 }

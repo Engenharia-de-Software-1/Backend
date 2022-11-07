@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
+import { AuthMiddleware } from '../../@core/domain/middlewares/auth.middleware';
 import { DataSource } from 'typeorm';
 import { CreateAdministratorUseCase } from '../../@core/application/createAdministratorUseCase';
 import { DeleteAdministratorUseCase } from '../../@core/application/deleteAdministratorUseCase';
@@ -12,6 +13,8 @@ import { AdminTypeOrmRepository } from '../../@core/infra/db/typeorm/repository/
 import { AdministratorSchema } from '../../@core/infra/db/typeorm/schema/AdministratorSchema';
 import { HashRepository } from '../../@core/infra/HashRepository';
 import { AdminController } from './admin.controller';
+import { InvestorModule } from '../investor/investor.module';
+import { StartupModule } from '../startup/startup.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([AdministratorSchema])],
@@ -59,5 +62,7 @@ import { AdminController } from './admin.controller';
       inject: [AdminTypeOrmRepository],
     },
   ],
+  exports:[]
 })
-export class AdminModule {}
+export class AdminModule {
+}
