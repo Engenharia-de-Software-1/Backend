@@ -2,7 +2,12 @@ import { LoginModule } from './login/login.module';
 import { StartupModule } from './startup/startup.module';
 import { StartupSchema } from './../@core/infra/db/typeorm/schema/StartupSchema';
 import { InvestorSchema } from './../@core/infra/db/typeorm/schema/InvestorSchema';
-import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
+import {
+  Module,
+  NestModule,
+  MiddlewareConsumer,
+  RequestMethod,
+} from '@nestjs/common';
 import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
 import { AddressSchema } from '../@core/infra/db/typeorm/schema/AddressSchema';
 import { AdministratorSchema } from '../@core/infra/db/typeorm/schema/AdministratorSchema';
@@ -11,6 +16,8 @@ import { UserSchema } from '../@core/infra/db/typeorm/schema/UserSchema';
 import { AdminModule } from './admin/admin.module';
 import { ClientModule } from './client/client.module';
 import { InvestorModule } from './investor/investor.module';
+import { ProjectSchema } from '../@core/infra/db/typeorm/schema/ProjectSchema';
+import { ProjectModule } from './project/project.module';
 import { AuthMiddleware } from 'src/@core/domain/middlewares/auth.middleware';
 import { AdminController } from './admin/admin.controller';
 import { UserTypeOrmRepository } from 'src/@core/infra/db/typeorm/repository/UserTypeOrmRepository';
@@ -48,6 +55,7 @@ require('dotenv').config({ path: '.env.local' });
         AddressSchema,
         InvestorSchema,
         StartupSchema,
+        ProjectSchema,
       ],
       autoLoadEntities: true,
     }),
@@ -56,7 +64,7 @@ require('dotenv').config({ path: '.env.local' });
     InvestorModule,
     StartupModule,
     LoginModule,
-    
+    ProjectModule,
   ],
   providers: [
     {
@@ -92,13 +100,10 @@ require('dotenv').config({ path: '.env.local' });
     //   },
     //   inject: [UserTypeOrmRepository],
     // },
-    AuthMiddleware
+    AuthMiddleware,
   ],
-  exports: [
-
-  ]
+  exports: [],
 })
-
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
@@ -109,6 +114,11 @@ export class AppModule implements NestModule {
         { path: 'client', method: RequestMethod.POST },
         { path: 'startup', method: RequestMethod.POST },
       )
-      .forRoutes(AdminController, InvestorController, ClientController, StartupController);
+      .forRoutes(
+        AdminController,
+        InvestorController,
+        ClientController,
+        StartupController,
+      );
   }
 }
