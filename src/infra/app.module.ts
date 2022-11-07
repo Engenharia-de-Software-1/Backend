@@ -125,6 +125,8 @@ export class AppModule implements NestModule {
         InvestorController,
         ClientController,
         StartupController,
+        IdeaController,
       );
+
   }
 }
