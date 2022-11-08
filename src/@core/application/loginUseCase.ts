@@ -25,6 +25,7 @@ export class LoginUseCase {
     }
 
     const userFinded = user ? user : admin;
+    const isUser = user ? true : false;
 
     const match = await this.hashRepository.compareHash(
       password,
@@ -34,10 +35,28 @@ export class LoginUseCase {
       throw new Error('Cant find user or password is wrong');
     }
 
-    const payload = { userId: userFinded.id };
+    const payload = { userId: userFinded.id, userType: '' };
+
+    if (isUser) {
+      const data = await this.userRepository.findByIdWithRelations(user.id);
+      payload.userType = data.startup
+        ? 'startup'
+        : data.investor
+        ? 'investidor'
+        : data.client
+        ? 'cliente'
+        : 'null';
+    } else {
+      payload.userType = 'admin';
+    }
+
     const secret = process.env.JWT_SECRET;
     const expiresIn = process.env.JWT_EXPIRARTION_TIME + 's';
-    const token = await this.jwtTokenService.createToken(payload, secret, expiresIn);
+    const token = await this.jwtTokenService.createToken(
+      payload,
+      secret,
+      expiresIn,
+    );
     return { token };
   }
 }
