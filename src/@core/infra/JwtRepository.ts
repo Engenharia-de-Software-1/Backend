@@ -1,10 +1,9 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import {
   IJwtRepository,
   IJwtPayload,
 } from './../domain/repositories/Auth/IJwtRepository';
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class JwtRepository implements IJwtRepository {

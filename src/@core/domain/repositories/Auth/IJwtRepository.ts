@@ -1,7 +1,6 @@
-import { JwtPayload } from 'jsonwebtoken';
-
 export interface IJwtPayload {
   userId: string;
+  userType: string;
 }
 
 export interface IJwtRepository {
