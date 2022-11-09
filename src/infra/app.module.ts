@@ -33,6 +33,9 @@ import { IJwtRepository } from 'src/@core/domain/repositories/Auth/IJwtRepositor
 import { InvestorController } from './investor/Investor.controller';
 import { ClientController } from './client/client.controller';
 import { StartupController } from './startup/startup.controller';
+import { IdeaController } from './ideas/idea.controller';
+import { IdeaModule } from './ideas/idea.module';
+import { IdeaSchema } from 'src/@core/infra/db/typeorm/schema/IdeaRepository';
 
 /* eslint-disable-next-line @typescript-eslint/no-var-requires */
 require('dotenv').config({ path: '.env.local' });
@@ -55,6 +58,7 @@ require('dotenv').config({ path: '.env.local' });
         AddressSchema,
         InvestorSchema,
         StartupSchema,
+        IdeaSchema,
         ProjectSchema,
       ],
       autoLoadEntities: true,
@@ -64,6 +68,7 @@ require('dotenv').config({ path: '.env.local' });
     InvestorModule,
     StartupModule,
     LoginModule,
+    IdeaModule,
     ProjectModule,
   ],
   providers: [
