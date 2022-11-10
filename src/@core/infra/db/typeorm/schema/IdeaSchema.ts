@@ -21,6 +21,10 @@ export const IdeaSchema = new EntitySchema({
             type: String,
             nullable: false,
         },
+        situation: {
+            type: String,
+            nullable: false,
+        },
         createdAt: {
             type: String,
             nullable: false,

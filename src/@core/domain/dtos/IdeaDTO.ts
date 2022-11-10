@@ -9,6 +9,7 @@ export interface IIdeaOutput{
     title: string;
     description: string;
     userId: string;
+    situation: string;
     createdAt: Date;
     updatedAt: Date;
 }

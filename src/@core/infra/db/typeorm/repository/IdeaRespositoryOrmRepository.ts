@@ -59,6 +59,13 @@ export class IdeaTypeOrmRepository implements IIdeaRepository {
     await this.ormRepo.save(idea);
   }
 
+  public async updateSituation(id: string, situation: string): Promise<IIdeaOutput | null> {
+    const idea = await this.ormRepo.findOne({ where: { id } });
+    idea.situation = situation;
+    await this.ormRepo.save(idea);
+    return idea
+  }
+
   public async delete(id: string): Promise<void> {
     const output = await this.findById(id);
     await this.ormRepo.delete({ id: output.id });
