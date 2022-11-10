@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { CreateInvestorUseCase } from '../../@core/application/createInvestorUseCase';
-import { DeleteInvestorUseCase } from '../../@core/application/deleteInvestorUseCase';
+import { CreateInvestorUseCase } from '../../@core/application/InvestorUseCases/createInvestorUseCase';
+import { DeleteInvestorUseCase } from '../../@core/application/InvestorUseCases/deleteInvestorUseCase';
 import { GetUserUseCase } from '../../@core/application/getUserUseCase';
-import { UpdateInvestorUseCase } from '../../@core/application/updateInvestorUseCase';
+import { UpdateInvestorUseCase } from '../../@core/application/InvestorUseCases/updateInvestorUseCase';
 import { Address } from '../../@core/domain/entities/address.entity';
 import { Administrator } from '../../@core/domain/entities/administrator.entity';
 import { Investor } from '../../@core/domain/entities/investor.entity';

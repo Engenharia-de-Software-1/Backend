@@ -9,10 +9,10 @@ import {
   Req,
 } from '@nestjs/common';
 import { User } from 'src/@core/domain/decorators/user.decorator';
-import { CreateAdministratorUseCase } from '../../@core/application/createAdministratorUseCase';
-import { DeleteAdministratorUseCase } from '../../@core/application/deleteAdministratorUseCase';
-import { GetAdministratorUseCase } from '../../@core/application/getAdministratorUseCase';
-import { UpdateAdministratorUseCase } from '../../@core/application/updateAdministratorUseCase';
+import { CreateAdministratorUseCase } from '../../@core/application/AdministratorUseCases/createAdministratorUseCase';
+import { DeleteAdministratorUseCase } from '../../@core/application/AdministratorUseCases/deleteAdministratorUseCase';
+import { GetAdministratorUseCase } from '../../@core/application/AdministratorUseCases/getAdministratorUseCase';
+import { UpdateAdministratorUseCase } from '../../@core/application/AdministratorUseCases/updateAdministratorUseCase';
 import { IAdministratorInput } from '../../@core/domain/dtos/AdministratorDTO';
 import { Request } from 'express';
 @Controller('admin')

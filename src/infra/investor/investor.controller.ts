@@ -9,10 +9,10 @@ import {
 } from '@nestjs/common';
 import { User } from 'src/@core/domain/decorators/user.decorator';
 import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
-import { CreateInvestorUseCase } from '../../@core/application/createInvestorUseCase';
-import { DeleteInvestorUseCase } from '../../@core/application/deleteInvestorUseCase';
+import { CreateInvestorUseCase } from '../../@core/application/InvestorUseCases/createInvestorUseCase';
+import { DeleteInvestorUseCase } from '../../@core/application/InvestorUseCases/deleteInvestorUseCase';
 import { GetUserUseCase } from '../../@core/application/getUserUseCase';
-import { UpdateInvestorUseCase } from '../../@core/application/updateInvestorUseCase';
+import { UpdateInvestorUseCase } from '../../@core/application/InvestorUseCases/updateInvestorUseCase';
 import { ICreateInvestor } from '../../@core/domain/dtos/InvestorDTO';
 
 @Controller('investor')

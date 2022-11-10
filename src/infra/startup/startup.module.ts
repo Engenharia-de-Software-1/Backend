@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
-import { CreateStartupUseCase } from 'src/@core/application/createStartupUseCase';
+import { CreateStartupUseCase } from 'src/@core/application/StartupUseCases/createStartupUseCase';
 import { DataSource } from 'typeorm';
-import { DeleteClientUseCase } from '../../@core/application/deleteClientUseCase';
+import { DeleteClientUseCase } from '../../@core/application/ClientUseCases/deleteClientUseCase';
 import { GetUserUseCase } from '../../@core/application/getUserUseCase';
-import { UpdateClientUseCase } from '../../@core/application/updateClientUseCase';
+import { UpdateClientUseCase } from '../../@core/application/ClientUseCases/updateClientUseCase';
 import { Address } from '../../@core/domain/entities/address.entity';
 import { Administrator } from '../../@core/domain/entities/administrator.entity';
 import { Startup } from '../../@core/domain/entities/startup.entity';
@@ -25,8 +25,8 @@ import { StartupSchema } from '../../@core/infra/db/typeorm/schema/StartupSchema
 import { UserSchema } from '../../@core/infra/db/typeorm/schema/UserSchema';
 import { HashRepository } from '../../@core/infra/HashRepository';
 import { StartupController } from './startup.controller';
-import { UpdateStartupUseCase } from 'src/@core/application/updateStartupUseCase';
-import { DeleteStartupUseCase } from 'src/@core/application/deleteStartupUseCase';
+import { UpdateStartupUseCase } from 'src/@core/application/StartupUseCases/updateStartupUseCase';
+import { DeleteStartupUseCase } from 'src/@core/application/StartupUseCases/deleteStartupUseCase';
 
 @Module({
   imports: [

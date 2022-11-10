@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { CreateClientUseCase } from '../../@core/application/createClientUseCase';
-import { DeleteClientUseCase } from '../../@core/application/deleteClientUseCase';
+import { CreateClientUseCase } from '../../@core/application/ClientUseCases/createClientUseCase';
+import { DeleteClientUseCase } from '../../@core/application/ClientUseCases/deleteClientUseCase';
 import { GetUserUseCase } from '../../@core/application/getUserUseCase';
-import { UpdateClientUseCase } from '../../@core/application/updateClientUseCase';
+import { UpdateClientUseCase } from '../../@core/application/ClientUseCases/updateClientUseCase';
 import { Address } from '../../@core/domain/entities/address.entity';
 import { Administrator } from '../../@core/domain/entities/administrator.entity';
 import { Client } from '../../@core/domain/entities/client.entity';

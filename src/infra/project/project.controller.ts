@@ -7,12 +7,12 @@ import {
   Put,
   Delete,
 } from '@nestjs/common';
-import { CreateProjectUseCase } from '../../@core/application/createProjectUseCase';
-import { DeleteProjectUseCase } from '../../@core/application/deleteProjectUseCase';
-import { GetProjectUseCase } from '../../@core/application/getProjectUseCse';
-import { ListProjectsByUserUseCase } from '../../@core/application/listProjectsByUserUseCase';
-import { ListProjectsUseCase } from '../../@core/application/listProjectsUseCase';
-import { UpdateProjectUseCase } from '../../@core/application/updateProjectUseCase';
+import { CreateProjectUseCase } from '../../@core/application/ProjectUseCases/createProjectUseCase';
+import { DeleteProjectUseCase } from '../../@core/application/ProjectUseCases/deleteProjectUseCase';
+import { GetProjectUseCase } from '../../@core/application/ProjectUseCases/getProjectUseCse';
+import { ListProjectsByUserUseCase } from '../../@core/application/ProjectUseCases/listProjectsByUserUseCase';
+import { ListProjectsUseCase } from '../../@core/application/ProjectUseCases/listProjectsUseCase';
+import { UpdateProjectUseCase } from '../../@core/application/ProjectUseCases/updateProjectUseCase';
 import {
   IProjectInputDTO,
   IUpdateProjectDTO,

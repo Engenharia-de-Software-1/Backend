@@ -1,8 +1,8 @@
 import { IIdeaRepository } from 'src/@core/domain/repositories/IIdeaRepository';
-import { GetListIdeaUseCase } from './../../@core/application/getListIdeaUseCase';
-import { GetIdeaUseCase } from 'src/@core/application/getIdeaUseCase';
-import { UpdateIdeaUseCase } from 'src/@core/application/updateIdeaUseCase';
-import { CreateIdeaUseCase } from './../../@core/application/createIdeaUseCase';
+import { GetListIdeaUseCase } from '../../@core/application/IdeaUseCases/getListIdeaUseCase';
+import { GetIdeaUseCase } from 'src/@core/application/IdeaUseCases/getIdeaUseCase';
+import { UpdateIdeaUseCase } from 'src/@core/application/IdeaUseCases/updateIdeaUseCase';
+import { CreateIdeaUseCase } from '../../@core/application/IdeaUseCases/createIdeaUseCase';
 import { UserTypeOrmRepository } from 'src/@core/infra/db/typeorm/repository/UserTypeOrmRepository';
 import { Module } from "@nestjs/common";
 import { getDataSourceToken, TypeOrmModule } from "@nestjs/typeorm";
@@ -21,8 +21,8 @@ import { ClientTypeOrmRepository } from 'src/@core/infra/db/typeorm/repository/C
 import { ClientSchema } from 'src/@core/infra/db/typeorm/schema/ClientSchema';
 import { AdministratorSchema } from 'src/@core/infra/db/typeorm/schema/AdministratorSchema';
 import { IClientRepository } from 'src/@core/domain/repositories/IClientRepository';
-import { GetListIdeaByUserUseCase } from 'src/@core/application/getListIdeaByUserUseCase';
-import { DeleteIdeaUseCase } from 'src/@core/application/deleteIdeaUseCase';
+import { GetListIdeaByUserUseCase } from 'src/@core/application/IdeaUseCases/getListIdeaByUserUseCase';
+import { DeleteIdeaUseCase } from 'src/@core/application/IdeaUseCases/deleteIdeaUseCase';
 
 
 @Module({

@@ -9,10 +9,10 @@ import {
 } from '@nestjs/common';
 import { User } from 'src/@core/domain/decorators/user.decorator';
 import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
-import { CreateClientUseCase } from '../../@core/application/createClientUseCase';
-import { DeleteClientUseCase } from '../../@core/application/deleteClientUseCase';
+import { CreateClientUseCase } from '../../@core/application/ClientUseCases/createClientUseCase';
+import { DeleteClientUseCase } from '../../@core/application/ClientUseCases/deleteClientUseCase';
 import { GetUserUseCase } from '../../@core/application/getUserUseCase';
-import { UpdateClientUseCase } from '../../@core/application/updateClientUseCase';
+import { UpdateClientUseCase } from '../../@core/application/ClientUseCases/updateClientUseCase';
 import { ICreateClient } from '../../@core/domain/dtos/ClientDTO';
 
 @Controller('client')

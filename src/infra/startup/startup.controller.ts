@@ -1,12 +1,12 @@
 import { Controller, Get, Post, Body, Put, Delete } from '@nestjs/common';
-import { CreateStartupUseCase } from 'src/@core/application/createStartupUseCase';
-import { UpdateStartupUseCase } from 'src/@core/application/updateStartupUseCase';
+import { CreateStartupUseCase } from 'src/@core/application/StartupUseCases/createStartupUseCase';
+import { UpdateStartupUseCase } from 'src/@core/application/StartupUseCases/updateStartupUseCase';
 import { GetUserUseCase } from '../../@core/application/getUserUseCase';
 import {
   ICreateStartup,
   IStartupUpdate,
 } from 'src/@core/domain/dtos/StartupDTO';
-import { DeleteStartupUseCase } from 'src/@core/application/deleteStartupUseCase';
+import { DeleteStartupUseCase } from 'src/@core/application/StartupUseCases/deleteStartupUseCase';
 import { User } from 'src/@core/domain/decorators/user.decorator';
 import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
 
