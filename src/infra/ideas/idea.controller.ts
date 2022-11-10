@@ -31,7 +31,6 @@ export class IdeaController {
     async create(@User() user:IUserOutputRelations, @Body() createIdeaDto: ICreateIdea) {
         return await this.createIdeaUseCase.execute(user.id, createIdeaDto);
     }
-
     
     @Get('')
     async getAll() {
@@ -50,7 +49,6 @@ export class IdeaController {
         return await this.favoriteUnfavoriteIdeaUseCase.execute(user.id, data);
     }
 
-    
     @Get(':id')
     async getOne(@User() user: IUserOutputRelations, @Param('id') ideaID: string) {
         return await this.getIdeaUseCase.execute(ideaID);

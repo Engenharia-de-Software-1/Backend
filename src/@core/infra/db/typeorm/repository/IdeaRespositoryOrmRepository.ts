@@ -3,6 +3,7 @@ import { IIdeaFavoriteInput, IIdeaOutput } from "src/@core/domain/dtos/IdeaDTO";
 import { Idea, IdeaFavorite } from "src/@core/domain/entities/idea.entity";
 import { IIdeaFavoriteRepository, IIdeaRepository } from "src/@core/domain/repositories/IIdeaRepository";
 
+
 export class IdeaTypeOrmRepository implements IIdeaRepository {
   constructor(private ormRepo: Repository<Idea>) {}
 

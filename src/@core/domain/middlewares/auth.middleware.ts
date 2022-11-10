@@ -1,14 +1,7 @@
-import { ForbiddenException, Injectable, NestMiddleware } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
-import { UserSchema } from 'src/@core/infra/db/typeorm/schema/UserSchema';
 import { JwtRepository } from 'src/@core/infra/JwtRepository';
-import { Repository } from 'typeorm';
-import {
-  IJwtRepository,
-  IJwtPayload,
-} from '../../domain/repositories/Auth/IJwtRepository';
-import { IUserRepository } from '../../domain/repositories/IUserRepository';
+import { IJwtPayload } from '../../domain/repositories/Auth/IJwtRepository';
 import { UserTypeOrmRepository } from '../../infra/db/typeorm/repository/UserTypeOrmRepository';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -31,7 +24,7 @@ export class AuthMiddleware implements NestMiddleware {
     }
 
     try {
-      const { userId }: IJwtPayload = await this.jwtService.checkToken(
+      const { userId }: IJwtPayload = this.jwtService.checkToken(
         accessToken,
         process.env.JWT_SECRET,
       );
