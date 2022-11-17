@@ -1,3 +1,5 @@
+import { IIdeaFavoriteRepository } from 'src/@core/domain/repositories/IIdeaRepository';
+import { FavoriteUnfavoriteIdeaUseCase } from './../../@core/application/favoriteUnfavoriteIdeaUseCase';
 import { IIdeaRepository } from 'src/@core/domain/repositories/IIdeaRepository';
 import { GetListIdeaUseCase } from '../../@core/application/IdeaUseCases/getListIdeaUseCase';
 import { GetIdeaUseCase } from 'src/@core/application/IdeaUseCases/getIdeaUseCase';
@@ -6,9 +8,9 @@ import { CreateIdeaUseCase } from '../../@core/application/IdeaUseCases/createId
 import { UserTypeOrmRepository } from 'src/@core/infra/db/typeorm/repository/UserTypeOrmRepository';
 import { Module } from "@nestjs/common";
 import { getDataSourceToken, TypeOrmModule } from "@nestjs/typeorm";
-import { Idea } from "src/@core/domain/entities/idea.entity";
-import { IdeaTypeOrmRepository } from "src/@core/infra/db/typeorm/repository/IdeaRespositoryOrmRepository";
-import { IdeaSchema } from "src/@core/infra/db/typeorm/schema/IdeaRepository";
+import { Idea, IdeaFavorite } from "src/@core/domain/entities/idea.entity";
+import { IdeaTypeOrmRepository, IdeaFavoriteTypeOrmRepository } from "src/@core/infra/db/typeorm/repository/IdeaRespositoryOrmRepository";
+import { IdeaSchema } from "src/@core/infra/db/typeorm/schema/IdeaSchema";
 import { UserSchema } from "src/@core/infra/db/typeorm/schema/UserSchema";
 import { DataSource } from "typeorm";
 import { IdeaController } from "./idea.controller";
@@ -23,6 +25,8 @@ import { AdministratorSchema } from 'src/@core/infra/db/typeorm/schema/Administr
 import { IClientRepository } from 'src/@core/domain/repositories/IClientRepository';
 import { GetListIdeaByUserUseCase } from 'src/@core/application/IdeaUseCases/getListIdeaByUserUseCase';
 import { DeleteIdeaUseCase } from 'src/@core/application/IdeaUseCases/deleteIdeaUseCase';
+import { GetFavoriteIdeasUseCase } from 'src/@core/application/getFavoriteIdeasUseCase';
+import { UpdateSituationIdeaUseCase } from 'src/@core/application/updateSituationIdeaUseCase';
 
 
 @Module({
@@ -51,6 +55,19 @@ import { DeleteIdeaUseCase } from 'src/@core/application/IdeaUseCases/deleteIdea
         getDataSourceToken(),
         getDataSourceToken(),
         getDataSourceToken(),
+        getDataSourceToken(),
+        getDataSourceToken(),
+      ],
+    },
+    {
+      provide: IdeaFavoriteTypeOrmRepository,
+      useFactory: (dataSource: DataSource) => {
+        return new IdeaFavoriteTypeOrmRepository(
+          dataSource.getRepository(IdeaFavorite),
+          dataSource.getRepository(Idea),
+        );
+      },
+      inject: [
         getDataSourceToken(),
         getDataSourceToken(),
       ],
@@ -115,6 +132,27 @@ import { DeleteIdeaUseCase } from 'src/@core/application/IdeaUseCases/deleteIdea
       },
       inject: [IdeaTypeOrmRepository],
     },
+    {
+      provide: FavoriteUnfavoriteIdeaUseCase,
+      useFactory: (ideaRepository: IIdeaRepository, ideaFavoriteRepository: IIdeaFavoriteRepository) => {
+        return new FavoriteUnfavoriteIdeaUseCase(ideaRepository, ideaFavoriteRepository);
+      },
+      inject: [IdeaTypeOrmRepository, IdeaFavoriteTypeOrmRepository],
+    },
+    {
+      provide: GetFavoriteIdeasUseCase,
+      useFactory: (ideaFavoriteRepository: IIdeaFavoriteRepository) => {
+        return new GetFavoriteIdeasUseCase(ideaFavoriteRepository);
+      },
+      inject: [IdeaFavoriteTypeOrmRepository],
+    },
+    {
+      provide: UpdateSituationIdeaUseCase,
+      useFactory: (ideaRepository: IIdeaRepository) => {
+        return new UpdateSituationIdeaUseCase(ideaRepository);
+      },
+      inject: [IdeaTypeOrmRepository],
+    }
   ],
 })
 export class IdeaModule {}
