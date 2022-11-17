@@ -35,7 +35,10 @@ import { ClientController } from './client/client.controller';
 import { StartupController } from './startup/startup.controller';
 import { IdeaController } from './ideas/idea.controller';
 import { IdeaModule } from './ideas/idea.module';
-import { IdeaSchema } from 'src/@core/infra/db/typeorm/schema/IdeaRepository';
+import {
+  IdeaFavoriteSchema,
+  IdeaSchema,
+} from 'src/@core/infra/db/typeorm/schema/IdeaSchema';
 
 /* eslint-disable-next-line @typescript-eslint/no-var-requires */
 require('dotenv').config({ path: '.env.local' });
@@ -59,6 +62,7 @@ require('dotenv').config({ path: '.env.local' });
         InvestorSchema,
         StartupSchema,
         IdeaSchema,
+        IdeaFavoriteSchema,
         ProjectSchema,
       ],
       autoLoadEntities: true,
@@ -124,6 +128,7 @@ export class AppModule implements NestModule {
         InvestorController,
         ClientController,
         StartupController,
+        IdeaController,
       );
   }
 }

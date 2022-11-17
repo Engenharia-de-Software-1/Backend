@@ -9,6 +9,7 @@ export interface IIdeaOutput{
     title: string;
     description: string;
     userId: string;
+    situation: string;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -24,4 +25,7 @@ export interface IIdeaUpdate{
     description?: string;
 }
 
-    
+export interface IIdeaFavoriteInput{
+    userId?: string;
+    ideaId: string;
+}
