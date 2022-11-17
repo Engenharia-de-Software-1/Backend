@@ -1,3 +1,5 @@
+import { FavoriteUnfavoriteIdeaUseCase } from './../../@core/application/favoriteUnfavoriteIdeaUseCase';
+import { GetFavoriteIdeasUseCase } from '../../@core/application/getFavoriteIdeasUseCase';
 import { GetListIdeaByUserUseCase } from '../../@core/application/getListIdeaByUserUseCase';
 import { GetListIdeaUseCase } from './../../@core/application/getListIdeaUseCase';
 import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
@@ -6,7 +8,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common"
 import { GetIdeaUseCase } from "src/@core/application/getIdeaUseCase";
 import { DeleteIdeaUseCase } from "src/@core/application/deleteIdeaUseCase";
 import { UpdateIdeaUseCase } from "src/@core/application/updateIdeaUseCase";
-import { ICreateIdea } from "src/@core/domain/dtos/IdeaDTO";
+import { ICreateIdea, IIdeaFavoriteInput } from "src/@core/domain/dtos/IdeaDTO";
 import { User } from 'src/@core/domain/decorators/user.decorator';
 
 
@@ -19,6 +21,8 @@ export class IdeaController {
         private readonly GetListIdeaByClientUseCase: GetListIdeaByUserUseCase,
         private readonly updateIdeaUseCase: UpdateIdeaUseCase,
         private readonly deleteIdeaUseCase: DeleteIdeaUseCase,
+        private readonly getFavoriteIdeasUseCase: GetFavoriteIdeasUseCase,
+        private readonly favoriteUnfavoriteIdeaUseCase: FavoriteUnfavoriteIdeaUseCase,
     ) {}
 
     @Post()
@@ -26,16 +30,29 @@ export class IdeaController {
         return await this.createIdeaUseCase.execute(user.id, createIdeaDto);
     }
 
-    @Get(':id')
-    async getOne(@User() user: IUserOutputRelations, @Param('id') ideaID: string) {
-        return await this.getIdeaUseCase.execute(ideaID);
-    }
-
+    
     @Get('')
     async getAll() {
         return await this.GetListIdeaUseCase.execute();
     }
+    
+    @Get('favorite')
+    async getFavorites(@User() user: IUserOutputRelations) {
+        if (!user.startup) return;
+        return await this.getFavoriteIdeasUseCase.execute(user.id);
+    }
 
+    @Post('favorite')
+    async favorite(@User() user: IUserOutputRelations, @Body() data: IIdeaFavoriteInput) {
+        if (!user.startup) return;
+        return await this.favoriteUnfavoriteIdeaUseCase.execute(user.id, data);
+    }
+    
+    @Get(':id')
+    async getOne(@User() user: IUserOutputRelations, @Param('id') ideaID: string) {
+        return await this.getIdeaUseCase.execute(ideaID);
+    }
+    
     @Get('user/:userId')
     async getAllByClient(@Param('userId') userId: string) {
         return await this.GetListIdeaByClientUseCase.execute(userId);

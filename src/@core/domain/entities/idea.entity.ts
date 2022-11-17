@@ -10,6 +10,14 @@ export type IIdeaProps = {
     updatedAt?: Date;
 };
 
+export type IIdeaFavoriteProps = {
+    id?: string;
+    ideaId: string;
+    userId: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+};
+
 export class Idea {
     public readonly id: string;
     public title: Required<IIdeaProps['title']>;
@@ -58,5 +66,35 @@ export class Idea {
             createdAt: this.createdAt,
             updatedAt: this.updatedAt,
         };
+    }
+}
+
+export class IdeaFavorite {
+    public readonly id: string;
+    public readonly ideaId: IIdeaFavoriteProps['ideaId'];
+    public readonly userId: IIdeaFavoriteProps['userId'];
+    public readonly createdAt: IIdeaFavoriteProps['createdAt'];
+    public readonly updatedAt: IIdeaFavoriteProps['updatedAt'];
+    
+
+    private constructor(props: IIdeaFavoriteProps, id?: string) {
+        this.id = id || createUUID();
+
+        if (!props) {
+            this.ideaId = null;
+            this.userId = null;
+            this.createdAt = null;
+            this.updatedAt = null;
+            return;
+        }
+
+        this.ideaId = props.ideaId;
+        this.userId = props.userId;
+        this.createdAt = props.createdAt || new Date();
+        this.updatedAt = props.updatedAt || new Date();
+    }
+
+    static create(props: IIdeaFavoriteProps, id?: string): IdeaFavorite {
+        return new IdeaFavorite(props, id);
     }
 }
