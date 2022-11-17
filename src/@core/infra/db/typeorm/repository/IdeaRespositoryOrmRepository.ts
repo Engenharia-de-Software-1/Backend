@@ -3,6 +3,7 @@ import { IIdeaFavoriteInput, IIdeaOutput } from "src/@core/domain/dtos/IdeaDTO";
 import { Idea, IdeaFavorite } from "src/@core/domain/entities/idea.entity";
 import { IIdeaFavoriteRepository, IIdeaRepository } from "src/@core/domain/repositories/IIdeaRepository";
 
+
 export class IdeaTypeOrmRepository implements IIdeaRepository {
   constructor(private ormRepo: Repository<Idea>) {}
 
@@ -57,6 +58,13 @@ export class IdeaTypeOrmRepository implements IIdeaRepository {
     if (input.title || input.description) idea.updatedAt = new Date();
 
     await this.ormRepo.save(idea);
+  }
+
+  public async updateSituation(id: string, situation: string): Promise<IIdeaOutput | null> {
+    const idea = await this.ormRepo.findOne({ where: { id } });
+    idea.situation = situation;
+    await this.ormRepo.save(idea);
+    return idea
   }
 
   public async delete(id: string): Promise<void> {

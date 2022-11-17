@@ -26,6 +26,7 @@ import { IClientRepository } from 'src/@core/domain/repositories/IClientReposito
 import { GetListIdeaByUserUseCase } from 'src/@core/application/getListIdeaByUserUseCase';
 import { DeleteIdeaUseCase } from 'src/@core/application/deleteIdeaUseCase';
 import { GetFavoriteIdeasUseCase } from 'src/@core/application/getFavoriteIdeasUseCase';
+import { UpdateSituationIdeaUseCase } from 'src/@core/application/updateSituationIdeaUseCase';
 
 
 @Module({
@@ -145,6 +146,13 @@ import { GetFavoriteIdeasUseCase } from 'src/@core/application/getFavoriteIdeasU
       },
       inject: [IdeaFavoriteTypeOrmRepository],
     },
+    {
+      provide: UpdateSituationIdeaUseCase,
+      useFactory: (ideaRepository: IIdeaRepository) => {
+        return new UpdateSituationIdeaUseCase(ideaRepository);
+      },
+      inject: [IdeaTypeOrmRepository],
+    }
   ],
 })
 export class IdeaModule {}

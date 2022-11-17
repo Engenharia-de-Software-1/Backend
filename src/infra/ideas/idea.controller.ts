@@ -1,3 +1,4 @@
+import { UpdateSituationIdeaUseCase } from './../../@core/application/updateSituationIdeaUseCase';
 import { FavoriteUnfavoriteIdeaUseCase } from './../../@core/application/favoriteUnfavoriteIdeaUseCase';
 import { GetFavoriteIdeasUseCase } from '../../@core/application/getFavoriteIdeasUseCase';
 import { GetListIdeaByUserUseCase } from '../../@core/application/getListIdeaByUserUseCase';
@@ -17,9 +18,10 @@ export class IdeaController {
     constructor(
         private readonly createIdeaUseCase: CreateIdeaUseCase,
         private readonly getIdeaUseCase: GetIdeaUseCase,
-        private readonly GetListIdeaUseCase: GetListIdeaUseCase,
-        private readonly GetListIdeaByClientUseCase: GetListIdeaByUserUseCase,
+        private readonly getListIdeaUseCase: GetListIdeaUseCase,
+        private readonly getListIdeaByClientUseCase: GetListIdeaByUserUseCase,
         private readonly updateIdeaUseCase: UpdateIdeaUseCase,
+        private readonly updateSituationIdeaUseCase: UpdateSituationIdeaUseCase,
         private readonly deleteIdeaUseCase: DeleteIdeaUseCase,
         private readonly getFavoriteIdeasUseCase: GetFavoriteIdeasUseCase,
         private readonly favoriteUnfavoriteIdeaUseCase: FavoriteUnfavoriteIdeaUseCase,
@@ -29,11 +31,10 @@ export class IdeaController {
     async create(@User() user:IUserOutputRelations, @Body() createIdeaDto: ICreateIdea) {
         return await this.createIdeaUseCase.execute(user.id, createIdeaDto);
     }
-
     
     @Get('')
     async getAll() {
-        return await this.GetListIdeaUseCase.execute();
+        return await this.getListIdeaUseCase.execute();
     }
     
     @Get('favorite')
@@ -47,15 +48,21 @@ export class IdeaController {
         if (!user.startup) return;
         return await this.favoriteUnfavoriteIdeaUseCase.execute(user.id, data);
     }
-    
+
     @Get(':id')
     async getOne(@User() user: IUserOutputRelations, @Param('id') ideaID: string) {
         return await this.getIdeaUseCase.execute(ideaID);
     }
+
+    @Put('situation/:id')
+    async updateSituation(@User() user: IUserOutputRelations, @Param('id') id: string, @Body() situation: string) {
+        //TODO : Check if is admin
+        return await this.updateSituationIdeaUseCase.execute(id, situation);
+    }
     
     @Get('user/:userId')
     async getAllByClient(@Param('userId') userId: string) {
-        return await this.GetListIdeaByClientUseCase.execute(userId);
+        return await this.getListIdeaByClientUseCase.execute(userId);
     }
 
     @Put(':id')

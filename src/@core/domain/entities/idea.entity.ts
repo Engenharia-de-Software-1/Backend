@@ -6,6 +6,7 @@ export type IIdeaProps = {
     title: string;
     description: string;
     userId: string;
+    situation?: string;
     createdAt?: Date;
     updatedAt?: Date;
 };
@@ -23,6 +24,7 @@ export class Idea {
     public title: Required<IIdeaProps['title']>;
     public description: Required<IIdeaProps['description']>;
     public userId: Required<IIdeaProps['userId']>;
+    public situation: Required<IIdeaProps['situation']>;
     public readonly createdAt: IIdeaProps['createdAt'];
     public updatedAt: IIdeaProps['updatedAt'];
 
@@ -41,6 +43,7 @@ export class Idea {
         this.title = props.title;
         this.description = props.description;
         this.userId = props.userId;
+        this.situation = props.situation || 'pending';
         this.createdAt = props.createdAt || new Date();
         this.updatedAt = props.updatedAt || new Date();
     }
@@ -63,6 +66,7 @@ export class Idea {
             title: this.title,
             description: this.description,
             userId: this.userId,
+            situation: this.situation,
             createdAt: this.createdAt,
             updatedAt: this.updatedAt,
         };
