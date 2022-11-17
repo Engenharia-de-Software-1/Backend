@@ -1,16 +1,11 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Put,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Delete } from '@nestjs/common';
 import { CreateStartupUseCase } from 'src/@core/application/createStartupUseCase';
 import { UpdateStartupUseCase } from 'src/@core/application/updateStartupUseCase';
 import { GetUserUseCase } from '../../@core/application/getUserUseCase';
-import { ICreateStartup, IStartupUpdate } from 'src/@core/domain/dtos/StartupDTO';
+import {
+  ICreateStartup,
+  IStartupUpdate,
+} from 'src/@core/domain/dtos/StartupDTO';
 import { DeleteStartupUseCase } from 'src/@core/application/deleteStartupUseCase';
 import { User } from 'src/@core/domain/decorators/user.decorator';
 import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
@@ -31,7 +26,7 @@ export class StartupController {
 
   @Get()
   async getOne(@User() user: IUserOutputRelations) {
-    if(!user.startup) return;
+    if (!user.startup) return;
     return await this.getUserUseCase.execute(user.id);
   }
 
@@ -40,13 +35,13 @@ export class StartupController {
     @User() user: IUserOutputRelations,
     @Body() updateStartupDto: IStartupUpdate,
   ) {
-    if(!user.startup) return;
+    if (!user.startup) return;
     return await this.updateStartupUseCase.execute(user.id, updateStartupDto);
   }
 
   @Delete()
   async delete(@User() user: IUserOutputRelations) {
-    if(!user.startup) return;
+    if (!user.startup) return;
     return await this.deleteStartupUseCase.execute(user.id);
   }
 }
