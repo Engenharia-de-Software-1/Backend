@@ -1,27 +1,15 @@
-<<<<<<< HEAD
 import { GetListIdeaByUserUseCase } from '../../@core/application/IdeaUseCases/getListIdeaByUserUseCase';
 import { GetListIdeaUseCase } from '../../@core/application/IdeaUseCases/getListIdeaUseCase';
-=======
 import { UpdateSituationIdeaUseCase } from './../../@core/application/updateSituationIdeaUseCase';
 import { FavoriteUnfavoriteIdeaUseCase } from './../../@core/application/favoriteUnfavoriteIdeaUseCase';
 import { GetFavoriteIdeasUseCase } from '../../@core/application/getFavoriteIdeasUseCase';
-import { GetListIdeaByUserUseCase } from '../../@core/application/getListIdeaByUserUseCase';
-import { GetListIdeaUseCase } from './../../@core/application/getListIdeaUseCase';
->>>>>>> e4cf143cc0f98cbfca27ffa14462dc32c2fdf0f7
 import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
 import { CreateIdeaUseCase } from '../../@core/application/IdeaUseCases/createIdeaUseCase';
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-<<<<<<< HEAD
 import { GetIdeaUseCase } from "src/@core/application/IdeaUseCases/getIdeaUseCase";
 import { DeleteIdeaUseCase } from "src/@core/application/IdeaUseCases/deleteIdeaUseCase";
 import { UpdateIdeaUseCase } from "src/@core/application/IdeaUseCases/updateIdeaUseCase";
-import { ICreateIdea } from "src/@core/domain/dtos/IdeaDTO";
-=======
-import { GetIdeaUseCase } from "src/@core/application/getIdeaUseCase";
-import { DeleteIdeaUseCase } from "src/@core/application/deleteIdeaUseCase";
-import { UpdateIdeaUseCase } from "src/@core/application/updateIdeaUseCase";
 import { ICreateIdea, IIdeaFavoriteInput } from "src/@core/domain/dtos/IdeaDTO";
->>>>>>> e4cf143cc0f98cbfca27ffa14462dc32c2fdf0f7
 import { User } from 'src/@core/domain/decorators/user.decorator';
 
 
