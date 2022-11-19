@@ -1,13 +1,14 @@
 import { GetAllPlansUseCase } from './../../@core/application/PlansUseCases/getAllPlansUseCase';
 import { IPlansUpdate } from './../../@core/domain/dtos/PlansDTO';
 import { CreatePlanUseCase } from './../../@core/application/PlansUseCases/createPlanUseCase';
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, UnauthorizedException } from "@nestjs/common";
 import { UpdatePlanUseCase } from 'src/@core/application/PlansUseCases/updatePlanUseCase';
 import { DeletePlanUseCase } from 'src/@core/application/PlansUseCases/deletePlanUseCase';
 import { GetPlanByUserIdUseCase } from 'src/@core/application/PlansUseCases/getPlanByUserIdUseCase';
 import { IPlansInput } from 'src/@core/domain/dtos/PlansDTO';
 import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
 import { User } from 'src/@core/domain/decorators/user.decorator';
+import { Admin } from 'src/@core/domain/decorators/admin.decorator';
 
 @Controller('plans')
 export class PlansController {
@@ -30,7 +31,8 @@ export class PlansController {
     }
 
     @Get()
-    async getAll(){
+    async getAll(@Admin() admin: any){
+        if(!admin) throw new UnauthorizedException('Not an admin');
         return await this.getAllPlansUseCase.execute();
     }
     

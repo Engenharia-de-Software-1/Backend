@@ -1,3 +1,5 @@
+import { Administrator } from './../@core/domain/entities/administrator.entity';
+import { AdminTypeOrmRepository } from './../@core/infra/db/typeorm/repository/AdminTypeOrmRepository';
 import { PlansModule } from './plans/plans.module';
 import { PlansController } from './plans/plans.controller';
 import { LoginModule } from './login/login.module';
@@ -101,19 +103,18 @@ require('dotenv').config({ path: '.env.local' });
       ],
     },
     {
+      provide: AdminTypeOrmRepository,
+      useFactory: (dataSource: DataSource) => {
+        return new AdminTypeOrmRepository(
+          dataSource.getRepository(Administrator),
+        );
+      },
+      inject: [getDataSourceToken()],
+    },
+    {
       provide: JwtRepository,
       useClass: JwtRepository,
     },
-    // {
-    //   provide: AuthMiddleware,
-    //   useFactory: (
-    //     userRepo: IUserRepository,
-    //     jwtRepo: IJwtRepository,
-    //   ) => {
-    //     return new AuthMiddleware(userRepo);
-    //   },
-    //   inject: [UserTypeOrmRepository],
-    // },
     AuthMiddleware,
   ],
   exports: [],
