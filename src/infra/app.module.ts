@@ -1,3 +1,5 @@
+import { PlansModule } from './plans/plans.module';
+import { PlansController } from './plans/plans.controller';
 import { LoginModule } from './login/login.module';
 import { StartupModule } from './startup/startup.module';
 import { StartupSchema } from './../@core/infra/db/typeorm/schema/StartupSchema';
@@ -39,6 +41,7 @@ import {
   IdeaFavoriteSchema,
   IdeaSchema,
 } from 'src/@core/infra/db/typeorm/schema/IdeaSchema';
+import { PlansSchema } from 'src/@core/infra/db/typeorm/schema/PlansSchema';
 
 /* eslint-disable-next-line @typescript-eslint/no-var-requires */
 require('dotenv').config({ path: '.env.local' });
@@ -64,6 +67,7 @@ require('dotenv').config({ path: '.env.local' });
         IdeaSchema,
         IdeaFavoriteSchema,
         ProjectSchema,
+        PlansSchema,
       ],
       autoLoadEntities: true,
     }),
@@ -74,6 +78,7 @@ require('dotenv').config({ path: '.env.local' });
     LoginModule,
     IdeaModule,
     ProjectModule,
+    PlansModule,
   ],
   providers: [
     {
@@ -129,6 +134,7 @@ export class AppModule implements NestModule {
         ClientController,
         StartupController,
         IdeaController,
+        PlansController,
       );
   }
 }
