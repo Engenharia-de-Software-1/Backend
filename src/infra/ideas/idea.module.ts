@@ -6,14 +6,17 @@ import { GetIdeaUseCase } from 'src/@core/application/IdeaUseCases/getIdeaUseCas
 import { UpdateIdeaUseCase } from 'src/@core/application/IdeaUseCases/updateIdeaUseCase';
 import { CreateIdeaUseCase } from '../../@core/application/IdeaUseCases/createIdeaUseCase';
 import { UserTypeOrmRepository } from 'src/@core/infra/db/typeorm/repository/UserTypeOrmRepository';
-import { Module } from "@nestjs/common";
-import { getDataSourceToken, TypeOrmModule } from "@nestjs/typeorm";
-import { Idea, IdeaFavorite } from "src/@core/domain/entities/idea.entity";
-import { IdeaTypeOrmRepository, IdeaFavoriteTypeOrmRepository } from "src/@core/infra/db/typeorm/repository/IdeaRespositoryOrmRepository";
-import { IdeaSchema } from "src/@core/infra/db/typeorm/schema/IdeaSchema";
-import { UserSchema } from "src/@core/infra/db/typeorm/schema/UserSchema";
-import { DataSource } from "typeorm";
-import { IdeaController } from "./idea.controller";
+import { Module } from '@nestjs/common';
+import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
+import { Idea, IdeaFavorite } from 'src/@core/domain/entities/idea.entity';
+import {
+  IdeaTypeOrmRepository,
+  IdeaFavoriteTypeOrmRepository,
+} from 'src/@core/infra/db/typeorm/repository/IdeaRespositoryOrmRepository';
+import { IdeaSchema } from 'src/@core/infra/db/typeorm/schema/IdeaSchema';
+import { UserSchema } from 'src/@core/infra/db/typeorm/schema/UserSchema';
+import { DataSource } from 'typeorm';
+import { IdeaController } from './idea.controller';
 import { User } from 'src/@core/domain/entities/user.entity';
 import { Client } from 'src/@core/domain/entities/client.entity';
 import { Address } from 'src/@core/domain/entities/address.entity';
@@ -27,7 +30,6 @@ import { GetListIdeaByUserUseCase } from 'src/@core/application/IdeaUseCases/get
 import { DeleteIdeaUseCase } from 'src/@core/application/IdeaUseCases/deleteIdeaUseCase';
 import { GetFavoriteIdeasUseCase } from 'src/@core/application/getFavoriteIdeasUseCase';
 import { UpdateSituationIdeaUseCase } from 'src/@core/application/updateSituationIdeaUseCase';
-
 
 @Module({
   imports: [
@@ -67,32 +69,28 @@ import { UpdateSituationIdeaUseCase } from 'src/@core/application/updateSituatio
           dataSource.getRepository(Idea),
         );
       },
-      inject: [
-        getDataSourceToken(),
-        getDataSourceToken(),
-      ],
+      inject: [getDataSourceToken(), getDataSourceToken()],
     },
     {
       provide: IdeaTypeOrmRepository,
       useFactory: (dataSource: DataSource) => {
-        return new IdeaTypeOrmRepository(
-          dataSource.getRepository(Idea),
-        );
+        return new IdeaTypeOrmRepository(dataSource.getRepository(Idea));
       },
       inject: [getDataSourceToken()],
     },
     {
       provide: ClientTypeOrmRepository,
       useFactory: (dataSource: DataSource) => {
-        return new ClientTypeOrmRepository(
-          dataSource.getRepository(Client),
-        );
+        return new ClientTypeOrmRepository(dataSource.getRepository(Client));
       },
       inject: [getDataSourceToken()],
     },
     {
       provide: CreateIdeaUseCase,
-      useFactory: (ideaRepository: IIdeaRepository, clientRepository: IClientRepository) => {
+      useFactory: (
+        ideaRepository: IIdeaRepository,
+        clientRepository: IClientRepository,
+      ) => {
         return new CreateIdeaUseCase(clientRepository, ideaRepository);
       },
       inject: [IdeaTypeOrmRepository, ClientTypeOrmRepository],
@@ -134,8 +132,14 @@ import { UpdateSituationIdeaUseCase } from 'src/@core/application/updateSituatio
     },
     {
       provide: FavoriteUnfavoriteIdeaUseCase,
-      useFactory: (ideaRepository: IIdeaRepository, ideaFavoriteRepository: IIdeaFavoriteRepository) => {
-        return new FavoriteUnfavoriteIdeaUseCase(ideaRepository, ideaFavoriteRepository);
+      useFactory: (
+        ideaRepository: IIdeaRepository,
+        ideaFavoriteRepository: IIdeaFavoriteRepository,
+      ) => {
+        return new FavoriteUnfavoriteIdeaUseCase(
+          ideaRepository,
+          ideaFavoriteRepository,
+        );
       },
       inject: [IdeaTypeOrmRepository, IdeaFavoriteTypeOrmRepository],
     },
@@ -152,7 +156,7 @@ import { UpdateSituationIdeaUseCase } from 'src/@core/application/updateSituatio
         return new UpdateSituationIdeaUseCase(ideaRepository);
       },
       inject: [IdeaTypeOrmRepository],
-    }
+    },
   ],
 })
 export class IdeaModule {}
