@@ -67,6 +67,29 @@ export class UserTypeOrmRepository implements IUserRepository {
     return user;
   }
 
+  async findAll(): Promise<IUserOutputRelations[] | null> {
+    const users = await this.ormRepo.find();
+    const usersWithRelations = await Promise.all(
+      users.map(async (user) => {
+        const client = await this.clientOrmRepo.findOne({
+          where: { userId: user.id },
+        });
+        const address = await this.addressOrmRepo.findOne({
+          where: { userId: user.id },
+        });
+        const investor = await this.investorOrmRepo.findOne({
+          where: { userId: user.id },
+        });
+        const startup = await this.startupOrmRepo.findOne({
+          where: { userId: user.id },
+        });
+        const output = { ...user, client, address, investor, startup };
+        return output;
+      }),
+    );
+    return usersWithRelations;
+  }
+
   public async update(userId: string, input: IUserOutput): Promise<void> {
     const user = await this.findById(userId);
     user.name = input.name || user.name;
