@@ -32,7 +32,6 @@ export class PlansController {
 
     @Get()
     async getAll(@Admin() admin: any){
-        console.log("teste")
         if(!admin) throw new UnauthorizedException('Not an admin');
         return await this.getAllPlansUseCase.execute();
     }
