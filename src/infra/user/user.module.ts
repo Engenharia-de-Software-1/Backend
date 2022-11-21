@@ -1,7 +1,4 @@
-import { GetAllPlansUseCase } from './../../@core/application/PlansUseCases/getAllPlansUseCase';
-import { GetPlanByUserIdUseCase } from './../../@core/application/PlansUseCases/getPlanByUserIdUseCase';
-import { UpdatePlanUseCase } from './../../@core/application/PlansUseCases/updatePlanUseCase';
-import { CreatePlanUseCase } from './../../@core/application/PlansUseCases/createPlanUseCase';
+import { GetAllUsersUseCase } from 'src/@core/application/getAllUsersUsecase';
 import { InvestorTypeOrmRepository } from './../../@core/infra/db/typeorm/repository/InvestorTypeOrmRepository';
 import { StartupTypeOrmRepository } from './../../@core/infra/db/typeorm/repository/StartupTypeOrmRepository';
 import { Administrator } from './../../@core/domain/entities/administrator.entity';
@@ -10,7 +7,7 @@ import { Module } from "@nestjs/common";
 import { getDataSourceToken, TypeOrmModule } from "@nestjs/typeorm";
 import { UserSchema } from "src/@core/infra/db/typeorm/schema/UserSchema";
 import { DataSource } from "typeorm";
-import { PlansController } from './plans.controller';
+import { UserController } from './user.controller';
 import { User } from 'src/@core/domain/entities/user.entity';
 import { Client } from 'src/@core/domain/entities/client.entity';
 import { Address } from 'src/@core/domain/entities/address.entity';
@@ -19,45 +16,24 @@ import { Startup } from 'src/@core/domain/entities/startup.entity';
 import { ClientTypeOrmRepository } from 'src/@core/infra/db/typeorm/repository/ClientTypeOrmRepository';
 import { ClientSchema } from 'src/@core/infra/db/typeorm/schema/ClientSchema';
 import { AdministratorSchema } from 'src/@core/infra/db/typeorm/schema/AdministratorSchema';
-import { PlansSchema } from 'src/@core/infra/db/typeorm/schema/PlansSchema';
 import { InvestorSchema } from 'src/@core/infra/db/typeorm/schema/InvestorSchema';
 import { StartupSchema } from 'src/@core/infra/db/typeorm/schema/StartupSchema';
 import { PlansTypeOrmRepository } from 'src/@core/infra/db/typeorm/repository/PlansTypeOrmRepository';
-import { Plans } from 'src/@core/domain/entities/plans.entity';
 import { AdminTypeOrmRepository } from 'src/@core/infra/db/typeorm/repository/AdminTypeOrmRepository';
 import { DeletePlanUseCase } from 'src/@core/application/PlansUseCases/deletePlanUseCase';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([
-            PlansSchema,
-            AdministratorSchema,
             UserSchema,
             ClientSchema,
+            AdministratorSchema,
             InvestorSchema,
             StartupSchema,
         ]),
     ],
-    controllers: [PlansController],
+    controllers: [UserController],
     providers: [
-        {
-            provide: PlansTypeOrmRepository,
-            useFactory: (dataSource: DataSource) => {
-                return new PlansTypeOrmRepository(
-                    dataSource.getRepository(Plans)
-                );
-            },
-            inject: [getDataSourceToken()], 
-        },
-        {
-            provide: AdminTypeOrmRepository,
-            useFactory: (dataSource: DataSource) => {
-                return new AdminTypeOrmRepository(
-                    dataSource.getRepository(Administrator)
-                );
-            },
-            inject: [getDataSourceToken()],
-        },
         {
             provide: UserTypeOrmRepository,
             useFactory: (dataSource: DataSource) => {
@@ -76,6 +52,15 @@ import { DeletePlanUseCase } from 'src/@core/application/PlansUseCases/deletePla
                 getDataSourceToken(),
                 getDataSourceToken(),
             ],
+        },
+        {
+            provide: AdminTypeOrmRepository,
+            useFactory: (dataSource: DataSource) => {
+                return new AdminTypeOrmRepository(
+                    dataSource.getRepository(Administrator)
+                );
+            },
+            inject: [getDataSourceToken()],
         },
         {
             provide: ClientTypeOrmRepository,
@@ -105,40 +90,23 @@ import { DeletePlanUseCase } from 'src/@core/application/PlansUseCases/deletePla
             inject: [getDataSourceToken()],
         },
         {
-            provide: CreatePlanUseCase,
-            useFactory: (repository: PlansTypeOrmRepository, update: UpdatePlanUseCase) => {
-                return new CreatePlanUseCase(repository, update);
+            provide: AdminTypeOrmRepository,
+            useFactory: (dataSource: DataSource) => {
+                return new AdminTypeOrmRepository(
+                    dataSource.getRepository(Administrator)
+                );
             },
-            inject: [PlansTypeOrmRepository, UpdatePlanUseCase],
+            inject: [getDataSourceToken()],
         },
         {
-            provide: UpdatePlanUseCase,
-            useFactory: (repository: PlansTypeOrmRepository) => {
-                return new UpdatePlanUseCase(repository);
+            provide: GetAllUsersUseCase,
+            useFactory: (userRepo: UserTypeOrmRepository) => {
+                return new GetAllUsersUseCase(userRepo);
             },
-            inject: [PlansTypeOrmRepository],
-        },
-        {
-            provide: DeletePlanUseCase,
-            useFactory: (repository: PlansTypeOrmRepository) => {
-                return new DeletePlanUseCase(repository);
-            },
-            inject: [PlansTypeOrmRepository],
-        },
-        {
-            provide: GetPlanByUserIdUseCase,
-            useFactory: (repository: PlansTypeOrmRepository) => {
-                return new GetPlanByUserIdUseCase(repository);
-            },
-            inject: [PlansTypeOrmRepository],
-        },
-        {
-            provide: GetAllPlansUseCase,
-            useFactory: (repository: PlansTypeOrmRepository) => {
-                return new GetAllPlansUseCase(repository);
-            },
-            inject: [PlansTypeOrmRepository],
+            inject: [UserTypeOrmRepository],
         }
     ],
 })
-export class PlansModule {}
+export class UserModule {}
+
+
