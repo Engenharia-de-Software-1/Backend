@@ -1,11 +1,10 @@
-import { Permisisons } from "../dtos/PlansDTO";
 import { createUUID } from "../utils/createUUID";
 
 
 export type IPlansProps = {
     id?: string;
     plan: string;
-    permissions: Permisisons;
+    permissions: string;
 };
 
 export class Plans {
@@ -35,7 +34,7 @@ export class Plans {
         this.plan = plan;
     }
 
-    public updatePermissions(permissions: Permisisons): void {
+    public updatePermissions(permissions: string): void {
         this.permissions = permissions;
     }
 

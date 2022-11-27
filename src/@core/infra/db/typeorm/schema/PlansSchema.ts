@@ -14,7 +14,7 @@ export const PlansSchema = new EntitySchema({
             nullable: false,
         },
         permissions: {
-            type: 'json',
+            type: String,
             nullable: false,
         },
     }
