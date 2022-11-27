@@ -8,7 +8,7 @@ export interface IUserInput {
   name: string;
   email: string;
   password: string;
-  planId?: string;
+  planName?: string;
   confirmPassword: string;
   phone: string;
 }
@@ -19,7 +19,7 @@ export interface IUserOutput {
   email: string;
   password: string;
   phone: string;
-  planId: string;
+  planName: string;
   planCreatedAt: Date;
   planExpirationDate: Date;
   createdAt: Date;
@@ -32,7 +32,7 @@ export interface IUserOutputRelations {
   email: string;
   password: string;
   phone: string;
-  planId: string;
+  planName: string;
   planCreatedAt: Date;
   planExpirationDate: Date;
   createdAt: Date;

@@ -20,7 +20,7 @@ export class User {
   public email: Required<IUserProps['email']>;
   public password: Required<IUserProps['password']>;
   public phone: Required<IUserProps['phone']>;
-  public planId: Required<IUserProps['planName']>;
+  public planName: Required<IUserProps['planName']>;
   public planCreatedAt: Required<IUserProps['planCreatedAt']>;
   public planExpirationDate: Required<IUserProps['planExpirationDate']>;
   public readonly createdAt: IUserProps['createdAt'];
@@ -34,7 +34,7 @@ export class User {
       this.email = null;
       this.password = null;
       this.phone = null;
-      this.planId = null;
+      this.planName = null;
       this.planCreatedAt = null;
       this.planExpirationDate = null;
       this.createdAt = null;
@@ -47,7 +47,7 @@ export class User {
     this.email = props.email;
     this.password = props.password;
     this.phone = props.phone;
-    this.planId = props.planName || 'default';
+    this.planName = props.planName || 'default';
     this.planCreatedAt = props.planCreatedAt || new Date();
     this.planExpirationDate = props.planExpirationDate || new Date(today.setDate(today.getDate() + 30));
     this.createdAt = props.createdAt || new Date();
@@ -75,7 +75,7 @@ export class User {
   }
 
   public updatePlan(planName: string): void {
-    this.planId = planName;
+    this.planName = planName;
     const today = new Date();
     this.planCreatedAt = new Date();
     this.planExpirationDate = new Date(today.setDate(today.getDate() + 30));
@@ -106,7 +106,7 @@ export class User {
       email: this.email,
       password: this.password,
       phone: this.phone,
-      planId: this.planId,
+      planName: this.planName,
       planCreatedAt: this.planCreatedAt,
       planExpirationDate: this.planExpirationDate,
       createdAt: this.createdAt,

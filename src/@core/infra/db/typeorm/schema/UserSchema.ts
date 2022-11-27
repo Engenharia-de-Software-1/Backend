@@ -25,7 +25,7 @@ export const UserSchema = new EntitySchema({
       type: String,
       nullable: false,
     },
-    planId: {
+    planName: {
       type: String,
       nullable: false,
     },
