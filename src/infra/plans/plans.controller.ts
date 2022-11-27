@@ -1,10 +1,10 @@
+import { GetPlanByIdUseCase } from './../../@core/application/PlansUseCases/getPlanByIdUseCase';
 import { GetAllPlansUseCase } from './../../@core/application/PlansUseCases/getAllPlansUseCase';
 import { IPlansUpdate } from './../../@core/domain/dtos/PlansDTO';
 import { CreatePlanUseCase } from './../../@core/application/PlansUseCases/createPlanUseCase';
 import { Body, Controller, Delete, Get, Param, Post, Put, UnauthorizedException } from "@nestjs/common";
 import { UpdatePlanUseCase } from 'src/@core/application/PlansUseCases/updatePlanUseCase';
 import { DeletePlanUseCase } from 'src/@core/application/PlansUseCases/deletePlanUseCase';
-import { GetPlanByUserIdUseCase } from 'src/@core/application/PlansUseCases/getPlanByUserIdUseCase';
 import { IPlansInput } from 'src/@core/domain/dtos/PlansDTO';
 import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
 import { User } from 'src/@core/domain/decorators/user.decorator';
@@ -17,11 +17,15 @@ export class PlansController {
         private readonly updatePlanUseCase: UpdatePlanUseCase,
         private readonly deletePlanUseCase: DeletePlanUseCase,
         private readonly getAllPlansUseCase: GetAllPlansUseCase,
-        private readonly getPlanByUserIdUseCase: GetPlanByUserIdUseCase,
+        private readonly getPlanByIdUsecase: GetPlanByIdUseCase,
     ){}
 
     @Post()
-    async create(@Body () data: IPlansInput){
+    async create(
+        @Admin () admin: any,
+        @Body () data: IPlansInput
+        ){
+        if(!admin) throw new UnauthorizedException('Not an admin');
         return await this.createPlanUseCase.execute(data);
     }
 
@@ -35,18 +39,19 @@ export class PlansController {
         if(!admin) throw new UnauthorizedException('Not an admin');
         return await this.getAllPlansUseCase.execute();
     }
-    
-    @Get('user')
-    async getByUserId(@User() user: IUserOutputRelations){
-        return await this.getPlanByUserIdUseCase.execute(user.id);
+
+    @Get('/:planId')
+    async getById(@Param('planId') planId : string){
+        return await this.getPlanByIdUsecase.execute(planId);
     }
     
     @Put('update/:planId')
     async update(
-        @User () user: IUserOutputRelations,
+        @Admin () admin: IUserOutputRelations,
         @Body () data: IPlansUpdate,
         @Param ('planId') planId: string
         ){
-        return await this.updatePlanUseCase.execute(user.id, planId, data);
+        if(!admin) throw new UnauthorizedException('Not an admin');
+        return await this.updatePlanUseCase.execute(planId, data);
     }
 }

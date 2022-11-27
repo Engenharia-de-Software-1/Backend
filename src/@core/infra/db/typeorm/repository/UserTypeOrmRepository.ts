@@ -37,7 +37,7 @@ export class UserTypeOrmRepository implements IUserRepository {
     const startup = await this.startupOrmRepo.findOne({
       where: { userId: id },
     });
-    const output = { ...user, client, address, investor, startup };
+    const output = { ...user, client, address, investor, startup};
     return output;
   }
 
@@ -96,6 +96,7 @@ export class UserTypeOrmRepository implements IUserRepository {
     user.phone = input.phone || user.phone;
     user.email = input.email || user.email;
     user.password = input.password || user.password;
+    user.planName = input.planName || user.planName;
     if (input.name || input.phone || input.email || input.password)
       user.updatedAt = new Date();
 

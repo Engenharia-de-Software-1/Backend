@@ -20,8 +20,8 @@ export class PlansTypeOrmRepository implements IPlansRepository{
         return plan;
     }
 
-    async findByUserId(id: string, returnNull?: boolean): Promise<IPlansOutput | null>{
-        const plan = await this.ormRepo.findOne({ where: { userId: id } });
+    async findByName(name: string, returnNull?: boolean): Promise<IPlansOutput> {
+        const plan = await this.ormRepo.findOne({ where: { plan: name } });
         if(!plan && returnNull){
             return null;
         } else if(!plan){
@@ -37,7 +37,7 @@ export class PlansTypeOrmRepository implements IPlansRepository{
     async update(id: string, data: IPlansOutput): Promise<IPlansOutput> {
         const plan = await this.ormRepo.findOne({ where: { id } });
         plan.plan = data.plan || plan.plan;
-        plan.expirationDate = data.expirationDate || plan.expirationDate;
+        plan.permissions = data.permissions || plan.permissions;
         await this.ormRepo.save(plan);
         return plan;
     }

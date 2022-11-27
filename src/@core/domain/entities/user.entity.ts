@@ -7,6 +7,9 @@ export type IUserProps = {
   email: string;
   password: string;
   phone: string;
+  planName?: string;
+  planCreatedAt?: Date;
+  planExpirationDate?: Date;
   createdAt?: Date;
   updatedAt?: Date;
 };
@@ -17,6 +20,9 @@ export class User {
   public email: Required<IUserProps['email']>;
   public password: Required<IUserProps['password']>;
   public phone: Required<IUserProps['phone']>;
+  public planName: Required<IUserProps['planName']>;
+  public planCreatedAt: Required<IUserProps['planCreatedAt']>;
+  public planExpirationDate: Required<IUserProps['planExpirationDate']>;
   public readonly createdAt: IUserProps['createdAt'];
   public readonly updatedAt: IUserProps['updatedAt'];
 
@@ -28,15 +34,22 @@ export class User {
       this.email = null;
       this.password = null;
       this.phone = null;
+      this.planName = null;
+      this.planCreatedAt = null;
+      this.planExpirationDate = null;
       this.createdAt = null;
       this.updatedAt = null;
       return;
     }
 
+    const today = new Date();
     this.name = props.name;
     this.email = props.email;
     this.password = props.password;
     this.phone = props.phone;
+    this.planName = props.planName || 'default';
+    this.planCreatedAt = props.planCreatedAt || new Date();
+    this.planExpirationDate = props.planExpirationDate || new Date(today.setDate(today.getDate() + 30));
     this.createdAt = props.createdAt || new Date();
     this.updatedAt = props.updatedAt || new Date();
   }
@@ -59,6 +72,13 @@ export class User {
 
   public updatePassword(password: string): void {
     this.password = password;
+  }
+
+  public updatePlan(planName: string): void {
+    this.planName = planName;
+    const today = new Date();
+    this.planCreatedAt = new Date();
+    this.planExpirationDate = new Date(today.setDate(today.getDate() + 30));
   }
 
   public validateEmail(): void {
@@ -86,6 +106,9 @@ export class User {
       email: this.email,
       password: this.password,
       phone: this.phone,
+      planName: this.planName,
+      planCreatedAt: this.planCreatedAt,
+      planExpirationDate: this.planExpirationDate,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };

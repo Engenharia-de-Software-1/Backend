@@ -8,17 +8,16 @@ export class UpdatePlanUseCase{
         private plansRepository: IPlansRepository
     ){}
 
-    async execute(userId: string, planId: string, data: IPlansUpdate): Promise<IPlansOutput>{
-        const plan = await this.plansRepository.findByUserId(userId);
-        if(!plan) throw new Error("Client don't have plan!");
-        if(plan.id !== planId) throw new Error('Client isnt the owner of the plan!');
+    async execute(planId: string, data: IPlansUpdate): Promise<IPlansOutput>{
+        const plan = await this.plansRepository.findById(planId);
+        if(!plan) throw new Error("Plan not found");
 
         const forUpdatePlan = Plans.create(plan);
 
         if(data.plan) forUpdatePlan.updatePlan(data.plan);
-        if(data.expirationDate) forUpdatePlan.updateExpirationDate(data.expirationDate);
+        if(data.permissions) forUpdatePlan.updatePermissions(data.permissions);
         
         await this.plansRepository.update(planId, forUpdatePlan.toJson());
-        return await this.plansRepository.findByUserId(userId);
+        return await this.plansRepository.findById(planId);
     }
 }
