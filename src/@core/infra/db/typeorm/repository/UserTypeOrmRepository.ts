@@ -37,7 +37,7 @@ export class UserTypeOrmRepository implements IUserRepository {
     const startup = await this.startupOrmRepo.findOne({
       where: { userId: id },
     });
-    const output = { ...user, client, address, investor, startup };
+    const output = { ...user, client, address, investor, startup};
     return output;
   }
 

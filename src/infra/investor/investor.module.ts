@@ -1,3 +1,5 @@
+import { PlansTypeOrmRepository } from 'src/@core/infra/db/typeorm/repository/PlansTypeOrmRepository';
+import { IPlansRepository } from 'src/@core/domain/repositories/IPlansRepository';
 import { Module } from '@nestjs/common';
 import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
@@ -25,6 +27,7 @@ import { HashRepository } from '../../@core/infra/HashRepository';
 import { InvestorController } from './Investor.controller';
 import { Client } from '../../@core/domain/entities/client.entity';
 import { Startup } from '../../@core/domain/entities/startup.entity';
+import { Plans } from 'src/@core/domain/entities/plans.entity';
 
 @Module({
   imports: [
@@ -95,6 +98,13 @@ import { Startup } from '../../@core/domain/entities/startup.entity';
       useClass: HashRepository,
     },
     {
+      provide: PlansTypeOrmRepository,
+      useFactory: (dataSource: DataSource) => {
+        return new PlansTypeOrmRepository(dataSource.getRepository(Plans));
+      },
+      inject: [getDataSourceToken()],
+    },
+    {
       provide: CreateInvestorUseCase,
       useFactory: (
         investorRepo: IInvestorRepository,
@@ -102,6 +112,7 @@ import { Startup } from '../../@core/domain/entities/startup.entity';
         addressRepo: IAddressRepository,
         hashRepo: IHashRepository,
         admRepo: IAdminRepository,
+        plansRepo: IPlansRepository
       ) => {
         return new CreateInvestorUseCase(
           investorRepo,
@@ -109,6 +120,7 @@ import { Startup } from '../../@core/domain/entities/startup.entity';
           addressRepo,
           hashRepo,
           admRepo,
+          plansRepo
         );
       },
       inject: [
@@ -133,12 +145,16 @@ import { Startup } from '../../@core/domain/entities/startup.entity';
         investorRepo: IInvestorRepository,
         addressRepo: IAddressRepository,
         hashRepo: IHashRepository,
+        planRepo: IPlansRepository,
+        adminRepo: IAdminRepository,
       ) => {
         return new UpdateInvestorUseCase(
           userRepo,
           investorRepo,
           addressRepo,
           hashRepo,
+          planRepo,
+          adminRepo,
         );
       },
       inject: [
@@ -146,6 +162,8 @@ import { Startup } from '../../@core/domain/entities/startup.entity';
         InvestorTypeOrmRepository,
         AddressTypeOrmRepository,
         HashRepository,
+        PlansTypeOrmRepository,
+        AdminTypeOrmRepository,
       ],
     },
     {
