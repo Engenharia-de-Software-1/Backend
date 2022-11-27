@@ -65,6 +65,11 @@ export class FakeUserRepository implements IUserRepository {
     return user;
   }
 
+  //TODO fix this
+  async findAll(): Promise<IUserOutputRelations[] | null> {
+    return null
+  }
+
   public async update(userId: string, input: IUserOutput): Promise<void> {
     const user = await this.findById(userId);
     user.name = input.name || user.name;
