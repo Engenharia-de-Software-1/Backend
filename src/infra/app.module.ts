@@ -1,3 +1,5 @@
+import { UserModule } from './user/user.module';
+import { UserController } from './user/user.controller';
 import { Administrator } from './../@core/domain/entities/administrator.entity';
 import { AdminTypeOrmRepository } from './../@core/infra/db/typeorm/repository/AdminTypeOrmRepository';
 import { PlansModule } from './plans/plans.module';
@@ -73,6 +75,7 @@ require('dotenv').config({ path: '.env.local' });
       ],
       autoLoadEntities: true,
     }),
+    UserModule,
     AdminModule,
     ClientModule,
     InvestorModule,
@@ -130,6 +133,7 @@ export class AppModule implements NestModule {
         { path: 'startup', method: RequestMethod.POST },
       )
       .forRoutes(
+        UserController,
         AdminController,
         InvestorController,
         ClientController,

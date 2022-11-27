@@ -1,18 +1,20 @@
+
+export interface Permisisons{
+    [key: string]: boolean;
+}
 export interface IPlansInput {
     id: string;
-    userId: string;
     plan: string;
+    permissions: Permisisons;
 }
 
 export interface IPlansOutput {
     id: string;
-    userId: string;
     plan: string;
-    expirationDate: Date;
-    createdAt: Date;
+    permissions: Permisisons;
 }
 
 export interface IPlansUpdate{
     plan?: string;
-    expirationDate?: Date;
+    permissions?: Permisisons;
 }

@@ -9,21 +9,13 @@ export const PlansSchema = new EntitySchema({
             type: 'uuid',
             primary: true,
         },
-        userId: {
-            type: String,
-            nullable: false,
-        },
         plan: {
             type: String,
             nullable: false,
         },
-        expirationDate: {
-            type: String,
+        permissions: {
+            type: 'json',
             nullable: false,
         },
-        createdAt: {
-            type: String,
-            nullable: false,
-        }
     }
 });

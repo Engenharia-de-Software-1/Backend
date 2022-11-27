@@ -47,6 +47,7 @@ export class ClientController {
   @Delete()
   async delete(@User() user: IUserOutputRelations) {
     if (!user.client) return;
+    console.log("foi")
     return await this.deleteClientUseCase.execute(user.id);
   }
 }

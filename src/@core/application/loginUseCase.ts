@@ -3,7 +3,7 @@ import { IHashRepository } from './../domain/repositories/IHashRepository';
 import { IUserRepository } from './../domain/repositories/IUserRepository';
 import { IJwtRepository } from '../domain/repositories/Auth/IJwtRepository';
 import { IAdminRepository } from '../domain/repositories/IAdminRepository';
-
+import { BadRequestException } from "@nestjs/common";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: '.env.local' });
 
@@ -21,7 +21,7 @@ export class LoginUseCase {
     const user = await this.userRepository.findByEmail(email, true);
     const admin = await this.adminRepository.findByEmail(email, true);
     if (!user && !admin) {
-      throw new Error('Cant find user or password is wrong');
+      throw new BadRequestException('Cant find user or password is wrong');
     }
 
     const userFinded = user ? user : admin;
@@ -32,7 +32,7 @@ export class LoginUseCase {
       userFinded.password,
     );
     if (!match) {
-      throw new Error('Cant find user or password is wrong');
+      throw new BadRequestException('Cant find user or password is wrong');
     }
 
     const payload = { userId: userFinded.id, userType: '' };

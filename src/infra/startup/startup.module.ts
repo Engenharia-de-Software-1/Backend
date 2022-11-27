@@ -1,3 +1,5 @@
+import { PlansTypeOrmRepository } from 'src/@core/infra/db/typeorm/repository/PlansTypeOrmRepository';
+import { IPlansRepository } from 'src/@core/domain/repositories/IPlansRepository';
 import { Module } from '@nestjs/common';
 import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
 import { CreateStartupUseCase } from 'src/@core/application/StartupUseCases/createStartupUseCase';
@@ -27,6 +29,7 @@ import { HashRepository } from '../../@core/infra/HashRepository';
 import { StartupController } from './startup.controller';
 import { UpdateStartupUseCase } from 'src/@core/application/StartupUseCases/updateStartupUseCase';
 import { DeleteStartupUseCase } from 'src/@core/application/StartupUseCases/deleteStartupUseCase';
+import { Plans } from 'src/@core/domain/entities/plans.entity';
 
 @Module({
   imports: [
@@ -81,6 +84,13 @@ import { DeleteStartupUseCase } from 'src/@core/application/StartupUseCases/dele
       useClass: HashRepository,
     },
     {
+      provide: PlansTypeOrmRepository,
+      useFactory: (dataSource: DataSource) => {
+        return new PlansTypeOrmRepository(dataSource.getRepository(Plans));
+      },
+      inject: [getDataSourceToken()],
+    },
+    {
       provide: CreateStartupUseCase,
       useFactory: (
         startupRepo: IStartupRepository,
@@ -88,6 +98,7 @@ import { DeleteStartupUseCase } from 'src/@core/application/StartupUseCases/dele
         addressRepo: IAddressRepository,
         hashRepo: IHashRepository,
         admRepo: IAdminRepository,
+        plansRepo: IPlansRepository
       ) => {
         return new CreateStartupUseCase(
           startupRepo,
@@ -95,6 +106,7 @@ import { DeleteStartupUseCase } from 'src/@core/application/StartupUseCases/dele
           addressRepo,
           hashRepo,
           admRepo,
+          plansRepo
         );
       },
       inject: [
@@ -103,6 +115,7 @@ import { DeleteStartupUseCase } from 'src/@core/application/StartupUseCases/dele
         AddressTypeOrmRepository,
         HashRepository,
         AdminTypeOrmRepository,
+        PlansTypeOrmRepository
       ],
     },
     {
@@ -119,12 +132,16 @@ import { DeleteStartupUseCase } from 'src/@core/application/StartupUseCases/dele
         startupRepo: IStartupRepository,
         addressRepo: IAddressRepository,
         hashRepo: IHashRepository,
+        planRepo: IPlansRepository,
+        adminRepo: IAdminRepository
       ) => {
         return new UpdateStartupUseCase(
           userRepo,
           startupRepo,
           addressRepo,
           hashRepo,
+          planRepo,
+          adminRepo
         );
       },
       inject: [
@@ -132,6 +149,8 @@ import { DeleteStartupUseCase } from 'src/@core/application/StartupUseCases/dele
         StartupTypeOrmRepository,
         AddressTypeOrmRepository,
         HashRepository,
+        PlansTypeOrmRepository,
+        AdminTypeOrmRepository
       ],
     },
     {
