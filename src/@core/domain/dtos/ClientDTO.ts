@@ -23,7 +23,6 @@ export interface ICreateClient {
   email: string;
   password: string;
   confirmPassword: string;
-  planName?: string;
   phone: string;
   city: string;
   state: string;
@@ -40,5 +39,4 @@ export interface IClientUpdate {
   profession?: string;
   city?: string;
   state?: string;
-  planName?: string;
 }

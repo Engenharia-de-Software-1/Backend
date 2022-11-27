@@ -1,5 +1,3 @@
-import { PlansTypeOrmRepository } from './../../@core/infra/db/typeorm/repository/PlansTypeOrmRepository';
-import { IPlansRepository } from './../../@core/domain/repositories/IPlansRepository';
 import { Module } from '@nestjs/common';
 import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
@@ -13,7 +11,6 @@ import { Client } from '../../@core/domain/entities/client.entity';
 import { Investor } from '../../@core/domain/entities/investor.entity';
 import { Startup } from '../../@core/domain/entities/startup.entity';
 import { User } from '../../@core/domain/entities/user.entity';
-import { Plans } from 'src/@core/domain/entities/plans.entity';
 import { IAddressRepository } from '../../@core/domain/repositories/IAddressRepository';
 import { IAdminRepository } from '../../@core/domain/repositories/IAdminRepository';
 import { IClientRepository } from '../../@core/domain/repositories/IClientRepository';
@@ -98,13 +95,6 @@ import { ClientController } from './client.controller';
       useClass: HashRepository,
     },
     {
-      provide: PlansTypeOrmRepository,
-      useFactory: (dataSource: DataSource) => {
-        return new PlansTypeOrmRepository(dataSource.getRepository(Plans));
-      },
-      inject: [getDataSourceToken()],
-    },
-    {
       provide: CreateClientUseCase,
       useFactory: (
         clientRepo: IClientRepository,
@@ -112,7 +102,6 @@ import { ClientController } from './client.controller';
         addressRepo: IAddressRepository,
         hashRepo: IHashRepository,
         admRepo: IAdminRepository,
-        planRepo: IPlansRepository
       ) => {
         return new CreateClientUseCase(
           clientRepo,
@@ -120,7 +109,6 @@ import { ClientController } from './client.controller';
           addressRepo,
           hashRepo,
           admRepo,
-          planRepo
         );
       },
       inject: [
@@ -129,7 +117,6 @@ import { ClientController } from './client.controller';
         AddressTypeOrmRepository,
         HashRepository,
         AdminTypeOrmRepository,
-        PlansTypeOrmRepository
       ],
     },
     {
@@ -146,16 +133,12 @@ import { ClientController } from './client.controller';
         clientRepo: IClientRepository,
         addressRepo: IAddressRepository,
         hashRepo: IHashRepository,
-        planRepo: IPlansRepository,
-        adminRepo: IAdminRepository,
       ) => {
         return new UpdateClientUseCase(
           userRepo,
           clientRepo,
           addressRepo,
           hashRepo,
-          planRepo,
-          adminRepo,
         );
       },
       inject: [
@@ -163,8 +146,6 @@ import { ClientController } from './client.controller';
         ClientTypeOrmRepository,
         AddressTypeOrmRepository,
         HashRepository,
-        PlansTypeOrmRepository,
-        AdminTypeOrmRepository,
       ],
     },
     {

@@ -1,9 +1,9 @@
 import { EntitySchema } from "typeorm/entity-schema/EntitySchema";
-import { Plans } from "../../../../domain/entities/plans.entity";
+import { Quota } from "../../../../domain/entities/quota.entity";
 
-export const PlansSchema = new EntitySchema({
-    name: 'Plans',
-    target: Plans,
+export const QuotaSchema = new EntitySchema({
+    name: 'Quota',
+    target: Quota,
     columns: {
         id: {
             type: 'uuid',
@@ -17,11 +17,7 @@ export const PlansSchema = new EntitySchema({
             type: String,
             nullable: false,
         },
-        expirationDate: {
-            type: String,
-            nullable: false,
-        },
-        createdAt: {
+        expiratonDate: {
             type: String,
             nullable: false,
         }

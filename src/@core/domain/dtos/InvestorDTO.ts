@@ -26,7 +26,6 @@ export interface ICreateInvestor {
   email: string;
   password: string;
   confirmPassword: string;
-  planName?: string;
   phone: string;
   city: string;
   state: string;
@@ -44,5 +43,4 @@ export interface IInvestorUpdate {
   profession?: string;
   city?: string;
   state?: string;
-  planName?: string;
 }

@@ -25,18 +25,6 @@ export const UserSchema = new EntitySchema({
       type: String,
       nullable: false,
     },
-    planId: {
-      type: String,
-      nullable: false,
-    },
-    planCreatedAt: {
-      type: Date,
-      nullable: false,
-    },
-    planExpirationDate: {
-      type: Date,
-      nullable: false,
-    },
     createdAt: {
       type: String,
       nullable: false,

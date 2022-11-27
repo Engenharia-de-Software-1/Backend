@@ -7,9 +7,6 @@ import { IAddressRepository } from '../../domain/repositories/IAddressRepository
 import { IStartupRepository } from '../../domain/repositories/IstartupRepository';
 import { IHashRepository } from '../../domain/repositories/IHashRepository';
 import { IUserRepository } from '../../domain/repositories/IUserRepository';
-import { HttpException } from '@nestjs/common';
-import { IPlansRepository } from 'src/@core/domain/repositories/IPlansRepository';
-import { IAdminRepository } from 'src/@core/domain/repositories/IAdminRepository';
 
 export class UpdateStartupUseCase {
   constructor(
@@ -17,8 +14,6 @@ export class UpdateStartupUseCase {
     private startupRepository: IStartupRepository,
     private addressRepository: IAddressRepository,
     private hashRepository: IHashRepository,
-    private plansRepository: IPlansRepository,
-    private adminRepository: IAdminRepository
   ) {}
 
   public async execute(
@@ -41,29 +36,9 @@ export class UpdateStartupUseCase {
 
     if (input.name) forUpdate.updateName(input.name);
     if (input.phone) forUpdate.updatePhone(input.phone);
-    
     if (input.email) {
-      const findEmail = await this.adminRepository.findByEmail(input.email, true);
-      if (findEmail) throw new HttpException('Email already exists', 400);
-      const findEmailII = await this.userRepository.findByEmail(
-        input.email,
-        true,
-      );
-      
-      if (findEmailII && findEmailII.email !== input.email) throw new HttpException('Email already exists', 400);
-
-
       forUpdate.updateEmail(input.email);
       forUpdate.validateEmail();
-    }
-
-    if (input.planName){
-      if (input.planName) {
-        const findPlan = await this.plansRepository.findByName(input.planName, true);
-        if (!findPlan) throw new HttpException('Plan not found', 400);
-      }
-
-      forUpdate.updatePlan(input.planName);
     }
 
     await this.userRepository.update(userId, forUpdate.toJson());

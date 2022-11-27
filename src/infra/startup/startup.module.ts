@@ -1,5 +1,3 @@
-import { PlansTypeOrmRepository } from 'src/@core/infra/db/typeorm/repository/PlansTypeOrmRepository';
-import { IPlansRepository } from 'src/@core/domain/repositories/IPlansRepository';
 import { Module } from '@nestjs/common';
 import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
 import { CreateStartupUseCase } from 'src/@core/application/StartupUseCases/createStartupUseCase';
@@ -29,7 +27,6 @@ import { HashRepository } from '../../@core/infra/HashRepository';
 import { StartupController } from './startup.controller';
 import { UpdateStartupUseCase } from 'src/@core/application/StartupUseCases/updateStartupUseCase';
 import { DeleteStartupUseCase } from 'src/@core/application/StartupUseCases/deleteStartupUseCase';
-import { Plans } from 'src/@core/domain/entities/plans.entity';
 
 @Module({
   imports: [
@@ -84,13 +81,6 @@ import { Plans } from 'src/@core/domain/entities/plans.entity';
       useClass: HashRepository,
     },
     {
-      provide: PlansTypeOrmRepository,
-      useFactory: (dataSource: DataSource) => {
-        return new PlansTypeOrmRepository(dataSource.getRepository(Plans));
-      },
-      inject: [getDataSourceToken()],
-    },
-    {
       provide: CreateStartupUseCase,
       useFactory: (
         startupRepo: IStartupRepository,
@@ -98,7 +88,6 @@ import { Plans } from 'src/@core/domain/entities/plans.entity';
         addressRepo: IAddressRepository,
         hashRepo: IHashRepository,
         admRepo: IAdminRepository,
-        plansRepo: IPlansRepository
       ) => {
         return new CreateStartupUseCase(
           startupRepo,
@@ -106,7 +95,6 @@ import { Plans } from 'src/@core/domain/entities/plans.entity';
           addressRepo,
           hashRepo,
           admRepo,
-          plansRepo
         );
       },
       inject: [
@@ -115,7 +103,6 @@ import { Plans } from 'src/@core/domain/entities/plans.entity';
         AddressTypeOrmRepository,
         HashRepository,
         AdminTypeOrmRepository,
-        PlansTypeOrmRepository
       ],
     },
     {
@@ -132,16 +119,12 @@ import { Plans } from 'src/@core/domain/entities/plans.entity';
         startupRepo: IStartupRepository,
         addressRepo: IAddressRepository,
         hashRepo: IHashRepository,
-        planRepo: IPlansRepository,
-        adminRepo: IAdminRepository
       ) => {
         return new UpdateStartupUseCase(
           userRepo,
           startupRepo,
           addressRepo,
           hashRepo,
-          planRepo,
-          adminRepo
         );
       },
       inject: [
@@ -149,8 +132,6 @@ import { Plans } from 'src/@core/domain/entities/plans.entity';
         StartupTypeOrmRepository,
         AddressTypeOrmRepository,
         HashRepository,
-        PlansTypeOrmRepository,
-        AdminTypeOrmRepository
       ],
     },
     {

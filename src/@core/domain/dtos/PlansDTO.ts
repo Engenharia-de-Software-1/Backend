@@ -1,16 +1,18 @@
 export interface IPlansInput {
     id: string;
+    userId: string;
     plan: string;
-    permissions: string;
 }
 
 export interface IPlansOutput {
     id: string;
+    userId: string;
     plan: string;
-    permissions: string;
+    expirationDate: Date;
+    createdAt: Date;
 }
 
 export interface IPlansUpdate{
     plan?: string;
-    permissions?: string;
+    expirationDate?: Date;
 }

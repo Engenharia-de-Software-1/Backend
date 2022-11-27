@@ -21,7 +21,6 @@ export interface ICreateStartup {
   employees?: number;
   name: string;
   email: string;
-  planName?: string;
   password: string;
   confirmPassword: string;
   phone: string;
@@ -40,5 +39,4 @@ export interface IStartupUpdate {
   employees?: number;
   city?: string;
   state?: string;
-  planName?: string;
 }

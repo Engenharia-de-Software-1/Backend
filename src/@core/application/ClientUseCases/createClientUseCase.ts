@@ -1,4 +1,3 @@
-import { IPlansRepository } from './../../domain/repositories/IPlansRepository';
 import { ICreateClient } from '../../domain/dtos/ClientDTO';
 import { IUserOutputRelations } from '../../domain/dtos/UserDTO';
 import { Address } from '../../domain/entities/address.entity';
@@ -9,7 +8,6 @@ import { IAdminRepository } from '../../domain/repositories/IAdminRepository';
 import { IClientRepository } from '../../domain/repositories/IClientRepository';
 import { IHashRepository } from '../../domain/repositories/IHashRepository';
 import { IUserRepository } from '../../domain/repositories/IUserRepository';
-import { HttpException  } from '@nestjs/common';
 
 export class CreateClientUseCase {
   constructor(
@@ -18,24 +16,18 @@ export class CreateClientUseCase {
     private addressRepository: IAddressRepository,
     private hashRepository: IHashRepository,
     private adminRepository: IAdminRepository,
-    private plansRepository: IPlansRepository,
   ) {}
 
   async execute(input: ICreateClient): Promise<IUserOutputRelations> {
     // ETAPA 0: VERIFICAR SE USUÁRIO JA EXISTE
     const findEmail = await this.adminRepository.findByEmail(input.email, true);
-    if (findEmail) throw new HttpException('Email already exists', 400);
+    if (findEmail) throw new Error('Email already exists');
     const findEmailII = await this.userRepository.findByEmail(
       input.email,
       true,
     );
-    if (findEmailII) throw new HttpException('Email already exists', 400);
-    // ETAPA 0.1: VERIFICAR SE PLANO EXISTE
-    if (input.planName) {
-      const findPlan = await this.plansRepository.findByName(input.planName, true);
-      if (!findPlan) throw new HttpException('Plan not found', 400);
-    }
-    
+    if (findEmailII) throw new Error('Email already exists');
+
     // ETAPA 1: CRIAR O USUÁRIO
     const user = User.create(input);
     user.validateEmail();
