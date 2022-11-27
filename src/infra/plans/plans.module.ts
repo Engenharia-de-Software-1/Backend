@@ -5,10 +5,10 @@ import { InvestorTypeOrmRepository } from './../../@core/infra/db/typeorm/reposi
 import { StartupTypeOrmRepository } from './../../@core/infra/db/typeorm/repository/StartupTypeOrmRepository';
 import { Administrator } from './../../@core/domain/entities/administrator.entity';
 import { UserTypeOrmRepository } from 'src/@core/infra/db/typeorm/repository/UserTypeOrmRepository';
-import { Module } from "@nestjs/common";
-import { getDataSourceToken, TypeOrmModule } from "@nestjs/typeorm";
-import { UserSchema } from "src/@core/infra/db/typeorm/schema/UserSchema";
-import { DataSource } from "typeorm";
+import { Module } from '@nestjs/common';
+import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
+import { UserSchema } from 'src/@core/infra/db/typeorm/schema/UserSchema';
+import { DataSource } from 'typeorm';
 import { PlansController } from './plans.controller';
 import { User } from 'src/@core/domain/entities/user.entity';
 import { Client } from 'src/@core/domain/entities/client.entity';
@@ -28,117 +28,114 @@ import { DeletePlanUseCase } from 'src/@core/application/PlansUseCases/deletePla
 import { GetPlanByIdUseCase } from 'src/@core/application/PlansUseCases/getPlanByIdUseCase';
 
 @Module({
-    imports: [
-        TypeOrmModule.forFeature([
-            PlansSchema,
-            AdministratorSchema,
-            UserSchema,
-            ClientSchema,
-            InvestorSchema,
-            StartupSchema,
-        ]),
-    ],
-    controllers: [PlansController],
-    providers: [
-        {
-            provide: PlansTypeOrmRepository,
-            useFactory: (dataSource: DataSource) => {
-                return new PlansTypeOrmRepository(
-                    dataSource.getRepository(Plans)
-                );
-            },
-            inject: [getDataSourceToken()], 
-        },
-        {
-            provide: AdminTypeOrmRepository,
-            useFactory: (dataSource: DataSource) => {
-                return new AdminTypeOrmRepository(
-                    dataSource.getRepository(Administrator)
-                );
-            },
-            inject: [getDataSourceToken()],
-        },
-        {
-            provide: UserTypeOrmRepository,
-            useFactory: (dataSource: DataSource) => {
-                return new UserTypeOrmRepository(
-                    dataSource.getRepository(User),
-                    dataSource.getRepository(Client),
-                    dataSource.getRepository(Address),
-                    dataSource.getRepository(Investor),
-                    dataSource.getRepository(Startup)
-                );
-            },
-            inject: [
-                getDataSourceToken(),
-                getDataSourceToken(),
-                getDataSourceToken(),
-                getDataSourceToken(),
-                getDataSourceToken(),
-            ],
-        },
-        {
-            provide: ClientTypeOrmRepository,
-            useFactory: (dataSource: DataSource) => {
-                return new ClientTypeOrmRepository(
-                    dataSource.getRepository(Client)
-                );
-            },
-            inject: [getDataSourceToken()],
-        },
-        {
-            provide: StartupTypeOrmRepository,
-            useFactory: (dataSource: DataSource) => {
-                return new StartupTypeOrmRepository(
-                    dataSource.getRepository(Startup)
-                );
-            },
-            inject: [getDataSourceToken()],
-        },
-        {
-            provide: InvestorTypeOrmRepository,
-            useFactory: (dataSource: DataSource) => {
-                return new InvestorTypeOrmRepository(
-                    dataSource.getRepository(Investor)
-                );
-            },
-            inject: [getDataSourceToken()],
-        },
-        {
-            provide: CreatePlanUseCase,
-            useFactory: (repository: PlansTypeOrmRepository, update: UpdatePlanUseCase) => {
-                return new CreatePlanUseCase(repository, update);
-            },
-            inject: [PlansTypeOrmRepository, UpdatePlanUseCase],
-        },
-        {
-            provide: UpdatePlanUseCase,
-            useFactory: (repository: PlansTypeOrmRepository) => {
-                return new UpdatePlanUseCase(repository);
-            },
-            inject: [PlansTypeOrmRepository],
-        },
-        {
-            provide: DeletePlanUseCase,
-            useFactory: (repository: PlansTypeOrmRepository) => {
-                return new DeletePlanUseCase(repository);
-            },
-            inject: [PlansTypeOrmRepository],
-        },
-        {
-            provide: GetPlanByIdUseCase,
-            useFactory: (repository: PlansTypeOrmRepository) => {
-                return new GetPlanByIdUseCase(repository);
-            },
-            inject: [PlansTypeOrmRepository],
-        },
-        {
-            provide: GetAllPlansUseCase,
-            useFactory: (repository: PlansTypeOrmRepository) => {
-                return new GetAllPlansUseCase(repository);
-            },
-            inject: [PlansTypeOrmRepository],
-        },
-    ],
+  imports: [
+    TypeOrmModule.forFeature([
+      PlansSchema,
+      AdministratorSchema,
+      UserSchema,
+      ClientSchema,
+      InvestorSchema,
+      StartupSchema,
+    ]),
+  ],
+  controllers: [PlansController],
+  providers: [
+    {
+      provide: PlansTypeOrmRepository,
+      useFactory: (dataSource: DataSource) => {
+        return new PlansTypeOrmRepository(dataSource.getRepository(Plans));
+      },
+      inject: [getDataSourceToken()],
+    },
+    {
+      provide: AdminTypeOrmRepository,
+      useFactory: (dataSource: DataSource) => {
+        return new AdminTypeOrmRepository(
+          dataSource.getRepository(Administrator),
+        );
+      },
+      inject: [getDataSourceToken()],
+    },
+    {
+      provide: UserTypeOrmRepository,
+      useFactory: (dataSource: DataSource) => {
+        return new UserTypeOrmRepository(
+          dataSource.getRepository(User),
+          dataSource.getRepository(Client),
+          dataSource.getRepository(Address),
+          dataSource.getRepository(Investor),
+          dataSource.getRepository(Startup),
+        );
+      },
+      inject: [
+        getDataSourceToken(),
+        getDataSourceToken(),
+        getDataSourceToken(),
+        getDataSourceToken(),
+        getDataSourceToken(),
+      ],
+    },
+    {
+      provide: ClientTypeOrmRepository,
+      useFactory: (dataSource: DataSource) => {
+        return new ClientTypeOrmRepository(dataSource.getRepository(Client));
+      },
+      inject: [getDataSourceToken()],
+    },
+    {
+      provide: StartupTypeOrmRepository,
+      useFactory: (dataSource: DataSource) => {
+        return new StartupTypeOrmRepository(dataSource.getRepository(Startup));
+      },
+      inject: [getDataSourceToken()],
+    },
+    {
+      provide: InvestorTypeOrmRepository,
+      useFactory: (dataSource: DataSource) => {
+        return new InvestorTypeOrmRepository(
+          dataSource.getRepository(Investor),
+        );
+      },
+      inject: [getDataSourceToken()],
+    },
+    {
+      provide: CreatePlanUseCase,
+      useFactory: (
+        repository: PlansTypeOrmRepository,
+        update: UpdatePlanUseCase,
+      ) => {
+        return new CreatePlanUseCase(repository, update);
+      },
+      inject: [PlansTypeOrmRepository, UpdatePlanUseCase],
+    },
+    {
+      provide: UpdatePlanUseCase,
+      useFactory: (repository: PlansTypeOrmRepository) => {
+        return new UpdatePlanUseCase(repository);
+      },
+      inject: [PlansTypeOrmRepository],
+    },
+    {
+      provide: DeletePlanUseCase,
+      useFactory: (repository: PlansTypeOrmRepository) => {
+        return new DeletePlanUseCase(repository);
+      },
+      inject: [PlansTypeOrmRepository],
+    },
+    {
+      provide: GetPlanByIdUseCase,
+      useFactory: (repository: PlansTypeOrmRepository) => {
+        return new GetPlanByIdUseCase(repository);
+      },
+      inject: [PlansTypeOrmRepository],
+    },
+    {
+      provide: GetAllPlansUseCase,
+      useFactory: (repository: PlansTypeOrmRepository) => {
+        return new GetAllPlansUseCase(repository);
+      },
+      inject: [PlansTypeOrmRepository],
+    },
+  ],
 })
 export class PlansModule {}
