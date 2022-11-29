@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Put,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Delete } from '@nestjs/common';
 import { User } from 'src/@core/domain/decorators/user.decorator';
 import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
 import { CreateInvestorUseCase } from '../../@core/application/InvestorUseCases/createInvestorUseCase';

@@ -24,7 +24,7 @@ import { AdministratorSchema } from '../../@core/infra/db/typeorm/schema/Adminis
 import { InvestorSchema } from '../../@core/infra/db/typeorm/schema/InvestorSchema';
 import { UserSchema } from '../../@core/infra/db/typeorm/schema/UserSchema';
 import { HashRepository } from '../../@core/infra/HashRepository';
-import { InvestorController } from './Investor.controller';
+import { InvestorController } from './investor.controller';
 import { Client } from '../../@core/domain/entities/client.entity';
 import { Startup } from '../../@core/domain/entities/startup.entity';
 import { Plans } from 'src/@core/domain/entities/plans.entity';
@@ -112,7 +112,7 @@ import { Plans } from 'src/@core/domain/entities/plans.entity';
         addressRepo: IAddressRepository,
         hashRepo: IHashRepository,
         admRepo: IAdminRepository,
-        plansRepo: IPlansRepository
+        plansRepo: IPlansRepository,
       ) => {
         return new CreateInvestorUseCase(
           investorRepo,
@@ -120,7 +120,7 @@ import { Plans } from 'src/@core/domain/entities/plans.entity';
           addressRepo,
           hashRepo,
           admRepo,
-          plansRepo
+          plansRepo,
         );
       },
       inject: [
