@@ -4,7 +4,7 @@ import {
   IForgotPasswordInput,
   IChangePasswordInput,
 } from './../../@core/domain/dtos/ForgotPasswordDTO';
-import { Controller, Post, Body, Param } from '@nestjs/common';
+import { Controller, Post, Body, Param, Put } from '@nestjs/common';
 
 @Controller('forgot')
 export class ForgotPasswordController {
@@ -18,7 +18,7 @@ export class ForgotPasswordController {
     return await this.forgotPasswordUseCase.execute(forgotpasswordDto);
   }
 
-  @Post('/:token')
+  @Put('/:token')
   async update(
     @Param('token') token: string,
     @Body() changePassword: IChangePasswordInput,
