@@ -19,8 +19,6 @@ export class ChangeForgotPasswordUseCase {
   ) {}
 
   async execute(token: string, input: IChangePasswordInput): Promise<any> {
-    console.log(token, input);
-
     const forgotPassword =
       await this.forgotPasswordRepository.findByUnexpiredToken(token, true);
 
