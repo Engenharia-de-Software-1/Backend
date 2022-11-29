@@ -1,3 +1,5 @@
+import { ForgotPasswordModule } from './forgotpassword/forgotpassword.module';
+import { ForgotPasswordSchema } from './../@core/infra/db/typeorm/schema/ForgotPasswordSchema';
 import { UserModule } from './user/user.module';
 import { UserController } from './user/user.controller';
 import { Administrator } from './../@core/domain/entities/administrator.entity';
@@ -70,6 +72,7 @@ require('dotenv').config({ path: '.env.local' });
         IdeaFavoriteSchema,
         ProjectSchema,
         PlansSchema,
+        ForgotPasswordSchema,
       ],
       autoLoadEntities: true,
     }),
@@ -82,6 +85,7 @@ require('dotenv').config({ path: '.env.local' });
     IdeaModule,
     ProjectModule,
     PlansModule,
+    ForgotPasswordModule,
   ],
   providers: [
     {
