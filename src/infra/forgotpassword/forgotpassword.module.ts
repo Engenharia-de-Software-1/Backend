@@ -1,3 +1,4 @@
+import { HashRepository } from './../../@core/infra/HashRepository';
 import { ForgotPasswordUseCase } from './../../@core/application/forgotPasswordUseCase';
 import { ForgotPassword } from './../../@core/domain/entities/forgotpassword.entity';
 import { ForgotPasswordTypeOrmRepository } from './../../@core/infra/db/typeorm/repository/ForgotPasswordTypeOrmRepository';
@@ -17,7 +18,7 @@ import { AdminTypeOrmRepository } from '../../@core/infra/db/typeorm/repository/
 import { UserTypeOrmRepository } from '../../@core/infra/db/typeorm/repository/UserTypeOrmRepository';
 import { AdministratorSchema } from '../../@core/infra/db/typeorm/schema/AdministratorSchema';
 import { UserSchema } from '../../@core/infra/db/typeorm/schema/UserSchema';
-import { HashRepository } from '../../@core/infra/HashRepository';
+import { ChangeForgotPasswordUseCase } from 'src/@core/application/changeForgotPasswordUseCase';
 
 @Module({
   imports: [
@@ -96,6 +97,28 @@ import { HashRepository } from '../../@core/infra/HashRepository';
         AdminTypeOrmRepository,
         ForgotPasswordTypeOrmRepository,
         MailRepository,
+        HashRepository,
+      ],
+    },
+    {
+      provide: ChangeForgotPasswordUseCase,
+      useFactory: (
+        userTypeOrmRepository: UserTypeOrmRepository,
+        adminTypeOrmRepository: AdminTypeOrmRepository,
+        forgotPasswordTypeOrmRepository: ForgotPasswordTypeOrmRepository,
+        hashRepository: HashRepository,
+      ) => {
+        return new ChangeForgotPasswordUseCase(
+          userTypeOrmRepository,
+          adminTypeOrmRepository,
+          forgotPasswordTypeOrmRepository,
+          hashRepository,
+        );
+      },
+      inject: [
+        UserTypeOrmRepository,
+        AdminTypeOrmRepository,
+        ForgotPasswordTypeOrmRepository,
         HashRepository,
       ],
     },

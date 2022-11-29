@@ -11,3 +11,8 @@ export interface IForgotPasswordOutput {
   createdAt: Date;
   expiresAt: Date;
 }
+
+export interface IChangePasswordInput {
+  password: string;
+  confirmPassword: string;
+}

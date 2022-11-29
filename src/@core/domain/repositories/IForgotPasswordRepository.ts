@@ -6,4 +6,9 @@ export type IForgotPasswordRepository = {
     id: string,
     returnNull?: boolean,
   ): Promise<IForgotPasswordOutput | null>;
+  findByUnexpiredToken(
+    token: string,
+    returnNull?: boolean,
+  ): Promise<IForgotPasswordOutput | null>;
+  delete(id: string): Promise<void>;
 };
