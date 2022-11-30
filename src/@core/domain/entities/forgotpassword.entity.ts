@@ -39,7 +39,7 @@ export class ForgotPassword {
     this.token = props.token;
     this.createdAt = props.createdAt || new Date();
     this.expiresAt =
-      props.expiresAt || new Date(now.setDate(now.getDate() + 30));
+      props.expiresAt || new Date(now.setDate(now.getDate() + 1));
   }
 
   static create(props: IForgotPasswordProps, id?: string): ForgotPassword {
