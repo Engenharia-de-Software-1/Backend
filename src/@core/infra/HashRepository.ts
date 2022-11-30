@@ -12,4 +12,8 @@ export class HashRepository implements IHashRepository {
     const theHash = await this.generateHash(payload);
     return theHash === hashed;
   }
+  public async generateToken(length: number): Promise<string> {
+    const token = crypto.randomBytes(length).toString('hex');
+    return token;
+  }
 }
