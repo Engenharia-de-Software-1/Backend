@@ -10,7 +10,7 @@ export const ForgotPasswordSchema = new EntitySchema({
       primary: true,
     },
     token: {
-      type: 'uuid',
+      type: String,
       nullable: false,
     },
     userId: {
