@@ -14,6 +14,8 @@ import { DeleteClientUseCase } from '../../@core/application/ClientUseCases/dele
 import { GetUserUseCase } from '../../@core/application/getUserUseCase';
 import { UpdateClientUseCase } from '../../@core/application/ClientUseCases/updateClientUseCase';
 import { ICreateClient } from '../../@core/domain/dtos/ClientDTO';
+import { Admin } from 'src/@core/domain/decorators/admin.decorator';
+import { ClientSetViewsUseCase } from 'src/@core/application/ClientUseCases/clientViewsUseCase'; 
 
 @Controller('client')
 export class ClientController {
@@ -22,6 +24,7 @@ export class ClientController {
     private readonly getUserUseCase: GetUserUseCase,
     private readonly updateClientUseCase: UpdateClientUseCase,
     private readonly deleteClientUseCase: DeleteClientUseCase,
+    private readonly setViewsUseCase: ClientSetViewsUseCase,
   ) {}
 
   @Post()
@@ -47,7 +50,12 @@ export class ClientController {
   @Delete()
   async delete(@User() user: IUserOutputRelations) {
     if (!user.client) return;
-    console.log("foi")
     return await this.deleteClientUseCase.execute(user.id);
+  }
+
+  @Get(':id')
+  async getUser(@Param('id') id: string,) {
+    await this.setViewsUseCase.execute(id);
+    return await this.getUserUseCase.execute(id);
   }
 }

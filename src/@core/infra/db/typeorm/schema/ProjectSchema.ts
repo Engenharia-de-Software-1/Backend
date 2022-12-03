@@ -37,5 +37,9 @@ export const ProjectSchema = new EntitySchema({
       type: String,
       nullable: false,
     },
+    viewsOnProject: {
+      type: Number,
+      nullable: false,
+    },
   },
 });

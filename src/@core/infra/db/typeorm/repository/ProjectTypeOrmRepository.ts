@@ -48,6 +48,17 @@ export class ProjectTypeOrmRepository implements IProjectRepository {
     await this.ormRepo.save(project);
   }
 
+  public async view(id: string): Promise<void> {
+    const project = await this.ormRepo.findOne({ where: { id } });
+    project.viewsOnProject = project.viewsOnProject + 1;
+    await this.ormRepo.save(project);
+  }
+
+  public async getViews(id: string): Promise<number> {
+    const project = await this.ormRepo.findOne({ where: { id } });
+    return project.viewsOnProject;
+  }
+
   public async delete(id: string): Promise<void> {
     await this.ormRepo.delete({ id: id });
   }

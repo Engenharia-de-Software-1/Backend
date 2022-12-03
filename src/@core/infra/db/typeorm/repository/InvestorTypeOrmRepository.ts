@@ -35,6 +35,17 @@ export class InvestorTypeOrmRepository implements IInvestorRepository {
     await this.ormRepo.save(investor);
   }
 
+  public async view(userId: string): Promise<void> {
+    const investor = await this.ormRepo.findOne({ where: { userId } });
+    investor.viewsOnProfile += 1;
+    await this.ormRepo.save(investor);
+  }
+
+  public async getViews(userId: string): Promise<number> {
+    const investor = await this.ormRepo.findOne({ where: { userId } });
+    return investor.viewsOnProfile;
+  }
+
   public async delete(userId: string): Promise<void> {
     const output = await this.findByUserId(userId);
     await this.ormRepo.delete({ id: output.id });

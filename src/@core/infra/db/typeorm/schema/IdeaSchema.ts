@@ -33,6 +33,10 @@ export const IdeaSchema = new EntitySchema({
             type: String,
             nullable: false,
         },
+        viewsOnIdea: {
+            type: Number,
+            nullable: false,
+        },
     },
 });
 

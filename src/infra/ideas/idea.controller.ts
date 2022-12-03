@@ -19,6 +19,7 @@ import { DeleteIdeaUseCase } from 'src/@core/application/IdeaUseCases/deleteIdea
 import { UpdateIdeaUseCase } from 'src/@core/application/IdeaUseCases/updateIdeaUseCase';
 import { ICreateIdea, IIdeaFavoriteInput } from 'src/@core/domain/dtos/IdeaDTO';
 import { User } from 'src/@core/domain/decorators/user.decorator';
+import { IdeaSetViewsUseCase } from 'src/@core/application/IdeaUseCases/ideaViewsUseCase';
 
 @Controller('idea')
 export class IdeaController {
@@ -32,6 +33,7 @@ export class IdeaController {
     private readonly deleteIdeaUseCase: DeleteIdeaUseCase,
     private readonly getFavoriteIdeasUseCase: GetFavoriteIdeasUseCase,
     private readonly favoriteUnfavoriteIdeaUseCase: FavoriteUnfavoriteIdeaUseCase,
+    private readonly ideaSetViewsUseCase: IdeaSetViewsUseCase,
   ) {}
 
   @Post()
@@ -65,6 +67,7 @@ export class IdeaController {
     @User() user: IUserOutputRelations,
     @Param('id') ideaID: string,
   ) {
+    await this.ideaSetViewsUseCase.execute(ideaID);
     return await this.getIdeaUseCase.execute(ideaID);
   }
 

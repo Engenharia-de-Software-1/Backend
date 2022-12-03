@@ -7,5 +7,7 @@ export type IInvestorRepository = {
     returnNull?: boolean,
   ): Promise<IInvestorOutput | null>;
   update(id: string, data: IInvestorOutput): Promise<void>;
+  view(id: string): Promise<void>;
+  getViews(id: string): Promise<number>;
   delete(id: string): Promise<void>;
 };

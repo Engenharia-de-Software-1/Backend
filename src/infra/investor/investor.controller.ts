@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Put, Delete } from '@nestjs/common';
+import { InvestorSetViewsUseCase } from './../../@core/application/InvestorUseCases/investorViewsUseCase';
+import { Controller, Get, Post, Body, Put, Delete, Param } from '@nestjs/common';
 import { User } from 'src/@core/domain/decorators/user.decorator';
 import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
 import { CreateInvestorUseCase } from '../../@core/application/InvestorUseCases/createInvestorUseCase';
@@ -14,6 +15,7 @@ export class InvestorController {
     private readonly getUserUseCase: GetUserUseCase,
     private readonly updateInvestorUseCase: UpdateInvestorUseCase,
     private readonly deleteInvestorUseCase: DeleteInvestorUseCase,
+    private readonly InvestorSetViewsUseCase: InvestorSetViewsUseCase,
   ) {}
 
   @Post()
@@ -40,5 +42,11 @@ export class InvestorController {
   async delete(@User() user: IUserOutputRelations) {
     if (!user.investor) return;
     return await this.deleteInvestorUseCase.execute(user.id);
+  }
+
+  @Get(':id')
+  async getOneById(@Param('id') id: string) {
+    await this.InvestorSetViewsUseCase.execute(id);
+    return await this.getUserUseCase.execute(id);
   }
 }

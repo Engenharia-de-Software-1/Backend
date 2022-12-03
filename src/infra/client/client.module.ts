@@ -30,6 +30,7 @@ import { InvestorSchema } from '../../@core/infra/db/typeorm/schema/InvestorSche
 import { UserSchema } from '../../@core/infra/db/typeorm/schema/UserSchema';
 import { HashRepository } from '../../@core/infra/HashRepository';
 import { ClientController } from './client.controller';
+import { ClientSetViewsUseCase } from 'src/@core/application/ClientUseCases/clientViewsUseCase';
 
 @Module({
   imports: [
@@ -181,6 +182,13 @@ import { ClientController } from './client.controller';
         ClientTypeOrmRepository,
         AddressTypeOrmRepository,
       ],
+    },
+    {
+      provide: ClientSetViewsUseCase,
+      useFactory: (clientRepo: IClientRepository) => {
+        return new ClientSetViewsUseCase(clientRepo);
+      },
+      inject: [ClientTypeOrmRepository],
     },
   ],
 })

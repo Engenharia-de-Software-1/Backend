@@ -9,6 +9,7 @@ export type IIdeaProps = {
     situation?: string;
     createdAt?: Date;
     updatedAt?: Date;
+    viewsOnIdea?: number;
 };
 
 export type IIdeaFavoriteProps = {
@@ -27,6 +28,7 @@ export class Idea {
     public situation: Required<IIdeaProps['situation']>;
     public readonly createdAt: IIdeaProps['createdAt'];
     public updatedAt: IIdeaProps['updatedAt'];
+    public viewsOnIdea: IIdeaProps['viewsOnIdea'];
 
     private constructor(props: IIdeaProps, id?: string) {
         this.id = id || createUUID();
@@ -37,6 +39,7 @@ export class Idea {
             this.userId = null;
             this.createdAt = null;
             this.updatedAt = null;
+            this.viewsOnIdea = null;
             return;
         }
 
@@ -46,6 +49,7 @@ export class Idea {
         this.situation = props.situation || 'pending';
         this.createdAt = props.createdAt || new Date();
         this.updatedAt = props.updatedAt || new Date();
+        this.viewsOnIdea = props.viewsOnIdea || 0;
     }
 
     static create(props: IIdeaProps, id?: string): Idea {
@@ -60,6 +64,10 @@ export class Idea {
         this.description = description;
     }
 
+    public updateViewsOnIdea(): void {
+        this.viewsOnIdea = this.viewsOnIdea + 1;
+    }
+
     public toJson(): IIdeaOutput {
         return {
             id: this.id,
@@ -69,6 +77,7 @@ export class Idea {
             situation: this.situation,
             createdAt: this.createdAt,
             updatedAt: this.updatedAt,
+            viewsOnIdea: this.viewsOnIdea,
         };
     }
 }

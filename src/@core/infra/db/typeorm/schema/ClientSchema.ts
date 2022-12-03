@@ -33,5 +33,9 @@ export const ClientSchema = new EntitySchema({
       type: String,
       nullable: false,
     },
+    viewsOnProfile: {
+      type: Number,
+      nullable: false,
+    },
   },
 });

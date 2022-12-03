@@ -33,5 +33,9 @@ export const StartupSchema = new EntitySchema({
       type: String,
       nullable: false,
     },
+    viewsOnProfile: {
+      type: Number,
+      nullable: false,
+    },
   },
 });

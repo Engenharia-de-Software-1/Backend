@@ -18,6 +18,17 @@ export class FakeInvestorRepository implements IInvestorRepository {
     return;
   }
 
+  public async view(id: string): Promise<void> {
+    const investor = await this.findByUserId(id);
+    investor.viewsOnProfile += 1;
+    return;
+  }
+
+  public async getViews(id: string): Promise<number> {
+    const investor = await this.findByUserId(id);
+    return investor.viewsOnProfile;
+  }
+
   public async findByUserId(
     id: string,
     returnNull?: boolean,

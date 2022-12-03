@@ -26,6 +26,16 @@ export class FakeStartupRepository implements IStartupRepository {
     Object.assign(startup, input);
   }
 
+  public async view(id: string): Promise<void> {
+    const startup = this.startups.find((startup) => startup.id === id);
+    startup.viewsOnProfile = startup.viewsOnProfile + 1;
+  }
+
+  public async getViews(id: string): Promise<number> {
+    const startup = this.startups.find((startup) => startup.id === id);
+    return startup.viewsOnProfile;
+  }
+
   public async delete(id: string): Promise<void> {
     const startup = this.startups.find((startup) => startup.id === id);
     this.startups.splice(this.startups.indexOf(startup), 1);
