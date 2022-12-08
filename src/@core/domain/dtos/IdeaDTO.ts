@@ -12,7 +12,7 @@ export interface IIdeaOutput{
     situation: string;
     createdAt: Date;
     updatedAt: Date;
-    viewsOnIdea: number;
+    views: number;
 }
 
 export interface ICreateIdea{

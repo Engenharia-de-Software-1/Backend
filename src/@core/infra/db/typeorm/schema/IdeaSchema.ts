@@ -33,7 +33,7 @@ export const IdeaSchema = new EntitySchema({
             type: String,
             nullable: false,
         },
-        viewsOnIdea: {
+        views: {
             type: Number,
             nullable: false,
         },

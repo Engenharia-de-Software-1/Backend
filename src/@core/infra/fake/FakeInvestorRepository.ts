@@ -20,13 +20,13 @@ export class FakeInvestorRepository implements IInvestorRepository {
 
   public async view(id: string): Promise<void> {
     const investor = await this.findByUserId(id);
-    investor.viewsOnProfile += 1;
+    investor.views += 1;
     return;
   }
 
   public async getViews(id: string): Promise<number> {
     const investor = await this.findByUserId(id);
-    return investor.viewsOnProfile;
+    return investor.views;
   }
 
   public async findByUserId(

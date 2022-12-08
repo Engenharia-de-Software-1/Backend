@@ -13,7 +13,7 @@ export interface IClientOutput {
   userId: string;
   createdAt: Date;
   updatedAt: Date;
-  viewsOnProfile: number;
+  views: number;
 }
 
 export interface ICreateClient {

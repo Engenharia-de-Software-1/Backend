@@ -28,12 +28,12 @@ export class FakeStartupRepository implements IStartupRepository {
 
   public async view(id: string): Promise<void> {
     const startup = this.startups.find((startup) => startup.id === id);
-    startup.viewsOnProfile = startup.viewsOnProfile + 1;
+    startup.views = startup.views + 1;
   }
 
   public async getViews(id: string): Promise<number> {
     const startup = this.startups.find((startup) => startup.id === id);
-    return startup.viewsOnProfile;
+    return startup.views;
   }
 
   public async delete(id: string): Promise<void> {

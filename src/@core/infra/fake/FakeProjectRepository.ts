@@ -40,12 +40,12 @@ export class FakeProjectRepository implements IProjectRepository {
 
   public async view(id: string): Promise<void> {
     const project = this.projects.find((project) => project.id === id);
-    project.viewsOnProject = project.viewsOnProject + 1;
+    project.views = project.views + 1;
   }
 
   public async getViews(id: string): Promise<number> {
     const project = this.projects.find((project) => project.id === id);
-    return project.viewsOnProject;
+    return project.views;
   }
 
   public async delete(userId: string): Promise<void> {

@@ -37,7 +37,7 @@ export const ProjectSchema = new EntitySchema({
       type: String,
       nullable: false,
     },
-    viewsOnProject: {
+    views: {
       type: Number,
       nullable: false,
     },

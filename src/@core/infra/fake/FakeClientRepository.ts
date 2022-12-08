@@ -20,13 +20,13 @@ export class FakeClientRepository implements IClientRepository {
 
   public async view(id: string): Promise<void> {
     const client = await this.findByUserId(id);
-    client.viewsOnProfile += 1;
+    client.views += 1;
     return;
   }
 
   public async getViews(id: string): Promise<number> {
     const client = await this.findByUserId(id);
-    return client.viewsOnProfile;
+    return client.views;
   }
 
   public async findByUserId(

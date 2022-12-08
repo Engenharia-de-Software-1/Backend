@@ -33,7 +33,7 @@ export const StartupSchema = new EntitySchema({
       type: String,
       nullable: false,
     },
-    viewsOnProfile: {
+    views: {
       type: Number,
       nullable: false,
     },

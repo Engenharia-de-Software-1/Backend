@@ -15,7 +15,7 @@ export interface IInvestorOutput {
   userId: string;
   createdAt?: Date;
   updatedAt?: Date;
-  viewsOnProfile: number;
+  views: number;
 }
 
 export interface ICreateInvestor {

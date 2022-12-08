@@ -14,7 +14,7 @@ export interface IProjectOutputDTO {
   situation?: 'approved' | 'pending' | 'rejected';
   createdAt?: Date;
   updatedAt?: Date;
-  viewsOnProject?: number;
+  views?: number;
 }
 
 export interface IProjectInputDTO {

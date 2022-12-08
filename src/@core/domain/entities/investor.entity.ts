@@ -10,7 +10,7 @@ export type IInvestorProps = {
   userId: string;
   createdAt?: Date;
   updatedAt?: Date;
-  viewsOnProfile?: number;
+  views?: number;
 };
 
 export class Investor {
@@ -22,7 +22,7 @@ export class Investor {
   public profession: Required<IInvestorProps['profession']>;
   public readonly createdAt: IInvestorProps['createdAt'];
   public updatedAt: IInvestorProps['updatedAt'];
-  public viewsOnProfile: IInvestorProps['viewsOnProfile'];
+  public views: IInvestorProps['views'];
 
   private constructor(props: IInvestorProps, id?: string) {
     this.id = id || createUUID();
@@ -35,7 +35,7 @@ export class Investor {
       this.qtdMembers = null;
       this.createdAt = null;
       this.updatedAt = null;
-      this.viewsOnProfile = null;
+      this.views = null;
       return;
     }
 
@@ -46,7 +46,7 @@ export class Investor {
     this.qtdMembers = props.qtdMembers || 0;
     this.createdAt = props.createdAt || new Date();
     this.updatedAt = props.updatedAt || new Date();
-    this.viewsOnProfile = props.viewsOnProfile || 0;
+    this.views = props.views || 0;
   }
 
   static create(props: IInvestorProps, id?: string): Investor {
@@ -69,8 +69,8 @@ export class Investor {
     this.qtdMembers = qtdMembers;
   }
 
-  public updateViewsOnProfile(): void {
-    this.viewsOnProfile += 1;
+  public updateViews(): void {
+    this.views += 1;
   }
 
   public toJson(): IInvestorOutput {
@@ -83,7 +83,7 @@ export class Investor {
       userId: this.userId,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
-      viewsOnProfile: this.viewsOnProfile,
+      views: this.views,
     };
   }
 }

@@ -35,13 +35,13 @@ export class StartupTypeOrmRepository implements IStartupRepository {
 
   public async view(userId: string): Promise<void> {
     const startup = await this.ormRepo.findOne({ where: { userId } });
-    startup.viewsOnProfile += 1;
+    startup.views += 1;
     await this.ormRepo.save(startup);
   }
 
   public async getViews(userId: string): Promise<number> {
     const startup = await this.ormRepo.findOne({ where: { userId } });
-    return startup.viewsOnProfile;
+    return startup.views;
   }
 
   public async delete(userId: string): Promise<void> {
