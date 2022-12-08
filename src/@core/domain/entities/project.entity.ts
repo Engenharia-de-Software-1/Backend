@@ -10,6 +10,7 @@ type IProjectProps = {
   situation?: 'approved' | 'pending' | 'rejected';
   createdAt?: Date;
   updatedAt?: Date;
+  views?: number;
 };
 
 class Project {
@@ -21,6 +22,7 @@ class Project {
   public situation: IProjectProps['situation'];
   public readonly createdAt: IProjectProps['createdAt'];
   public updatedAt: IProjectProps['updatedAt'];
+  public views: IProjectProps['views'];
 
   private constructor(props: IProjectProps, id?: string) {
     this.id = id || createUUID();
@@ -33,6 +35,7 @@ class Project {
       this.situation = null;
       this.createdAt = null;
       this.updatedAt = null;
+      this.views = null;
       return;
     }
 
@@ -43,6 +46,7 @@ class Project {
     this.situation = props.situation || 'pending';
     this.createdAt = props.createdAt || new Date();
     this.updatedAt = props.updatedAt || new Date();
+    this.views = props.views || 0;
   }
 
   static create(props: IProjectProps, id?: string): Project {
@@ -79,6 +83,10 @@ class Project {
     }
   }
 
+  public updateViews(): void {
+    this.views += 1;
+  }
+
   public toJson(): IProjectProps {
     return {
       id: this.id,
@@ -89,6 +97,7 @@ class Project {
       situation: this.situation,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
+      views: this.views,
     };
   }
 }

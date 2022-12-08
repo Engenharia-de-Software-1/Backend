@@ -37,5 +37,9 @@ export const InvestorSchema = new EntitySchema({
       type: String,
       nullable: false,
     },
+    views: {
+      type: Number,
+      nullable: false,
+    },
   },
 });

@@ -38,6 +38,16 @@ export class FakeProjectRepository implements IProjectRepository {
     Object.assign(project, { ...input, id });
   }
 
+  public async view(id: string): Promise<void> {
+    const project = this.projects.find((project) => project.id === id);
+    project.views = project.views + 1;
+  }
+
+  public async getViews(id: string): Promise<number> {
+    const project = this.projects.find((project) => project.id === id);
+    return project.views;
+  }
+
   public async delete(userId: string): Promise<void> {
     const project = await this.findById(userId);
     this.projects.splice(this.projects.indexOf(project), 1);

@@ -1,3 +1,4 @@
+import { IdeaSetViewsUseCase } from './../../@core/application/IdeaUseCases/ideaViewsUseCase';
 import { IIdeaFavoriteRepository } from 'src/@core/domain/repositories/IIdeaRepository';
 import { FavoriteUnfavoriteIdeaUseCase } from './../../@core/application/favoriteUnfavoriteIdeaUseCase';
 import { IIdeaRepository } from 'src/@core/domain/repositories/IIdeaRepository';
@@ -157,6 +158,13 @@ import { UpdateSituationIdeaUseCase } from 'src/@core/application/updateSituatio
       },
       inject: [IdeaTypeOrmRepository],
     },
+    {
+      provide: IdeaSetViewsUseCase,
+      useFactory: (ideaRepository: IIdeaRepository) => {
+        return new IdeaSetViewsUseCase(ideaRepository);
+      },
+      inject: [IdeaTypeOrmRepository],
+    }
   ],
 })
 export class IdeaModule {}

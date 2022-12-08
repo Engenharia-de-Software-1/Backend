@@ -34,6 +34,17 @@ export class ClientTypeOrmRepository implements IClientRepository {
     await this.ormRepo.save(client);
   }
 
+  async view(userId: string): Promise<void> {
+    const client = await this.ormRepo.findOne({ where: { userId } });
+    client.views += 1;
+    await this.ormRepo.save(client);
+  }
+
+  public async getViews(userId: string): Promise<number> {
+    const client = await this.ormRepo.findOne({ where: { userId } });
+    return client.views;
+  }
+
   public async delete(userId: string): Promise<void> {
     const output = await this.findByUserId(userId);
     await this.ormRepo.delete({ id: output.id });

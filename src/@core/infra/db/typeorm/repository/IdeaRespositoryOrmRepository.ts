@@ -60,6 +60,17 @@ export class IdeaTypeOrmRepository implements IIdeaRepository {
     await this.ormRepo.save(idea);
   }
 
+  public async view(id: string): Promise<void> {
+    const idea = await this.ormRepo.findOne({ where: { id } });
+    idea.views += 1;
+    await this.ormRepo.save(idea);
+  }
+
+  public async getViews(id: string): Promise<number> {
+    const idea = await this.ormRepo.findOne({ where: { id } });
+    return idea.views;
+  }
+
   public async updateSituation(id: string, situation: string): Promise<IIdeaOutput | null> {
     const idea = await this.ormRepo.findOne({ where: { id } });
     idea.situation = situation;
