@@ -54,6 +54,7 @@ export class Idea {
     this.favorites = props.favorites || 0;
     this.createdAt = props.createdAt || new Date();
     this.updatedAt = props.updatedAt || new Date();
+    this.views = props.views || 0;
   }
 
   static create(props: IIdeaProps, id?: string): Idea {

@@ -25,20 +25,18 @@ export class FavoriteUnfavoriteIdeaUseCase {
     const isFavorite = await this.ideaFavoriteRepository.isIdeaFavoritedByUser(
       userId,
       idea.id,
-      );
+    );
 
-    const ideaForUpdate = Idea.create(idea)
+    const ideaForUpdate = Idea.create(idea);
 
     if (!isFavorite) {
       const ideaFavorite = IdeaFavorite.create({ userId, ideaId: data.ideaId });
       ideaForUpdate.updateFavorites(+1);
-      await this.ideaRepository.update(idea.id, ideaForUpdate)
-      console.log(ideaForUpdate)
+      await this.ideaRepository.update(idea.id, ideaForUpdate);
       return await this.ideaFavoriteRepository.insert(ideaFavorite);
     }
     ideaForUpdate.updateFavorites(-1);
-    await this.ideaRepository.update(idea.id, ideaForUpdate)
-    console.log(ideaForUpdate)
+    await this.ideaRepository.update(idea.id, ideaForUpdate);
     return await this.ideaFavoriteRepository.delete(idea.id, userId);
   }
 }
