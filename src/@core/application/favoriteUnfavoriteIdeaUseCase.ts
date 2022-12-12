@@ -1,4 +1,4 @@
-import { IdeaFavorite } from 'src/@core/domain/entities/idea.entity';
+import { IdeaFavorite, Idea } from 'src/@core/domain/entities/idea.entity';
 import { IIdeaFavoriteInput } from '../domain/dtos/IdeaDTO';
 import {
   IIdeaRepository,
@@ -21,14 +21,22 @@ export class FavoriteUnfavoriteIdeaUseCase {
     const idea = await this.ideaRepository.findById(data.ideaId);
     data.userId = userId;
     if (!idea) throw new Error('Idea not found');
+
     const isFavorite = await this.ideaFavoriteRepository.isIdeaFavoritedByUser(
       userId,
       idea.id,
     );
+
+    const ideaForUpdate = Idea.create(idea);
+
     if (!isFavorite) {
       const ideaFavorite = IdeaFavorite.create({ userId, ideaId: data.ideaId });
+      ideaForUpdate.updateFavorites(+1);
+      await this.ideaRepository.update(idea.id, ideaForUpdate);
       return await this.ideaFavoriteRepository.insert(ideaFavorite);
     }
+    ideaForUpdate.updateFavorites(-1);
+    await this.ideaRepository.update(idea.id, ideaForUpdate);
     return await this.ideaFavoriteRepository.delete(idea.id, userId);
   }
 }

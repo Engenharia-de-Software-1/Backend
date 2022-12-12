@@ -7,6 +7,7 @@ export type IIdeaProps = {
   description: string;
   userId: string;
   situation?: string;
+  favorites?: number;
   createdAt?: Date;
   updatedAt?: Date;
   views?: number;
@@ -26,9 +27,10 @@ export class Idea {
   public description: Required<IIdeaProps['description']>;
   public userId: Required<IIdeaProps['userId']>;
   public situation: Required<IIdeaProps['situation']>;
+  public favorites: Required<IIdeaProps['favorites']>;
+  public views: IIdeaProps['views'];
   public readonly createdAt: IIdeaProps['createdAt'];
   public updatedAt: IIdeaProps['updatedAt'];
-  public views: IIdeaProps['views'];
 
   private constructor(props: IIdeaProps, id?: string) {
     this.id = id || createUUID();
@@ -37,9 +39,11 @@ export class Idea {
       this.title = null;
       this.description = null;
       this.userId = null;
+      this.situation = null;
+      this.favorites = null;
+      this.views = null;
       this.createdAt = null;
       this.updatedAt = null;
-      this.views = null;
       return;
     }
 
@@ -47,6 +51,7 @@ export class Idea {
     this.description = props.description;
     this.userId = props.userId;
     this.situation = props.situation || 'pending';
+    this.favorites = props.favorites || 0;
     this.createdAt = props.createdAt || new Date();
     this.updatedAt = props.updatedAt || new Date();
     this.views = props.views || 0;
@@ -64,6 +69,10 @@ export class Idea {
     this.description = description;
   }
 
+  public updateFavorites(favorites: number): void {
+    this.favorites += favorites;
+  }
+
   public updateViews(): void {
     this.views = this.views + 1;
   }
@@ -75,9 +84,10 @@ export class Idea {
       description: this.description,
       userId: this.userId,
       situation: this.situation,
+      favorites: this.favorites,
+      views: this.views,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
-      views: this.views,
     };
   }
 }
