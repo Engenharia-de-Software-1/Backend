@@ -51,6 +51,37 @@ A parte do e-mail não é obrigatória, mas sem ela os serviços que utilizam o 
 
 -----
 
+## Banco de Dados
+
+Você pode usar tanto o [MySQL do proprio site do MySQL](https://www.mysql.com/downloads/) ou o do docker. Caso escolhido o do docker os comandos para rodar são esses:
+1. Execute o docker e escreva esse comando no seu terminal
+    ```sh
+    docker run -p 3306:3306 -p 33060:33060 --name mysql -e MYSQL_ROOT_PASSWORD=password -d mysql --default-authentication-plugin=mysql_native_password
+    ```
+    Esse comando vai criar um container para seu banco de dados configurado de forma que a aplicação vá conseguir autenticar com ele.
+2. Execute o seguinte comando para abrir o console do MySQL
+    ```sh
+    docker exec -it mysql mysql -uroot -p
+    ```
+
+3. Ele vai pedir a senha, a senha é a que você escreveu no parametro `MYSQL_ROOT_PASSWORD=password` do passo 1, nesse exemplo a senha é `password`. Depois de escrever a sua senha, crie o banco de dados agroi9 com o seguinte comando:
+    ```sql
+    CREATE DATABASE agroi9;
+
+    exit;
+    ```
+    O comando acima vai criar o banco de dados e vai sair do console do mysql.
+
+Com esses comandos você já pode preencher o .env
+
+Caso o container do MySQL seja desligado você pode ligar ele com o comando:
+```sh
+docker start mysql
+```
+Ele já vai estar configurado sem a necessidade de repetir os comandos anteriores.
+
+-----
+
 ## Executando
 
 ### Requisitos
