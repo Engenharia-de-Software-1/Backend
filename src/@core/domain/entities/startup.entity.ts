@@ -1,5 +1,6 @@
 import { IStartupOutput } from '../dtos/StartupDTO';
 import { createUUID } from '../utils/createUUID';
+import { validCNPJ } from '../utils/formsValidation';
 
 export type IStartupProps = {
   id?: string;
@@ -63,6 +64,12 @@ export class Startup {
 
   public updateViews(): void {
     this.views += 1;
+  }
+
+  public validateCNPJ(): void {
+    if (!validCNPJ(this.cnpj)) {
+      throw new Error('Invalid CNPJ');
+    }
   }
 
   public toJson(): IStartupOutput {

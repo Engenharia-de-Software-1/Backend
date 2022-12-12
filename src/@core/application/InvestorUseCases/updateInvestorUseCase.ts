@@ -40,7 +40,10 @@ export class UpdateInvestorUseCase {
     }
 
     if (input.name) forUpdate.updateName(input.name);
-    if (input.phone) forUpdate.updatePhone(input.phone);
+    if (input.phone) {
+      forUpdate.updatePhone(input.phone);
+      forUpdate.validatePhoneNumber();
+    }
 
     if (input.email) {
       const findEmail = await this.adminRepository.findByEmail(
@@ -81,7 +84,10 @@ export class UpdateInvestorUseCase {
 
     if (input.companyName)
       investorForUpdate.updateCompanyName(input.companyName);
-    if (input.cnpj) investorForUpdate.updateCnpj(input.cnpj);
+    if (input.cnpj) {
+      investorForUpdate.updateCnpj(input.cnpj);
+      investorForUpdate.validateCNPJ();
+    }
     if (input.profession) investorForUpdate.updateProfession(input.profession);
     if (input.qtdMembers) investorForUpdate.updateQtdMembers(input.qtdMembers);
 

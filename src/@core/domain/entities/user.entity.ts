@@ -99,6 +99,13 @@ export class User {
     }
   }
 
+  public validatePhoneNumber(): void {
+    const phoneNumber = this.phone.replace(/[^\d]+/g, '');
+    if (phoneNumber.length < 10 || phoneNumber.length > 11) {
+      throw new Error('Invalid phone number');
+    }
+  }
+
   public toJson(): IUserOutput {
     return {
       id: this.id,
