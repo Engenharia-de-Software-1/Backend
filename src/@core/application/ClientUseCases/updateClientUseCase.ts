@@ -43,24 +43,31 @@ export class UpdateClientUseCase {
     if (input.phone) forUpdate.updatePhone(input.phone);
 
     if (input.email) {
-      const findEmail = await this.adminRepository.findByEmail(input.email, true);
+      const findEmail = await this.adminRepository.findByEmail(
+        input.email,
+        true,
+      );
       if (findEmail) throw new HttpException('Email already exists', 400);
       const findEmailII = await this.userRepository.findByEmail(
         input.email,
         true,
       );
-      
-      if (findEmailII && findEmailII.email !== input.email) throw new HttpException('Email already exists', 400);
 
+      if (findEmailII && findEmailII.email !== input.email)
+        throw new HttpException('Email already exists', 400);
 
       forUpdate.updateEmail(input.email);
       forUpdate.validateEmail();
     }
 
-    if (input.planName){
+    if (input.planName) {
       if (input.planName) {
-        const findPlan = await this.plansRepository.findByName(input.planName, true);
-        if (!findPlan) throw new HttpException('Plan not found', 400);
+        const findPlan = await this.plansRepository.findByName(
+          input.planName,
+          true,
+        );
+        if (!findPlan && input.planName !== 'default')
+          throw new HttpException('Plan not found', 400);
       }
 
       forUpdate.updatePlan(input.planName);
