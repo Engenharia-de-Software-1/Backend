@@ -49,7 +49,8 @@ export class User {
     this.phone = props.phone;
     this.planName = props.planName || 'default';
     this.planCreatedAt = props.planCreatedAt || new Date();
-    this.planExpirationDate = props.planExpirationDate || new Date(today.setDate(today.getDate() + 30));
+    this.planExpirationDate =
+      props.planExpirationDate || new Date(today.setDate(today.getDate() + 30));
     this.createdAt = props.createdAt || new Date();
     this.updatedAt = props.updatedAt || new Date();
   }
@@ -74,11 +75,12 @@ export class User {
     this.password = password;
   }
 
-  public updatePlan(planName: string): void {
+  public updatePlan(planName: string, days = 30): void {
     this.planName = planName;
     const today = new Date();
     this.planCreatedAt = new Date();
-    this.planExpirationDate = new Date(today.setDate(today.getDate() + 30));
+    this.planExpirationDate = new Date(today.setDate(today.getDate() + days));
+    console.log(this.planExpirationDate);
   }
 
   public validateEmail(): void {
