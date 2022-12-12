@@ -56,6 +56,7 @@ export class IdeaTypeOrmRepository implements IIdeaRepository {
     idea.title = input.title || idea.title;
     idea.description = input.description || idea.description;
     if (input.title || input.description) idea.updatedAt = new Date();
+    idea.favorites = input.favorites || idea.favorites;
 
     await this.ormRepo.save(idea);
   }

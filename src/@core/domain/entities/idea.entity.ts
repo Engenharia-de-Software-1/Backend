@@ -7,6 +7,7 @@ export type IIdeaProps = {
     description: string;
     userId: string;
     situation?: string;
+    favorites?: number;
     createdAt?: Date;
     updatedAt?: Date;
 };
@@ -25,6 +26,7 @@ export class Idea {
     public description: Required<IIdeaProps['description']>;
     public userId: Required<IIdeaProps['userId']>;
     public situation: Required<IIdeaProps['situation']>;
+    public favorites: Required<IIdeaProps['favorites']>;
     public readonly createdAt: IIdeaProps['createdAt'];
     public updatedAt: IIdeaProps['updatedAt'];
 
@@ -35,6 +37,8 @@ export class Idea {
             this.title = null;
             this.description = null;
             this.userId = null;
+            this.situation = null;
+            this.favorites = null;
             this.createdAt = null;
             this.updatedAt = null;
             return;
@@ -44,6 +48,7 @@ export class Idea {
         this.description = props.description;
         this.userId = props.userId;
         this.situation = props.situation || 'pending';
+        this.favorites = props.favorites || 0;
         this.createdAt = props.createdAt || new Date();
         this.updatedAt = props.updatedAt || new Date();
     }
@@ -60,6 +65,10 @@ export class Idea {
         this.description = description;
     }
 
+    public updateFavorites(favorites: number): void {
+        this.favorites += favorites
+    }
+
     public toJson(): IIdeaOutput {
         return {
             id: this.id,
@@ -67,6 +76,7 @@ export class Idea {
             description: this.description,
             userId: this.userId,
             situation: this.situation,
+            favorites: this.favorites,
             createdAt: this.createdAt,
             updatedAt: this.updatedAt,
         };

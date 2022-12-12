@@ -25,6 +25,10 @@ export const IdeaSchema = new EntitySchema({
             type: String,
             nullable: false,
         },
+        favorites: {
+            type: Number,
+            nullable: false,
+        },
         createdAt: {
             type: String,
             nullable: false,
