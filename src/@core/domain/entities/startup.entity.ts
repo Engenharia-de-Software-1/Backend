@@ -9,6 +9,7 @@ export type IStartupProps = {
   userId: string;
   createdAt?: Date;
   updatedAt?: Date;
+  views?: number;
 };
 
 export class Startup {
@@ -19,6 +20,7 @@ export class Startup {
   public employees: Required<IStartupProps['employees']>;
   public readonly createdAt: IStartupProps['createdAt'];
   public updatedAt: IStartupProps['updatedAt'];
+  public views: IStartupProps['views'];
 
   private constructor(props: IStartupProps, id?: string) {
     this.id = id || createUUID();
@@ -30,6 +32,7 @@ export class Startup {
       this.employees = 0;
       this.createdAt = null;
       this.updatedAt = null;
+      this.views = null;
       return;
     }
 
@@ -39,6 +42,7 @@ export class Startup {
     this.employees = props.employees || 0;
     this.createdAt = props.createdAt || new Date();
     this.updatedAt = props.updatedAt || new Date();
+    this.views = props.views || 0;
   }
 
   static create(props: IStartupProps, id?: string): Startup {
@@ -57,6 +61,10 @@ export class Startup {
     this.employees = employees;
   }
 
+  public updateViews(): void {
+    this.views += 1;
+  }
+
   public toJson(): IStartupOutput {
     return {
       id: this.id,
@@ -66,6 +74,7 @@ export class Startup {
       userId: this.userId,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
+      views: this.views,
     };
   }
 }

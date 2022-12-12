@@ -66,7 +66,8 @@ export class UpdateStartupUseCase {
           input.planName,
           true,
         );
-        if (!findPlan) throw new HttpException('Plan not found', 400);
+        if (!findPlan && input.planName !== 'default')
+          throw new HttpException('Plan not found', 400);
       }
 
       forUpdate.updatePlan(input.planName);

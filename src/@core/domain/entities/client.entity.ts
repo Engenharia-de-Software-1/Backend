@@ -9,6 +9,7 @@ export type IClientProps = {
   userId: string;
   createdAt?: Date;
   updatedAt?: Date;
+  views?: number;
 };
 
 export class Client {
@@ -19,6 +20,7 @@ export class Client {
   public profession: Required<IClientProps['profession']>;
   public readonly createdAt: IClientProps['createdAt'];
   public updatedAt: IClientProps['updatedAt'];
+  public views: IClientProps['views'];
 
   private constructor(props: IClientProps, id?: string) {
     this.id = id || createUUID();
@@ -30,6 +32,7 @@ export class Client {
       this.profession = null;
       this.createdAt = null;
       this.updatedAt = null;
+      this.views = null;
       return;
     }
 
@@ -39,6 +42,7 @@ export class Client {
     this.profession = props.profession;
     this.createdAt = props.createdAt || new Date();
     this.updatedAt = props.updatedAt || new Date();
+    this.views = props.views || 0;
   }
 
   static create(props: IClientProps, id?: string): Client {
@@ -57,6 +61,10 @@ export class Client {
     this.profession = profession;
   }
 
+  public updateViews(): void {
+    this.views += 1;
+  }
+
   public toJson(): IClientOutput {
     return {
       id: this.id,
@@ -66,6 +74,7 @@ export class Client {
       userId: this.userId,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
+      views: this.views,
     };
   }
 }

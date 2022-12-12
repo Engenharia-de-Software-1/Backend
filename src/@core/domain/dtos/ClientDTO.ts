@@ -13,6 +13,7 @@ export interface IClientOutput {
   userId: string;
   createdAt: Date;
   updatedAt: Date;
+  views: number;
 }
 
 export interface ICreateClient {

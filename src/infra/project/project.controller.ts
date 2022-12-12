@@ -1,3 +1,4 @@
+import { ProjectSetViewsUseCase } from './../../@core/application/ProjectUseCases/projectViewsUseCase';
 import {
   Controller,
   Get,
@@ -27,6 +28,7 @@ export class ProjectController {
     private readonly deleteProjectUseCase: DeleteProjectUseCase,
     private readonly listProjectsUseCase: ListProjectsUseCase,
     private readonly listProjectByUserUseCase: ListProjectsByUserUseCase,
+    private readonly projectSetViewsUseCase: ProjectSetViewsUseCase,
   ) {}
 
   @Post()
@@ -36,6 +38,7 @@ export class ProjectController {
 
   @Get(':id')
   async getOne(@Param('id') id: string) {
+    await this.projectSetViewsUseCase.execute(id);
     return await this.getProjectUseCase.execute(id);
   }
 

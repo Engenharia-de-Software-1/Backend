@@ -13,6 +13,7 @@ export interface IStartupOutput {
   userId: string;
   createdAt: Date;
   updatedAt: Date;
+  views: number;
 }
 
 export interface ICreateStartup {

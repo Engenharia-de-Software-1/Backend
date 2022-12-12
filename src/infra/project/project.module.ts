@@ -22,6 +22,7 @@ import { Startup } from '../../@core/domain/entities/startup.entity';
 import { ProjectTypeOrmRepository } from '../../@core/infra/db/typeorm/repository/ProjectTypeOrmRepository';
 import { Project } from '../../@core/domain/entities/project.entity';
 import { ProjectSchema } from '../../@core/infra/db/typeorm/schema/ProjectSchema';
+import { ProjectSetViewsUseCase } from 'src/@core/application/ProjectUseCases/projectViewsUseCase';
 
 @Module({
   imports: [
@@ -112,6 +113,13 @@ import { ProjectSchema } from '../../@core/infra/db/typeorm/schema/ProjectSchema
       },
       inject: [ProjectTypeOrmRepository],
     },
+    {
+      provide: ProjectSetViewsUseCase,
+      useFactory: (projectRepo: IProjectRepository) => {
+        return new ProjectSetViewsUseCase(projectRepo);
+      },
+      inject: [ProjectTypeOrmRepository],
+    }
   ],
 })
 export class ProjectModule {}

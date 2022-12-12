@@ -30,6 +30,7 @@ import { StartupController } from './startup.controller';
 import { UpdateStartupUseCase } from 'src/@core/application/StartupUseCases/updateStartupUseCase';
 import { DeleteStartupUseCase } from 'src/@core/application/StartupUseCases/deleteStartupUseCase';
 import { Plans } from 'src/@core/domain/entities/plans.entity';
+import { StartupSetViewsUseCase } from 'src/@core/application/StartupUseCases/startupViewsUseCase';
 
 @Module({
   imports: [
@@ -167,6 +168,13 @@ import { Plans } from 'src/@core/domain/entities/plans.entity';
         StartupTypeOrmRepository,
         AddressTypeOrmRepository,
       ],
+    },
+    {
+      provide: StartupSetViewsUseCase,
+      useFactory: (startupRepo: IStartupRepository) => {
+        return new StartupSetViewsUseCase(startupRepo);
+      },
+      inject: [StartupTypeOrmRepository],
     },
   ],
 })

@@ -28,6 +28,7 @@ import { InvestorController } from './investor.controller';
 import { Client } from '../../@core/domain/entities/client.entity';
 import { Startup } from '../../@core/domain/entities/startup.entity';
 import { Plans } from 'src/@core/domain/entities/plans.entity';
+import { InvestorSetViewsUseCase } from 'src/@core/application/InvestorUseCases/investorViewsUseCase';
 
 @Module({
   imports: [
@@ -180,6 +181,13 @@ import { Plans } from 'src/@core/domain/entities/plans.entity';
         InvestorTypeOrmRepository,
         AddressTypeOrmRepository,
       ],
+    },
+    {
+      provide: InvestorSetViewsUseCase,
+      useFactory: (investorRepo: IInvestorRepository) => {
+        return new InvestorSetViewsUseCase(investorRepo);
+      },
+      inject: [InvestorTypeOrmRepository],
     },
   ],
 })

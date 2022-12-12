@@ -7,6 +7,8 @@ export type IIdeaRepository = {
     findByUserId(userId: string, returnNull?: boolean): Promise<IIdeaOutput[] | null>
     findByUserIdAndTitle(userId: string, title: string, returnNull?: boolean): Promise<IIdeaOutput | null>
     update(id: string, data: IIdeaOutput): Promise<void>;
+    view(id: string): Promise<void>;
+    getViews(id: string): Promise<number>;
 
     updateSituation(id: string, situation: string): Promise<IIdeaOutput | null>;
     delete(id: string): Promise<void>;
