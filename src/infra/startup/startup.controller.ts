@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Put, Delete, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { CreateStartupUseCase } from 'src/@core/application/StartupUseCases/createStartupUseCase';
 import { UpdateStartupUseCase } from 'src/@core/application/StartupUseCases/updateStartupUseCase';
 import { GetUserUseCase } from '../../@core/application/getUserUseCase';
@@ -10,6 +18,7 @@ import { DeleteStartupUseCase } from 'src/@core/application/StartupUseCases/dele
 import { User } from 'src/@core/domain/decorators/user.decorator';
 import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
 import { StartupSetViewsUseCase } from 'src/@core/application/StartupUseCases/startupViewsUseCase';
+import { Admin } from 'src/@core/domain/decorators/admin.decorator';
 
 @Controller('startup')
 export class StartupController {
@@ -18,7 +27,7 @@ export class StartupController {
     private readonly getUserUseCase: GetUserUseCase,
     private readonly updateStartupUseCase: UpdateStartupUseCase,
     private readonly deleteStartupUseCase: DeleteStartupUseCase,
-    private readonly startupSetViewsUseCase: StartupSetViewsUseCase,
+    private readonly setViewsUseCase: StartupSetViewsUseCase,
   ) {}
 
   @Post()
@@ -48,8 +57,15 @@ export class StartupController {
   }
 
   @Get(':id')
-  async getOneById(@Param('id') id: string) {
-    await this.startupSetViewsUseCase.execute(id);
-    return await this.getUserUseCase.execute(id);
+  async getOneById(
+    @Admin() admin: any,
+    @User() user: IUserOutputRelations,
+    @Param('id') id: string,
+  ) {
+    const output = await this.getUserUseCase.execute(id);
+    if (!admin && user.id !== id) {
+      await this.setViewsUseCase.execute(id);
+    }
+    return output;
   }
 }

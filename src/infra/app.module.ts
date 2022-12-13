@@ -1,3 +1,4 @@
+import { ProjectController } from './project/project.controller';
 import { ForgotPasswordModule } from './forgotpassword/forgotpassword.module';
 import { ForgotPasswordSchema } from './../@core/infra/db/typeorm/schema/ForgotPasswordSchema';
 import { UserModule } from './user/user.module';
@@ -142,6 +143,7 @@ export class AppModule implements NestModule {
         StartupController,
         IdeaController,
         PlansController,
+        ProjectController,
       );
   }
 }

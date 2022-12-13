@@ -52,7 +52,7 @@ export class PlansController {
 
   @Put('update/:planId')
   async update(
-    @Admin() admin: IUserOutputRelations,
+    @Admin() admin: any,
     @Body() data: IPlansUpdate,
     @Param('planId') planId: string,
   ) {

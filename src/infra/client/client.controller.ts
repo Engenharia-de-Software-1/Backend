@@ -15,7 +15,7 @@ import { GetUserUseCase } from '../../@core/application/getUserUseCase';
 import { UpdateClientUseCase } from '../../@core/application/ClientUseCases/updateClientUseCase';
 import { ICreateClient } from '../../@core/domain/dtos/ClientDTO';
 import { Admin } from 'src/@core/domain/decorators/admin.decorator';
-import { ClientSetViewsUseCase } from 'src/@core/application/ClientUseCases/clientViewsUseCase'; 
+import { ClientSetViewsUseCase } from 'src/@core/application/ClientUseCases/clientViewsUseCase';
 
 @Controller('client')
 export class ClientController {
@@ -54,8 +54,15 @@ export class ClientController {
   }
 
   @Get(':id')
-  async getUser(@Param('id') id: string,) {
-    await this.setViewsUseCase.execute(id);
-    return await this.getUserUseCase.execute(id);
+  async getUser(
+    @Admin() admin: any,
+    @User() user: IUserOutputRelations,
+    @Param('id') id: string,
+  ) {
+    const output = await this.getUserUseCase.execute(id);
+    if (!admin && user.id !== id) {
+      await this.setViewsUseCase.execute(id);
+    }
+    return output;
   }
 }

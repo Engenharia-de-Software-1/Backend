@@ -1,5 +1,13 @@
 import { InvestorSetViewsUseCase } from './../../@core/application/InvestorUseCases/investorViewsUseCase';
-import { Controller, Get, Post, Body, Put, Delete, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { User } from 'src/@core/domain/decorators/user.decorator';
 import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
 import { CreateInvestorUseCase } from '../../@core/application/InvestorUseCases/createInvestorUseCase';
@@ -7,6 +15,7 @@ import { DeleteInvestorUseCase } from '../../@core/application/InvestorUseCases/
 import { GetUserUseCase } from '../../@core/application/getUserUseCase';
 import { UpdateInvestorUseCase } from '../../@core/application/InvestorUseCases/updateInvestorUseCase';
 import { ICreateInvestor } from '../../@core/domain/dtos/InvestorDTO';
+import { Admin } from 'src/@core/domain/decorators/admin.decorator';
 
 @Controller('investor')
 export class InvestorController {
@@ -15,7 +24,7 @@ export class InvestorController {
     private readonly getUserUseCase: GetUserUseCase,
     private readonly updateInvestorUseCase: UpdateInvestorUseCase,
     private readonly deleteInvestorUseCase: DeleteInvestorUseCase,
-    private readonly InvestorSetViewsUseCase: InvestorSetViewsUseCase,
+    private readonly setViewsUseCase: InvestorSetViewsUseCase,
   ) {}
 
   @Post()
@@ -45,8 +54,15 @@ export class InvestorController {
   }
 
   @Get(':id')
-  async getOneById(@Param('id') id: string) {
-    await this.InvestorSetViewsUseCase.execute(id);
-    return await this.getUserUseCase.execute(id);
+  async getOneById(
+    @Admin() admin: any,
+    @User() user: IUserOutputRelations,
+    @Param('id') id: string,
+  ) {
+    const output = await this.getUserUseCase.execute(id);
+    if (!admin && user.id !== id) {
+      await this.setViewsUseCase.execute(id);
+    }
+    return output;
   }
 }

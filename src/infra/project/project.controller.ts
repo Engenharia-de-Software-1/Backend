@@ -1,3 +1,6 @@
+import { Admin } from './../../@core/domain/decorators/admin.decorator';
+import { IUserOutputRelations } from './../../@core/domain/dtos/UserDTO';
+import { User } from './../../@core/domain/decorators/user.decorator';
 import { ProjectSetViewsUseCase } from './../../@core/application/ProjectUseCases/projectViewsUseCase';
 import {
   Controller,
@@ -37,9 +40,16 @@ export class ProjectController {
   }
 
   @Get(':id')
-  async getOne(@Param('id') id: string) {
-    await this.projectSetViewsUseCase.execute(id);
-    return await this.getProjectUseCase.execute(id);
+  async getOne(
+    @Admin() admin: any,
+    @User() user: IUserOutputRelations,
+    @Param('id') id: string,
+  ) {
+    const project = await this.getProjectUseCase.execute(id);
+    if (!admin && project.userId !== user.id) {
+      await this.projectSetViewsUseCase.execute(id);
+    }
+    return project;
   }
 
   @Get('')
