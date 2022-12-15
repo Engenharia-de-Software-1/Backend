@@ -1,3 +1,4 @@
+import { SubscribeUnsubscribeUserUseCase } from './../../@core/application/subscribeUnsubscribeUserUseCase';
 import { GetAllPlansUseCase } from './../../@core/application/PlansUseCases/getAllPlansUseCase';
 import { UpdatePlanUseCase } from './../../@core/application/PlansUseCases/updatePlanUseCase';
 import { CreatePlanUseCase } from './../../@core/application/PlansUseCases/createPlanUseCase';
@@ -135,6 +136,16 @@ import { GetPlanByIdUseCase } from 'src/@core/application/PlansUseCases/getPlanB
         return new GetAllPlansUseCase(repository);
       },
       inject: [PlansTypeOrmRepository],
+    },
+    {
+      provide: SubscribeUnsubscribeUserUseCase,
+      useFactory: (
+        userRepository: UserTypeOrmRepository,
+        repository: PlansTypeOrmRepository,
+      ) => {
+        return new SubscribeUnsubscribeUserUseCase(userRepository, repository);
+      },
+      inject: [UserTypeOrmRepository, PlansTypeOrmRepository],
     },
   ],
 })

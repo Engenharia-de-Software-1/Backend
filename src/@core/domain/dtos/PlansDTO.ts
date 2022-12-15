@@ -17,3 +17,8 @@ export interface IPlansUpdate {
   plan?: string;
   permissions?: Permisisons;
 }
+
+export interface IUpdateUserSubscriptionInput {
+  plan: string;
+  duration: number;
+}
