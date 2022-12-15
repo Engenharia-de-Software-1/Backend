@@ -40,7 +40,10 @@ export class UpdateStartupUseCase {
     }
 
     if (input.name) forUpdate.updateName(input.name);
-    if (input.phone) forUpdate.updatePhone(input.phone);
+    if (input.phone) {
+      forUpdate.updatePhone(input.phone);
+      forUpdate.validatePhoneNumber();
+    }
 
     if (input.email) {
       const findEmail = await this.adminRepository.findByEmail(
@@ -80,7 +83,10 @@ export class UpdateStartupUseCase {
     const startupForUpdate = Startup.create(startup);
     if (input.startupName)
       startupForUpdate.updateStartupName(input.startupName);
-    if (input.cnpj) startupForUpdate.updateCnpj(input.cnpj);
+    if (input.cnpj) {
+      startupForUpdate.updateCnpj(input.cnpj);
+      startupForUpdate.validateCNPJ();
+    }
     if (input.employees) startupForUpdate.updateEmployees(input.employees);
 
     await this.startupRepository.update(

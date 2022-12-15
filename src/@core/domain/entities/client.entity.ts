@@ -1,5 +1,6 @@
 import { IClientOutput } from '../dtos/ClientDTO';
 import { createUUID } from '../utils/createUUID';
+import { validCNPJ } from '../utils/formsValidation';
 
 export type IClientProps = {
   id?: string;
@@ -63,6 +64,12 @@ export class Client {
 
   public updateViews(): void {
     this.views += 1;
+  }
+
+  public validateCNPJ(): void {
+    if (!validCNPJ(this.cnpj)) {
+      throw new Error('Invalid CNPJ');
+    }
   }
 
   public toJson(): IClientOutput {

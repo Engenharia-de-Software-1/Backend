@@ -1,5 +1,6 @@
 import { IInvestorOutput } from '../dtos/InvestorDTO';
 import { createUUID } from '../utils/createUUID';
+import { validCNPJ } from '../utils/formsValidation';
 
 export type IInvestorProps = {
   id?: string;
@@ -71,6 +72,12 @@ export class Investor {
 
   public updateViews(): void {
     this.views += 1;
+  }
+
+  public validateCNPJ(): void {
+    if (!validCNPJ(this.cnpj)) {
+      throw new Error('Invalid CNPJ');
+    }
   }
 
   public toJson(): IInvestorOutput {

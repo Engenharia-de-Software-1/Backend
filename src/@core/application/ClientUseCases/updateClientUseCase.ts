@@ -40,7 +40,10 @@ export class UpdateClientUseCase {
     }
 
     if (input.name) forUpdate.updateName(input.name);
-    if (input.phone) forUpdate.updatePhone(input.phone);
+    if (input.phone) {
+      forUpdate.updatePhone(input.phone);
+      forUpdate.validatePhoneNumber();
+    }
 
     if (input.email) {
       const findEmail = await this.adminRepository.findByEmail(
@@ -80,7 +83,10 @@ export class UpdateClientUseCase {
     const clientForUpdate = Client.create(client);
 
     if (input.companyName) clientForUpdate.updateCompanyName(input.companyName);
-    if (input.cnpj) clientForUpdate.updateCnpj(input.cnpj);
+    if (input.cnpj) {
+      clientForUpdate.updateCnpj(input.cnpj);
+      clientForUpdate.validateCNPJ();
+    }
     if (input.profession) clientForUpdate.updateProfession(input.profession);
 
     // TODO: change to use entity id not user id
