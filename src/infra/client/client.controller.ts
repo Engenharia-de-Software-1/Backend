@@ -6,6 +6,7 @@ import {
   Param,
   Put,
   Delete,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { User } from 'src/@core/domain/decorators/user.decorator';
 import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
@@ -15,7 +16,7 @@ import { GetUserUseCase } from '../../@core/application/getUserUseCase';
 import { UpdateClientUseCase } from '../../@core/application/ClientUseCases/updateClientUseCase';
 import { ICreateClient } from '../../@core/domain/dtos/ClientDTO';
 import { Admin } from 'src/@core/domain/decorators/admin.decorator';
-import { ClientSetViewsUseCase } from 'src/@core/application/ClientUseCases/clientViewsUseCase'; 
+import { ClientSetViewsUseCase } from 'src/@core/application/ClientUseCases/clientViewsUseCase';
 
 @Controller('client')
 export class ClientController {
@@ -38,6 +39,16 @@ export class ClientController {
     return await this.getUserUseCase.execute(user.id);
   }
 
+  @Put(':id')
+  async adminUpdateClient(
+    @Admin() admin: any,
+    @Body() updateClientDto: ICreateClient,
+    @Param('id') id: string,
+  ) {
+    if (!admin) throw new UnauthorizedException('Not an admin');
+    return await this.updateClientUseCase.execute(id, updateClientDto);
+  }
+
   @Put()
   async update(
     @User() user: IUserOutputRelations,
@@ -54,7 +65,7 @@ export class ClientController {
   }
 
   @Get(':id')
-  async getUser(@Param('id') id: string,) {
+  async getUser(@Param('id') id: string) {
     await this.setViewsUseCase.execute(id);
     return await this.getUserUseCase.execute(id);
   }

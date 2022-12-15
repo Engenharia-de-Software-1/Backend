@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Put, Delete, Param } from '@nestjs/common';
+import { Admin } from './../../@core/domain/decorators/admin.decorator';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Delete,
+  Param,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateStartupUseCase } from 'src/@core/application/StartupUseCases/createStartupUseCase';
 import { UpdateStartupUseCase } from 'src/@core/application/StartupUseCases/updateStartupUseCase';
 import { GetUserUseCase } from '../../@core/application/getUserUseCase';
@@ -30,6 +40,16 @@ export class StartupController {
   async getOne(@User() user: IUserOutputRelations) {
     if (!user.startup) return;
     return await this.getUserUseCase.execute(user.id);
+  }
+
+  @Put(':id')
+  async adminUpdateStartup(
+    @Admin() admin: any,
+    @Body() updateStartupDto: IStartupUpdate,
+    @Param('id') id: string,
+  ) {
+    if (!admin) throw new UnauthorizedException('Not an admin');
+    return await this.updateStartupUseCase.execute(id, updateStartupDto);
   }
 
   @Put()
