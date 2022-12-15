@@ -1,5 +1,14 @@
 import { InvestorSetViewsUseCase } from './../../@core/application/InvestorUseCases/investorViewsUseCase';
-import { Controller, Get, Post, Body, Put, Delete, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Delete,
+  Param,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { User } from 'src/@core/domain/decorators/user.decorator';
 import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
 import { CreateInvestorUseCase } from '../../@core/application/InvestorUseCases/createInvestorUseCase';
@@ -7,6 +16,7 @@ import { DeleteInvestorUseCase } from '../../@core/application/InvestorUseCases/
 import { GetUserUseCase } from '../../@core/application/getUserUseCase';
 import { UpdateInvestorUseCase } from '../../@core/application/InvestorUseCases/updateInvestorUseCase';
 import { ICreateInvestor } from '../../@core/domain/dtos/InvestorDTO';
+import { Admin } from 'src/@core/domain/decorators/admin.decorator';
 
 @Controller('investor')
 export class InvestorController {
@@ -27,6 +37,16 @@ export class InvestorController {
   async getOne(@User() user: IUserOutputRelations) {
     if (!user.investor) return;
     return await this.getUserUseCase.execute(user.id);
+  }
+
+  @Put(':id')
+  async adminUpdateClient(
+    @Admin() admin: any,
+    @Body() updateClientDto: ICreateInvestor,
+    @Param('id') id: string,
+  ) {
+    if (!admin) throw new UnauthorizedException('Not an admin');
+    return await this.updateInvestorUseCase.execute(id, updateClientDto);
   }
 
   @Put()
