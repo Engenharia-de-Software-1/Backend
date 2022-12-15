@@ -6,6 +6,7 @@ import {
   Param,
   Put,
   Delete,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { User } from 'src/@core/domain/decorators/user.decorator';
 import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
@@ -36,6 +37,16 @@ export class ClientController {
   async getOne(@User() user: IUserOutputRelations) {
     if (!user.client) return;
     return await this.getUserUseCase.execute(user.id);
+  }
+
+  @Put(':id')
+  async adminUpdateClient(
+    @Admin() admin: any,
+    @Body() updateClientDto: ICreateClient,
+    @Param('id') id: string,
+  ) {
+    if (!admin) throw new UnauthorizedException('Not an admin');
+    return await this.updateClientUseCase.execute(id, updateClientDto);
   }
 
   @Put()

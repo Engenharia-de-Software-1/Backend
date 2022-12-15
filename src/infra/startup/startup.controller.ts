@@ -41,6 +41,16 @@ export class StartupController {
     return await this.getUserUseCase.execute(user.id);
   }
 
+  @Put(':id')
+  async adminUpdateStartup(
+    @Admin() admin: any,
+    @Body() updateStartupDto: IStartupUpdate,
+    @Param('id') id: string,
+  ) {
+    if (!admin) throw new UnauthorizedException('Not an admin');
+    return await this.updateStartupUseCase.execute(id, updateStartupDto);
+  }
+
   @Put()
   async update(
     @User() user: IUserOutputRelations,

@@ -1,6 +1,10 @@
+import { SubscribeUnsubscribeUserUseCase } from './../../@core/application/subscribeUnsubscribeUserUseCase';
 import { GetPlanByIdUseCase } from './../../@core/application/PlansUseCases/getPlanByIdUseCase';
 import { GetAllPlansUseCase } from './../../@core/application/PlansUseCases/getAllPlansUseCase';
-import { IPlansUpdate } from './../../@core/domain/dtos/PlansDTO';
+import {
+  IPlansUpdate,
+  IUpdateUserSubscriptionInput,
+} from './../../@core/domain/dtos/PlansDTO';
 import { CreatePlanUseCase } from './../../@core/application/PlansUseCases/createPlanUseCase';
 import {
   Body,
@@ -16,7 +20,6 @@ import { UpdatePlanUseCase } from 'src/@core/application/PlansUseCases/updatePla
 import { DeletePlanUseCase } from 'src/@core/application/PlansUseCases/deletePlanUseCase';
 import { IPlansInput } from 'src/@core/domain/dtos/PlansDTO';
 import { IUserOutputRelations } from 'src/@core/domain/dtos/UserDTO';
-import { User } from 'src/@core/domain/decorators/user.decorator';
 import { Admin } from 'src/@core/domain/decorators/admin.decorator';
 
 @Controller('plans')
@@ -27,6 +30,7 @@ export class PlansController {
     private readonly deletePlanUseCase: DeletePlanUseCase,
     private readonly getAllPlansUseCase: GetAllPlansUseCase,
     private readonly getPlanByIdUsecase: GetPlanByIdUseCase,
+    private readonly subscribeUnsubscribeUserUseCase: SubscribeUnsubscribeUserUseCase,
   ) {}
 
   @Post()
@@ -58,5 +62,15 @@ export class PlansController {
   ) {
     if (!admin) throw new UnauthorizedException('Not an admin');
     return await this.updatePlanUseCase.execute(planId, data);
+  }
+
+  @Put('subscribe/:userId')
+  async subscribeUnsubscribe(
+    @Admin() admin: IUserOutputRelations,
+    @Body() data: IUpdateUserSubscriptionInput,
+    @Param('userId') userId: string,
+  ) {
+    if (!admin) throw new UnauthorizedException('Not an admin');
+    return await this.subscribeUnsubscribeUserUseCase.execute(userId, data);
   }
 }
