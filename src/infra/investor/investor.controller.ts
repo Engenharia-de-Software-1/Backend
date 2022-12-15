@@ -40,13 +40,13 @@ export class InvestorController {
   }
 
   @Put(':id')
-  async adminUpdateClient(
+  async adminUpdateInvestor(
     @Admin() admin: any,
-    @Body() updateClientDto: ICreateInvestor,
+    @Body() updateInvestorDto: ICreateInvestor,
     @Param('id') id: string,
   ) {
     if (!admin) throw new UnauthorizedException('Not an admin');
-    return await this.updateInvestorUseCase.execute(id, updateClientDto);
+    return await this.updateInvestorUseCase.execute(id, updateInvestorDto);
   }
 
   @Put()
