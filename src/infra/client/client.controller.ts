@@ -65,8 +65,15 @@ export class ClientController {
   }
 
   @Get(':id')
-  async getUser(@Param('id') id: string) {
-    await this.setViewsUseCase.execute(id);
-    return await this.getUserUseCase.execute(id);
+  async getUser(
+    @Admin() admin: any,
+    @User() user: IUserOutputRelations,
+    @Param('id') id: string,
+  ) {
+    const output = await this.getUserUseCase.execute(id);
+    if (!admin && user.id !== id) {
+      await this.setViewsUseCase.execute(id);
+    }
+    return output;
   }
 }

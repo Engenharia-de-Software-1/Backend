@@ -1,3 +1,4 @@
+import { Admin } from './../../@core/domain/decorators/admin.decorator';
 import { GetListIdeaByUserUseCase } from '../../@core/application/IdeaUseCases/getListIdeaByUserUseCase';
 import { GetListIdeaUseCase } from '../../@core/application/IdeaUseCases/getListIdeaUseCase';
 import { UpdateSituationIdeaUseCase } from './../../@core/application/updateSituationIdeaUseCase';
@@ -64,11 +65,15 @@ export class IdeaController {
 
   @Get(':id')
   async getOne(
+    @Admin() admin: any,
     @User() user: IUserOutputRelations,
     @Param('id') ideaID: string,
   ) {
-    await this.ideaSetViewsUseCase.execute(ideaID);
-    return await this.getIdeaUseCase.execute(ideaID);
+    const idea = await this.getIdeaUseCase.execute(ideaID);
+    if (!admin && idea.userId !== user.id) {
+      await this.ideaSetViewsUseCase.execute(ideaID);
+    }
+    return idea;
   }
 
   @Put('situation/:id')
